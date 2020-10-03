@@ -1,0 +1,5 @@
+export const revenueTypes = {
+  ADD_REVENUE: 'ADD_REVENUE',
+  UPDATE_REVENUE: 'UPDATE_REVENUE',
+  DELETE_REVENUE: 'DELETE_REVENUE',
+};
