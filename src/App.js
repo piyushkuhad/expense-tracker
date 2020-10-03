@@ -1,16 +1,18 @@
 import React from 'react';
-
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 
 import './App.css';
+import history from './history';
 import AddRevenue from './pages/add-revenue/AddRevenue.page';
+import Home from './pages/home-page/Home.page';
 
 const App = () => {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Route path="/" component={AddRevenue} />
-      </BrowserRouter>
+      <Router history={history}>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/add-revenue/:id?" component={AddRevenue} />
+      </Router>
     </div>
   );
 };

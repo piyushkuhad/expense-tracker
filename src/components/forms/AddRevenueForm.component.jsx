@@ -1,24 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import DatePickerSingle from '../date-picker/DatePickerSingle.component';
 import { addRevenue } from '../../redux/revenue/revenue.action';
 
 import './form.styles.scss';
+import history from '../../history';
+import CategAndSubCateg from '../categ-and-subcateg/CategAndSubCateg.component';
+import { revenueCategory } from '../../assets/dev-data/revenueCategory';
 
-const AddRevenueForm = () => {
-  const { register, handleSubmit, control } = useForm();
+const AddRevenueForm = (props) => {
+  let { update } = props;
+
+  const updateId = props.match.params.id;
+
+  const { register, handleSubmit, control, reset } = useForm();
+
+  const revenueData = useSelector((state) => state.revenue.revenueData);
+
+  const formDefaultValue =
+    updateId !== undefined
+      ? revenueData.filter((el) => el.id === +updateId)[0]
+      : {};
+
+  update = formDefaultValue.revenueCategory ? true : false;
+
+  useEffect(() => {
+    reset(formDefaultValue);
+  }, [reset]);
 
   const dispatch = useDispatch();
 
   const startDate = new Date();
 
   const onSubmit = (data) => {
-    console.log(data);
-    data.revenueDate = data.revenueDate.toISOString();
-    const formData = { ...data, id: Date.now() };
+    if (!update) {
+      data.revenueDate = data.revenueDate.toISOString();
+    }
+
+    const id = update ? +updateId : Date.now();
+    const formData = { ...data, id };
     dispatch(addRevenue(formData));
+
+    history.push('/');
   };
 
   return (
@@ -33,6 +58,23 @@ const AddRevenueForm = () => {
       <div className="cm-form-field">
         <label>Amount</label>
         <input type="number" name="revenueAmt" ref={register} />
+      </div>
+      <div className="cm-form-field">
+        <label>Category</label>
+        <Controller
+          control={control}
+          name="revenueCategory"
+          defaultValue={update ? formDefaultValue.revenueCategory : null}
+          render={({ onChange, onBlur, value }) => (
+            <CategAndSubCateg
+              selectData={revenueCategory}
+              onChange={onChange}
+              onBlur={onBlur}
+              selected={update ? formDefaultValue.revenueCategory : value}
+              update={update}
+            />
+          )}
+        />
       </div>
       <div className="cm-form-field">
         <label>Date</label>
@@ -59,6 +101,10 @@ const AddRevenueForm = () => {
       </div>
     </form>
   );
+};
+
+AddRevenueForm.defaultProps = {
+  update: false,
 };
 
 export default AddRevenueForm;
