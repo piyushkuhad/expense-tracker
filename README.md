@@ -1,18 +1,18 @@
 ## Features
 
-- [] Revenue
+- [ ] Revenue
 
-  - [] Add Revenue Category
-  - [] CRUD
+  - [ ] Add Revenue Category
+  - [ ] CRUD
 
-- [] Add Expense
+- [ ] Add Expense
 
-  - [] Add Expense Category
-  - [] Add Expense Sub-Category
-  - [] CRUD
+  - [ ] Add Expense Category
+  - [ ] Add Expense Sub-Category
+  - [ ] CRUD
 
-- [] Filter Expense within custom date range
+- [ ] Filter Expense within custom date range
 
-- [] Graphical Representation of Data
+- [ ] Graphical Representation of Data
 
-- [] UI
+- [ ] UI
