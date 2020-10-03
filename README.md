@@ -2,8 +2,8 @@
 
 - [ ] Revenue
 
-  - [ x ] Add Revenue Category
-  - [ x ] CRUD
+  - [x] Add Revenue Category
+  - [x] CRUD
 
 - [ ] Add Expense
 
