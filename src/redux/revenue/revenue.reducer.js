@@ -1,5 +1,5 @@
 import { revenueTypes } from './revenue.types';
-import { addToList } from './revenue.utils';
+import { addToList, deleteFromList } from './revenue.utils';
 
 const INITIAL_STATE = {
   revenueData: [],
@@ -11,6 +11,11 @@ const revenueReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         revenueData: addToList(state.revenueData, action.payload),
+      };
+    case revenueTypes.DELETE_REVENUE:
+      return {
+        ...state,
+        revenueData: deleteFromList(state.revenueData, action.payload),
       };
     default:
       return state;
