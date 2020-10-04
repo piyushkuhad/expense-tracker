@@ -11,7 +11,7 @@
   - [ ] Add Expense Sub-Category
   - [ ] CRUD
 
-- [ ] Filter Expense within custom date range
+- [x] Filter Expense within custom date range
 
 - [ ] Graphical Representation of Data
 
