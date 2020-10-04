@@ -1,14 +1,14 @@
 ## Features
 
-- [ ] Revenue
+- [x] Revenue
 
   - [x] Add Revenue Category
   - [x] CRUD
 
-- [ ] Add Expense
+- [x] Add Expense
 
-  - [ ] Add Expense Category
-  - [ ] Add Expense Sub-Category
+  - [x] Add Expense Category
+  - [x] Add Expense Sub-Category
   - [ ] CRUD
 
 - [x] Filter Expense within custom date range
