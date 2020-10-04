@@ -3,25 +3,25 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DatePickerSingle from '../date-picker/DatePickerSingle.component';
-import { addRevenue } from '../../redux/revenue/revenue.action';
+import { addExpense } from '../../redux/expense/expense.action';
 
 import './form.styles.scss';
 import history from '../../history';
 import CategAndSubCateg from '../categ-and-subcateg/CategAndSubCateg.component';
-import { revenueCategory } from '../../assets/dev-data/revenueCategory';
+import { expenseCategory } from '../../assets/dev-data/expenseCategory';
 
-const AddRevenueForm = (props) => {
+const AddExpenseForm = (props) => {
   let { update } = props;
 
   const updateId = props.match.params.id;
 
   const { register, handleSubmit, control, reset } = useForm();
 
-  const revenueData = useSelector((state) => state.revenue.revenueData);
+  const expenseData = useSelector((state) => state.expense.expenseData);
 
   const formDefaultValue =
     updateId !== undefined
-      ? revenueData.filter((el) => el.id === +updateId)[0]
+      ? expenseData.filter((el) => el.id === +updateId)[0]
       : {};
 
   update = formDefaultValue.category ? true : false;
@@ -41,19 +41,19 @@ const AddRevenueForm = (props) => {
     }
 
     const id = update ? +updateId : Date.now();
-    const formData = { ...data, id, type: 'revenue' };
-    dispatch(addRevenue(formData));
+    const formData = { ...data, id, type: 'expense' };
+    dispatch(addExpense(formData));
 
     history.push('/');
   };
 
   return (
     <form
-      className="cm-main-form-container cm-add-revenue-form"
+      className="cm-main-form-container cm-add-expense-form"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="cm-form-field">
-        <label>Revenue Name</label>
+        <label>Expense Name</label>
         <input type="text" name="name" ref={register} />
       </div>
       <div className="cm-form-field">
@@ -68,7 +68,7 @@ const AddRevenueForm = (props) => {
           defaultValue={update ? formDefaultValue.category : null}
           render={({ onChange, onBlur, value }) => (
             <CategAndSubCateg
-              selectData={revenueCategory}
+              selectData={expenseCategory}
               onChange={onChange}
               onBlur={onBlur}
               selected={update ? formDefaultValue.category : value}
@@ -104,8 +104,8 @@ const AddRevenueForm = (props) => {
   );
 };
 
-AddRevenueForm.defaultProps = {
+AddExpenseForm.defaultProps = {
   update: false,
 };
 
-export default AddRevenueForm;
+export default AddExpenseForm;

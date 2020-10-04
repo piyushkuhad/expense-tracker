@@ -1,5 +1,5 @@
 import { revenueTypes } from './revenue.types';
-import { addToList, deleteFromList } from './revenue.utils';
+import { addToList, deleteFromList } from '../reducer.utils';
 
 const INITIAL_STATE = {
   revenueData: [],

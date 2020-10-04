@@ -13,3 +13,5 @@ export const addToList = (list, itemToAdd) => {
 export const deleteFromList = (list, itemToDeleteId) => {
   return list.filter((el) => el.id !== itemToDeleteId);
 };
+
+export const getTotal = (list) => {};

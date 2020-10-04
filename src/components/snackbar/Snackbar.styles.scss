@@ -1,0 +1,27 @@
+.cm-snackbar-container {
+  background-color: #2196f3;
+  color: #fff;
+  max-width: 420px;
+  width: auto;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-49.9%);
+  border-radius: 10px;
+
+  &.success {
+    background-color: #4caf50;
+  }
+
+  &.error {
+    background-color: #f44336;
+  }
+
+  .cm-snack-msg {
+    padding-left: 5px;
+  }
+}
