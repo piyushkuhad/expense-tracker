@@ -3,32 +3,24 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ShowList from '../../components/show-list/ShowList.component';
 
+import './Home.styles.scss';
 import { deleteRevenue } from '../../redux/revenue/revenue.action';
 import { deleteExpense } from '../../redux/expense/expense.action';
 import Header from '../../components/header/Header.component';
-import { formatDate, filteredDateList } from '../../utils/dateMethods';
+import { formatDate } from '../../utils/dateMethods';
+import { filteredDateList } from '../../utils/listOp';
 
 const Home = (props) => {
   const revenueList = useSelector((state) => state.revenue.revenueData);
   const expenseList = useSelector((state) => state.expense.expenseData);
   const dateSelected = useSelector((state) => state.dateFilter);
 
-  // console.log(
-  //   'Result',
-  //   // checkDateBetween(
-  //   //   '2020-10-28T18:29:59.999Z',
-  //   //   '2020-09-30T18:30:00.000Z',
-  //   //   '2020-10-31T18:29:59.999Z'
-  //   // )
-  //   filteredDateList(revenueList, dateSelected.startDate, dateSelected.endDate)
-  // );
-
-  let renderedRevenue = filteredDateList(
+  const renderedRevenue = filteredDateList(
     revenueList,
     dateSelected.startDate,
     dateSelected.endDate
   );
-  let renderedExpense = filteredDateList(
+  const renderedExpense = filteredDateList(
     expenseList,
     dateSelected.startDate,
     dateSelected.endDate
@@ -49,16 +41,31 @@ const Home = (props) => {
             </strong>
           </p>
         </div>
-        <ShowList
-          list={renderedRevenue}
-          deleteFn={deleteRevenue}
-          emptyMsg="No Revenue added"
-        />
-        <ShowList
-          list={renderedExpense}
-          deleteFn={deleteExpense}
-          emptyMsg="No Expense added"
-        />
+        <div className="cm-total">
+          <h2>Total Revenue: {renderedRevenue.total}</h2>
+          <h2>Total Expense: {renderedExpense.total}</h2>
+          <h2>
+            Total Savings: {renderedRevenue.total - renderedExpense.total}
+          </h2>
+        </div>
+        <div className="cm-list-wrapper">
+          <div className="row-fluid">
+            <div className="cm-col">
+              <ShowList
+                list={renderedRevenue.data}
+                deleteFn={deleteRevenue}
+                emptyMsg="No Revenue added"
+              />
+            </div>
+            <div className="cm-col">
+              <ShowList
+                list={renderedExpense.data}
+                deleteFn={deleteExpense}
+                emptyMsg="No Expense added"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

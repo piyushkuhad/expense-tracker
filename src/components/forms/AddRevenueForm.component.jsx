@@ -82,12 +82,12 @@ const AddRevenueForm = (props) => {
         <Controller
           control={control}
           name="date"
-          defaultValue={startDate}
+          defaultValue={update ? new Date(formDefaultValue.date) : startDate}
           render={({ onChange, onBlur, value }) => (
             <DatePickerSingle
               onChange={onChange}
               onBlur={onBlur}
-              startVal={startDate}
+              startVal={update ? new Date(formDefaultValue.date) : startDate}
               selected={value}
             />
           )}

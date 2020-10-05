@@ -19,7 +19,3 @@ export const checkDateBetween = (date, startDate, endDate) => {
 
   return date.isBetween(startDate, endDate);
 };
-
-export const filteredDateList = (list, startDate, endDate) => {
-  return list.filter((el) => checkDateBetween(el.date, startDate, endDate));
-};

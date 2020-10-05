@@ -1,0 +1,18 @@
+.cm-show-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  padding: 25px 0;
+  flex-wrap: wrap;
+  width: auto;
+
+  li {
+    width: calc(50% - 15px);
+    margin: 0 7.5px;
+    border: 1px solid #000;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+}
