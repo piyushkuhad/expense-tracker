@@ -1,0 +1,38 @@
+.cm-form-container {
+  min-width: 50%;
+  .cm-form-field {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .cm-form-field > div {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .cm-form-field-half {
+    display: flex;
+
+    & > .cm-form-field {
+      width: calc(50% - 15px);
+    }
+
+    & > .cm-form-field:first-child {
+      margin-right: 7.5px;
+    }
+
+    & > .cm-form-field:last-child {
+      margin-left: 7.5px;
+    }
+  }
+
+  .cm-form-dialog-trigger-wrapper {
+    position: relative;
+  }
+
+  .cm-form-dialog-trigger {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+}

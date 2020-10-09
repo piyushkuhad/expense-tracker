@@ -1,0 +1,29 @@
+.cm-add-revenue-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+
+  & > form {
+    width: 50%;
+    float: left;
+  }
+
+  & .cm-form-wrapper > img {
+    width: 50%;
+    float: left;
+    display: block;
+    height: auto;
+  }
+
+  .cm-col-header {
+    margin-bottom: 20px;
+  }
+
+  .cm-col-body {
+    .cm-add-blocks-item {
+      width: 100%;
+    }
+  }
+}

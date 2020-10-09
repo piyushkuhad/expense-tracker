@@ -7,6 +7,8 @@ export const daysBetween = (startDate, endDate) => {
   return a.diff(b, 'days');
 };
 
+export const toISOFormat = (date) => new Date(date).toISOString();
+
 export const formatDate = (date) => {
   return moment(date).format('DD/MM/YYYY');
 };

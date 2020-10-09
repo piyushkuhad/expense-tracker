@@ -1,0 +1,236 @@
+@import './utils/color_variables.scss';
+
+/*----------Box Shadows-----------*/
+
+.box-shadow-1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.box-shadow-2 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.box-shadow-3 {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.dark-mode .box-shadow-1 {
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.12),
+    0 1px 2px rgba(255, 255, 255, 0.24);
+}
+
+.dark-mode .box-shadow-2 {
+  box-shadow: 0 3px 6px rgba(255, 255, 255, 0.16),
+    0 3px 6px rgba(255, 255, 255, 0.23);
+}
+
+.box-shadow-3 {
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.19),
+    0 6px 6px rgba(255, 255, 255, 0.23);
+}
+
+/*------------Button Styles---------------*/
+.cm-primary-btn {
+  padding: 15px 25px;
+  background-color: $primaryLight;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+/*--------Global Classes-----------*/
+
+.cm-menu-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cm-pointer {
+  cursor: pointer;
+}
+
+.cm-page-container {
+  padding: 0 15px;
+}
+
+.cm-widget-container {
+  background-color: $baseWhite;
+  border-radius: 10px;
+  margin-bottom: 30px;
+
+  .dark-mode & {
+    background-color: $secDark;
+  }
+}
+
+.cm-widget-container.cm-transparent-bg {
+  background-color: transparent;
+}
+
+.cm-widget-container.cm-transparent-bg .cm-widget-header {
+  background-color: $baseWhite;
+  border-radius: 10px;
+
+  .dark-mode & {
+    background-color: $secDark;
+  }
+}
+
+.cm-widget-container.cm-transparent-bg .cm-widget-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cm-widget-header {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 15px;
+}
+
+.cm-widget-header h4 {
+  padding: 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cm-widget-body {
+  padding: 25px 15px;
+}
+
+.dark-mode .dm-bg-light {
+  background-color: $secDark !important;
+}
+
+.dark-mode .dm-bg-dark {
+  background-color: $primaryDark !important;
+}
+
+/*----Drop Down------*/
+
+.cm-more-op {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.cm-dropdown-small {
+  background-color: $baseWhite;
+  position: absolute;
+  left: auto;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+
+  .dark-mode & {
+    background-color: $primaryDark;
+  }
+
+  .cm-dropdown-op {
+    padding: 5px 15px;
+    display: block;
+    color: $neutralGray;
+
+    .dark-mode & {
+      color: $baseWhite;
+    }
+  }
+}
+
+.cm-more-op:hover .cm-dropdown-small {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/*---------Header & MainContainer Spacing------------*/
+
+// .cm-header-container,
+// .cm-main-container {
+//   width: calc(100% - 80px);
+//   margin-left: 80px;
+// }
+
+/*-------------------Flex Styles--------------------------*/
+
+.cm-flex {
+  display: flex;
+}
+
+.cm-flex-sb {
+  justify-content: space-between;
+}
+
+.cm-flex-align-h {
+  justify-content: center;
+}
+
+.cm-flex-align-v {
+  align-items: center;
+}
+
+.cm-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.cm-flex-type-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cm-flex-type-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*-----------Icon Style--------------*/
+
+.cm-icon {
+  fill: $neutralGray;
+  vertical-align: middle;
+
+  .dark-mode & {
+    fill: $dmDarkFontColor;
+  }
+}
+
+/*-----------FORMS---------------*/
+
+// input[type='text'],
+// input[type='email'],
+// input[type='number'],
+// input[type='tel'],
+// textarea {
+//   width: 100%;
+//   padding: 10px;
+//   border-radius: 10px;
+//   border: none;
+//   outline: none;
+//   font-size: 14px;
+//   font-family: 'Roboto', sans-serif;
+// }
+
+// .invalid-field {
+//   margin-top: 10px;
+//   color: $warningRed;
+// }
+
+.dark-mode input,
+.dark-mode textarea {
+  background-color: $secDark;
+  color: $dmDarkFontColor;
+}
+
+.cm-main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}

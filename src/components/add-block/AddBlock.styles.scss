@@ -1,0 +1,41 @@
+@import '../../utils/color_variables.scss';
+
+.cm-add-blocks-item {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: $baseWhite;
+  margin-bottom: 15px;
+
+  .cm-col2 {
+    padding: 0 7.5px;
+    text-align: center;
+
+    h4 {
+      padding: 0 0 5px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    h5 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      span {
+        padding-left: 5px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+
+    &.revenue {
+      color: $successGreen;
+    }
+
+    &.expense {
+      color: $sec2;
+    }
+  }
+}

@@ -6,10 +6,18 @@
     "yarn": "1.x"
   },
   "private": true,
+  "proxy": "http://127.0.0.1:4000",
   "dependencies": {
+    "@date-io/date-fns": "1.x",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
+    "date-fns": "^2.16.1",
+    "lodash": "^4.17.20",
     "moment": "^2.29.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
