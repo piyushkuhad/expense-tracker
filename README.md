@@ -1,5 +1,12 @@
 ## Features
 
+- [x] Budget
+
+  - [x] CREATE
+  - [ ] READ
+  - [ ] UPDATE
+  - [ ] DELETE
+
 - [x] Revenue
 
   - [x] Add Revenue Category
