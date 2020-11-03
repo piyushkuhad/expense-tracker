@@ -2,17 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { store, persistor } from './redux/store';
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#000',
+    },
+  },
+  typography: {
+    fontFamily: ['Open Sans', 'sans-serif'].join(','),
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <App />
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

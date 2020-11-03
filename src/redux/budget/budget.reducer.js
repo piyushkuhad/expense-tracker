@@ -3,7 +3,8 @@ import {
   revenueCatgoriesDefault,
   expenseCatgoriesDefault,
 } from '../../assets/dev-data/mainData';
-import { chkUniqueCategory, deleteCategory } from '../reducer.utils';
+import { calcTotal, chkUniqueCategory, deleteCategory } from '../reducer.utils';
+import { userTypes } from '../user/user.types';
 
 const INITIAL_STATE = {
   createBudgetData: {
@@ -15,7 +16,9 @@ const INITIAL_STATE = {
     revenueCategories: [...revenueCatgoriesDefault],
     expenseCategories: [...expenseCatgoriesDefault],
   },
-  selectedBudget: null,
+  selectedBudget: {},
+  budgetSnippetData: [],
+  budgetData: [],
 };
 
 const createBudgetReducer = (state = INITIAL_STATE, action) => {
@@ -27,6 +30,12 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
           ...state.createBudgetData,
           budgetData: action.payload,
         },
+      };
+
+    case budgetTypes.GET_ALL_BUDGET:
+      return {
+        ...state,
+        budgetSnippetData: action.payload.data,
       };
 
     case budgetTypes.ADD_REVENUE_CATEGORY:
@@ -84,6 +93,20 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         ...state,
         selectedBudget: { ...action.payload },
       };
+
+    case budgetTypes.SELECTED_BUDGET:
+      return {
+        ...state,
+        budgetData: chkUniqueCategory(state.budgetData, action.payload, '_id'),
+        selectedBudget: {
+          ...action.payload,
+          revenueTotal: calcTotal(action.payload.revenueData, 'categoryAmount'),
+          expenseTotal: calcTotal(action.payload.expenseData, 'categoryAmount'),
+        },
+      };
+
+    case userTypes.LOGOUT:
+      return { ...INITIAL_STATE };
 
     default:
       return state;

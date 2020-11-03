@@ -1,5 +1,31 @@
 @import './utils/color_variables.scss';
 
+/*----------Scroll Bar-----------*/
+
+/* Let's get this party started */
+.cm-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.cm-scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);
+  -webkit-border-radius: 10px;
+  background: #e7e7e7;
+  border-radius: 10px;
+}
+
+/* Handle */
+.cm-scroll::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.cm-scroll::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 /*----------Box Shadows-----------*/
 
 .box-shadow-1 {
@@ -61,6 +87,7 @@
   background-color: $baseWhite;
   border-radius: 10px;
   margin-bottom: 30px;
+  padding: 15px;
 
   .dark-mode & {
     background-color: $secDark;
@@ -184,6 +211,7 @@
   align-items: center;
 }
 
+.cm-page-center,
 .cm-flex-type-2 {
   display: flex;
   justify-content: center;
@@ -228,9 +256,41 @@
   color: $dmDarkFontColor;
 }
 
+.cm-page-center {
+  width: 80%;
+}
+
 .cm-main-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  width: calc(100% - 64px);
+  margin-left: 64px;
+  padding: 30px 15px;
+}
+
+.cm-fw-btn {
+  width: 100%;
+}
+
+.cm-col-half {
+  width: 50%;
+}
+
+.transparent-bg {
+  background-color: transparent;
+}
+
+.cm-col-divider {
+  & > .cm-row-fluid {
+    width: auto;
+    margin: 0 -15px;
+
+    & > .cm-col-half {
+      width: calc(50% - 30px);
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+  }
 }

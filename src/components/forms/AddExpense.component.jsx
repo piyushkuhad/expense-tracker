@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
-import ButtonWrapper from '../button/ButtonWrapper.component';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CategoryIcon from '@material-ui/icons/Category';
 import { useDispatch } from 'react-redux';
 import slugify from 'react-slugify';
 
+import ButtonWrapper from '../button/ButtonWrapper.component';
 import CategoryList from '../category-list/CategoryList.component';
 import FormDialog from './form-dialog/FormDialog.component';
 import { addExpenseCategory } from '../../redux/budget/budget.actions';

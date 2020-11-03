@@ -1,0 +1,75 @@
+.cm-expense-group-container {
+  margin-bottom: 20px;
+
+  .cm-expense-header {
+    text-align: center;
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+    h4 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+
+  .cm-expense-info {
+    p {
+      margin: 0;
+      padding: 5px;
+      text-align: center;
+
+      span {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .cm-expense-list > p {
+    text-align: center;
+    margin: 0;
+    padding: 5px 5px 10px;
+    font-weight: 600;
+  }
+
+  .cm-sub-categ-item {
+    padding: 15px 5px 5px;
+
+    & + .cm-sub-categ-item {
+      margin-top: 10px;
+      border-top: 5px solid #e6e6e6;
+    }
+
+    & > .MuiAvatar-circle {
+      width: 55px;
+      height: 55px;
+      padding: 10px;
+      background-color: #e7e7e7;
+    }
+
+    .cm-sub-categ-data {
+      width: calc(100% - 55px);
+      padding-left: 15px;
+    }
+
+    .cm-sub-categ-data {
+      p {
+        margin: 0;
+      }
+
+      .cm-sub-categ-date {
+        font-size: 13px;
+        color: #666;
+      }
+
+      .cm-sub-categ-amt {
+        font-weight: 700;
+        font-size: 16px;
+        padding-right: 10px;
+      }
+    }
+  }
+}

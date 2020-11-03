@@ -1,0 +1,43 @@
+.cm-revenue-group-container {
+  margin-bottom: 25px;
+
+  .cm-revenue-date {
+    text-align: center;
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .cm-revenue-item {
+    padding: 0 10px;
+
+    .MuiAvatar-circle {
+      width: 55px;
+      height: 55px;
+      padding: 10px;
+      background-color: #e7e7e7;
+    }
+
+    .cm-revenue-item-content {
+      width: calc(100% - 55px);
+      padding-left: 15px;
+    }
+
+    .cm-revenue-item-content h4 {
+      font-weight: 600;
+      line-height: 2;
+      font-size: 18px;
+    }
+
+    & + .cm-revenue-item {
+      margin-top: 15px;
+    }
+  }
+}

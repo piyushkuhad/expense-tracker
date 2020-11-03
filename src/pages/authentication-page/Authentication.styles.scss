@@ -1,0 +1,51 @@
+.cm-full-bg {
+  width: 60%;
+
+  & > div {
+    margin: 0 !important;
+  }
+}
+
+.cm-authentication-container {
+  position: relative;
+  padding-top: 60px;
+  width: 100%;
+  margin: 0;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 55%;
+    left: 0;
+    height: 100%;
+    background: #bdc3c7; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #2c3e50,
+      #bdc3c7
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #2c3e50,
+      #bdc3c7
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    z-index: -1;
+  }
+}
+
+.cm-form-wrapper {
+  width: 40%;
+
+  h1 {
+    font-size: 40px;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 35px;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+}

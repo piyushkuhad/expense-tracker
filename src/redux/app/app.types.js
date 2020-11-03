@@ -1,3 +1,6 @@
 export const appTypes = {
   DATE_FILTER: 'DATE_FILTER',
+  INFO_ERROR: 'INFO_ERROR',
+  INFO_SUCCESS: 'INFO_SUCCESS',
+  INFO_RESET: 'INFO_RESET',
 };

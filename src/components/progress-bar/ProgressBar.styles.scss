@@ -1,0 +1,22 @@
+.cm-progress-bar-container {
+  position: relative;
+  background-color: #cccccc;
+  border-radius: 25px;
+  overflow: hidden;
+  display: flex;
+
+  .cm-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  span {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    display: inline-block;
+    font-size: 13px;
+  }
+}

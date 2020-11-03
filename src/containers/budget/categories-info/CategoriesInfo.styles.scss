@@ -1,0 +1,23 @@
+@import '../../../utils/color_variables.scss';
+
+.cm-categories-info-container {
+  .MuiAppBar-colorPrimary {
+    background-color: $baseWhite;
+    box-shadow: none;
+
+    .MuiTab-wrapper {
+      color: #000;
+      font-weight: 600;
+      font-family: 'Open Sans', sans-serif;
+    }
+  }
+
+  .cm-scroll {
+    max-height: calc(100vh - 78px);
+    overflow: auto;
+  }
+
+  .MuiTabs-indicator {
+    background-color: #000;
+  }
+}

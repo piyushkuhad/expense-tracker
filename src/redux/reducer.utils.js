@@ -15,7 +15,8 @@ export const deleteFromList = (list, itemToDeleteId) => {
 };
 
 export const chkUniqueCategory = (arr, data, property) => {
-  let index = arr.findIndex((el) => el.id === data.id);
+  //let index = arr.findIndex((el) => el.id === data.id);
+  let index = arr.findIndex((el) => el[property] === data[property]);
 
   let resArr = [...arr];
 
@@ -31,3 +32,6 @@ export const chkUniqueCategory = (arr, data, property) => {
 export const deleteCategory = (arr, dataValue) => {
   return arr.filter((el) => el.categoryValue !== dataValue);
 };
+
+export const calcTotal = (arr, property) =>
+  arr.reduce((acc, el) => (acc = acc + el[property]), 0);

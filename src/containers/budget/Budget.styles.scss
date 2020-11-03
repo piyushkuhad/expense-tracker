@@ -1,0 +1,31 @@
+@import '../../utils/color_variables.scss';
+
+.cm-budget-container {
+  width: 100%;
+
+  & > .cm-row-fluid {
+    align-items: initial;
+
+    & > .cm-col1 {
+      width: 60%;
+      margin: 0 15px;
+      padding-top: 30px;
+      padding-left: 10px;
+    }
+
+    & > .cm-col2 {
+      width: calc(40% - 60px);
+      margin: 0 15px;
+      padding-top: 30px;
+      background-color: $baseWhite;
+      height: 100vh;
+      overflow: auto;
+      position: fixed;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding-right: 15px;
+      z-index: 99;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.cm-color-legend-container {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 10px;
+
+  i {
+    width: 10px;
+    height: 10px;
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
