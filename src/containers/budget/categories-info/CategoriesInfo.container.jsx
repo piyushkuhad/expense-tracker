@@ -12,6 +12,10 @@ import './CategoriesInfo.styles.scss';
 import { grpCategByDate } from '../../../utils/utilFn';
 import RevenueGroup from '../../../components/revenue-group/RevenueGroup.component';
 import ExpenseGroup from '../../../components/expense-group/ExpenseGroup.component';
+import FormDialog from '../../../components/forms/form-dialog/FormDialog.component';
+import AddExpenseCategory from '../../../components/forms/AddExpenseCategory.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeDialog } from '../../../redux/dialog-forms/dialog-form.actions';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,7 +30,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -55,10 +59,34 @@ const useStyles = makeStyles((theme) => ({
 
 const CategoriesInfo = ({ data }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [value, setValue] = React.useState(1);
+  const [expenseDialog, setExpenseDialog] = React.useState(false);
+
+  const formValues = useSelector((state) => state.forms);
+
+  useEffect(() => {
+    if (
+      formValues &&
+      Object.keys(formValues.formData).length > 0 &&
+      formValues.formDialogName === 'expenseFormDialog'
+    ) {
+      setExpenseDialog(true);
+    } else {
+      setExpenseDialog(false);
+    }
+  }, [formValues, setExpenseDialog]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const closeExpenseDialog = () => {
+    setExpenseDialog(false);
+
+    //Return Dialog Values to its initial state
+    dispatch(closeDialog());
   };
 
   let revenueData = [];
@@ -98,7 +126,7 @@ const CategoriesInfo = ({ data }) => {
               <RevenueGroup
                 date={el.date}
                 categoryArr={el.categories}
-                key={el._id}
+                key={el.date}
               />
             ))
           ) : (
@@ -117,6 +145,14 @@ const CategoriesInfo = ({ data }) => {
           ) : (
             <Skeleton variant="rect" width={'100%'} height={16} />
           )}
+          <FormDialog
+            dialogTitle="Add Your Expense"
+            dialogOpenHandler={expenseDialog}
+            dialogCloseHandler={closeExpenseDialog}
+            dialogSize="sm"
+          >
+            <AddExpenseCategory />
+          </FormDialog>
         </TabPanel>
       </div>
     </div>

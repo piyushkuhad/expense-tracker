@@ -6,6 +6,7 @@ import expenceReducer from './expense/expense.reducer';
 import appReducer from './app/app.reducer';
 import createBudgetReducer from './budget/budget.reducer';
 import userReducer from './user/user.reducer';
+import dialogFormReducer from './dialog-forms/dialog-form.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   budget: createBudgetReducer,
   app: appReducer,
   user: userReducer,
+  forms: dialogFormReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

@@ -1,16 +1,40 @@
 .cm-expense-group-container {
   margin-bottom: 20px;
 
+  .MuiAccordionSummary-content {
+    display: block;
+    margin: 0;
+    width: 100%;
+  }
+
+  .MuiAccordionSummary-expandIcon {
+    padding-bottom: 0;
+    padding-top: 4px;
+  }
+
+  .MuiAccordionSummary-content.Mui-expanded {
+    margin: 0;
+  }
+
+  .MuiAccordionDetails-root {
+    padding: 0;
+  }
+
   .cm-expense-header {
     text-align: center;
     background-color: #e7e7e7;
-    padding: 10px;
+    padding: 10px 10px 0;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+    flex-wrap: wrap;
 
-    h4 {
-      font-size: 20px;
-      font-weight: 700;
+    .cm-expense-top {
+      margin-bottom: 5px;
+
+      h4 {
+        font-size: 18px;
+        font-weight: 700;
+      }
     }
   }
 
@@ -28,11 +52,16 @@
     }
   }
 
-  .cm-expense-list > p {
-    text-align: center;
-    margin: 0;
-    padding: 5px 5px 10px;
-    font-weight: 600;
+  .cm-expense-list {
+    width: 100%;
+    padding: 0;
+
+    & > p {
+      text-align: center;
+      margin: 0;
+      padding: 5px 5px 10px;
+      font-weight: 600;
+    }
   }
 
   .cm-sub-categ-item {

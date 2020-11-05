@@ -33,5 +33,20 @@ export const deleteCategory = (arr, dataValue) => {
   return arr.filter((el) => el.categoryValue !== dataValue);
 };
 
-export const calcTotal = (arr, property) =>
-  arr.reduce((acc, el) => (acc = acc + el[property]), 0);
+export const calcTotal = (arr, property) => {
+  return arr.reduce((acc, el) => (acc = acc + el[property]), 0);
+};
+
+export const calcTotalExpense = (arr) => {
+  return arr.reduce((acc, el) => {
+    let subCatSum = 0;
+    if (el.subcategoryData.length > 0) {
+      subCatSum = el.subcategoryData.reduce(
+        (accum, elem) => (accum = elem.subCategoryAmount + accum),
+        0
+      );
+    }
+
+    return (acc = acc + subCatSum);
+  }, 0);
+};

@@ -3,9 +3,7 @@ export const dialogToggle = (currentState, stateSetter) => {
 };
 
 export const currencyFormat = (num) => {
-  return new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 2 }).format(
-    num
-  );
+  return isNaN(num) ? 0 : new Intl.NumberFormat('en-IN', {}).format(num);
 };
 
 export const grpCategByDate = (arr) => {

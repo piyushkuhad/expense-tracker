@@ -1,17 +1,8 @@
 import axios from 'axios';
 
 import { budgetTypes } from './budget.types';
-import api from '../../utils/apiInfo';
+import { getReqOptions } from '../../utils/apiInfo';
 import history from '../../history';
-
-const getReqOptions = (tk) => ({
-  headers: {
-    Authorization: `Bearer ${tk}`,
-    'Access-Control-Allow-Origin': '*',
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-});
 
 export const createBudget = (data) => ({
   type: budgetTypes.CREATE_BUDGET,

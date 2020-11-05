@@ -3,7 +3,12 @@ import {
   revenueCatgoriesDefault,
   expenseCatgoriesDefault,
 } from '../../assets/dev-data/mainData';
-import { calcTotal, chkUniqueCategory, deleteCategory } from '../reducer.utils';
+import {
+  calcTotal,
+  calcTotalExpense,
+  chkUniqueCategory,
+  deleteCategory,
+} from '../reducer.utils';
 import { userTypes } from '../user/user.types';
 
 const INITIAL_STATE = {
@@ -101,7 +106,7 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         selectedBudget: {
           ...action.payload,
           revenueTotal: calcTotal(action.payload.revenueData, 'categoryAmount'),
-          expenseTotal: calcTotal(action.payload.expenseData, 'categoryAmount'),
+          expenseTotal: calcTotalExpense(action.payload.expenseData),
         },
       };
 

@@ -1,12 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { IconButton } from '@material-ui/core';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import './ExpenseGroup.styles.scss';
 import { calcTotal } from '../../redux/reducer.utils';
 import ProgressBar from '../progress-bar/ProgressBar.component';
 import { currencyFormat } from '../../utils/utilFn';
 import ExpenseCategoryItem from '../expense-category-item/ExpenseCategoryItem.component';
+import { addExpenseSubCategoryDialog } from '../../redux/dialog-forms/dialog-form.actions';
 
 const ExpenseGroup = ({ data }) => {
+  const dispatch = useDispatch();
   const currency = useSelector((state) => state.user.currency.symbol);
 
   const calcSpentBudget = (arr) => {
@@ -19,13 +28,14 @@ const ExpenseGroup = ({ data }) => {
 
   const calcProgress = (totalAmt, spentAmt) => (spentAmt / totalAmt) * 100;
 
-  const subCategElem = (arr) => {
+  const subCategElem = (arr, categoryId) => {
     if (arr.length > 0) {
       return arr.map((el) => (
         <ExpenseCategoryItem
           expenseCategoryData={el}
           currency={currency}
           key={el._id}
+          categoryId={categoryId}
         />
       ));
     }
@@ -33,12 +43,36 @@ const ExpenseGroup = ({ data }) => {
     return <p>No Transactions Available!</p>;
   };
 
+  const openForm = (categoryId) => {
+    dispatch(
+      addExpenseSubCategoryDialog({
+        data: { categoryId },
+        formDialogName: 'expenseFormDialog',
+      })
+    );
+  };
+
   const spentBudget = calcSpentBudget(data.subcategoryData);
 
   return (
-    <div className="cm-expense-group-container box-shadow-1">
-      <div className="cm-expense-header">
-        <h4>{data.categoryName}</h4>
+    <Accordion className="cm-expense-group-container box-shadow-1">
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+        className="cm-expense-header"
+      >
+        <div className="cm-expense-top cm-flex-type-1">
+          <h4>{data.categoryName}</h4>
+          <IconButton
+            aria-label="Add Category"
+            color="primary"
+            onClick={() => openForm(data._id)}
+            size="small"
+          >
+            <AddCircleIcon />
+          </IconButton>
+        </div>
         <div className="cm-expense-info cm-flex-type-1">
           <p>
             Budget:{' '}
@@ -60,11 +94,13 @@ const ExpenseGroup = ({ data }) => {
           progressValue={calcProgress(data.categoryAmount, spentBudget)}
           showValue={true}
         />
-      </div>
-      <div className="cm-expense-list">
-        {subCategElem(data.subcategoryData)}
-      </div>
-    </div>
+      </AccordionSummary>
+      <AccordionDetails>
+        <div className="cm-expense-list">
+          {subCategElem(data.subcategoryData, data._id)}
+        </div>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

@@ -7,11 +7,21 @@ import EditIcon from '@material-ui/icons/Edit';
 import './ExpenseCategoryItem.styles.scss';
 import { currencyFormat } from '../../utils/utilFn';
 import expense from '../../assets/images/expense.svg';
+import { useDispatch } from 'react-redux';
+import { updateExpenseSubCategoryDialog } from '../../redux/dialog-forms/dialog-form.actions';
 
-const ExpenseCategoryItem = ({ expenseCategoryData, currency }) => {
-  //const data = useSelector((state) => state.budget.selectedBudget.revenueData);
+const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
+  //console.log(expenseCategoryData);
+  const dispatch = useDispatch();
 
-  console.log(expenseCategoryData);
+  const openForm = () => {
+    dispatch(
+      updateExpenseSubCategoryDialog({
+        data: { ...expenseCategoryData, categoryId },
+        formDialogName: 'expenseFormDialog',
+      })
+    );
+  };
 
   return (
     <div className="cm-expense-category-item-container cm-sub-categ-item cm-flex-type-2">
@@ -29,7 +39,11 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency }) => {
           <p className="cm-sub-categ-amt">{`${currency} ${currencyFormat(
             expenseCategoryData.subCategoryAmount
           )}`}</p>
-          <IconButton aria-label="delete" className="cm-edit-expense-btn">
+          <IconButton
+            aria-label="delete"
+            className="cm-edit-expense-btn"
+            onClick={openForm}
+          >
             <EditIcon />
           </IconButton>
         </div>
