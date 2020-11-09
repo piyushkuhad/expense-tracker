@@ -23,7 +23,18 @@
     }
   }
 
+  .MuiAppBar-root {
+    position: relative;
+  }
+
   .MuiTabs-indicator {
     background-color: #000;
   }
+}
+
+.cm-add-category-btn {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
 }

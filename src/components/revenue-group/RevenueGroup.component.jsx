@@ -12,7 +12,7 @@ const RevenueGroup = ({ date, categoryArr }) => {
 
   return (
     <div className="cm-revenue-group-container">
-      <div className="cm-revenue-date">
+      <div className="cm-revenue-date cm-flex-type-1">
         <p>{moment(date).format('dddd, Do MMMM YYYY')}</p>
       </div>
       <div className="cm-revenue-list">

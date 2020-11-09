@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { IconButton } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import './CategoriesInfo.styles.scss';
 import { grpCategByDate } from '../../../utils/utilFn';
@@ -63,7 +65,7 @@ const CategoriesInfo = ({ data }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
   const [expenseDialog, setExpenseDialog] = React.useState(false);
   const [deleteDialog, setDeleteDialog] = React.useState(false);
 
@@ -171,6 +173,15 @@ const CategoriesInfo = ({ data }) => {
             <Tab label="Income" {...a11yProps(0)} />
             <Tab label="Expense" {...a11yProps(1)} />
           </Tabs>
+          <IconButton
+            aria-label="Add Category"
+            color="primary"
+            //onClick={() => openForm(data._id)}
+            size="small"
+            className="cm-add-category-btn"
+          >
+            <AddCircleIcon />
+          </IconButton>
         </AppBar>
         <TabPanel value={value} index={0} className="cm-scroll cm-tab-panel">
           {revenueDataArr.length > 0 ? (
