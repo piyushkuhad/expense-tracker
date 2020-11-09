@@ -22,8 +22,16 @@ const dialogFormReducer = (state = INITIAL_STATE, action) => {
         formDialogName: action.payload.formDialogName,
       };
 
+    case dialogFormTypes.DELETE_EXPENSE_SUB_CATEGORY_DIALOG:
+      return {
+        update: false,
+        formData: action.payload.data,
+        formDialogName: action.payload.formDialogName,
+      };
+
     case dialogFormTypes.CLOSE_DIALOG:
       return { ...INITIAL_STATE };
+
     default:
       return state;
   }

@@ -17,6 +17,12 @@
     overflow: auto;
   }
 
+  .cm-tab-panel {
+    & > .MuiBox-root {
+      padding: 15px;
+    }
+  }
+
   .MuiTabs-indicator {
     background-color: #000;
   }

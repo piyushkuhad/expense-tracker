@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getReqOptions } from '../../utils/apiInfo';
-//import { expenseTypes } from './expense.types';
+import { expenseTypes } from './expense.types';
 import { budgetTypes } from '../budget/budget.types';
 
 // export const addExpense = (data) => ({
@@ -69,6 +69,38 @@ export const addExpenseSubCategory = (data) => async (dispatch, getState) => {
       type: budgetTypes.SELECTED_BUDGET,
       payload: res.data.data.data,
     });
+  } catch (err) {
+    console.log(err.response);
+    console.log(err.request);
+  }
+};
+
+export const deleteExpenseSubCategory = (data) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const _tk = getState().user._atk;
+    const budgetId = getState().budget.selectedBudget._id;
+    const categoryId = data.categoryId;
+    const subCategoryId = data._id;
+    const idString = `${budgetId}/subcategory/${categoryId}/${subCategoryId}`;
+
+    //console.log('deleteExpenseSubCategory', data, idString);
+
+    const res = await axios.delete(
+      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      getReqOptions(_tk)
+    );
+
+    console.log('Response deleteExpenseSubCategory', res);
+
+    if (res.data.data.data === null && res.data.data.status === 'success') {
+      dispatch({
+        type: budgetTypes.DELETE_EXPENSE_SUB_CATEGORY,
+        payload: data,
+      });
+    }
   } catch (err) {
     console.log(err.response);
     console.log(err.request);

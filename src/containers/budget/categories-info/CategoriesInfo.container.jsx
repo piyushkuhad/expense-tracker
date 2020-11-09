@@ -16,6 +16,8 @@ import FormDialog from '../../../components/forms/form-dialog/FormDialog.compone
 import AddExpenseCategory from '../../../components/forms/AddExpenseCategory.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeDialog } from '../../../redux/dialog-forms/dialog-form.actions';
+import ContentDialog from '../../../components/content-dialog/ContentDialog.component';
+import { deleteExpenseSubCategory } from '../../../redux/expense/expense.action';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,6 +65,7 @@ const CategoriesInfo = ({ data }) => {
 
   const [value, setValue] = React.useState(1);
   const [expenseDialog, setExpenseDialog] = React.useState(false);
+  const [deleteDialog, setDeleteDialog] = React.useState(false);
 
   const formValues = useSelector((state) => state.forms);
 
@@ -78,19 +81,49 @@ const CategoriesInfo = ({ data }) => {
     }
   }, [formValues, setExpenseDialog]);
 
+  useEffect(() => {
+    if (
+      formValues &&
+      Object.keys(formValues.formData).length > 0 &&
+      formValues.formDialogName === 'deleteFormDialog'
+    ) {
+      setDeleteDialog(true);
+    } else {
+      setDeleteDialog(false);
+    }
+  }, [formValues, setDeleteDialog]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const closeExpenseDialog = () => {
     setExpenseDialog(false);
-
     //Return Dialog Values to its initial state
-    dispatch(closeDialog());
+    setTimeout(() => dispatch(closeDialog()), 500);
   };
 
-  let revenueData = [];
-  revenueData = data.revenueData;
+  //When Delete button is clicked
+  const handleDeleteClick = () => {
+    const data = {
+      categoryId: formValues.formData.categoryId,
+      _id: formValues.formData._id,
+    };
+
+    dispatch(deleteExpenseSubCategory(data));
+
+    setTimeout(() => dispatch(closeDialog()), 500);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialog(false);
+
+    //Return Dialog Values to its initial state
+    setTimeout(() => dispatch(closeDialog()), 500);
+  };
+
+  // let revenueData = [];
+  // revenueData = data.revenueData;
 
   const [revenueDataArr, setRevenueDataArr] = useState([]);
   const [expenseDataArr, setExpenseDataArr] = useState([]);
@@ -109,6 +142,25 @@ const CategoriesInfo = ({ data }) => {
 
   return (
     <div className="cm-categories-info-container cm-flex-type-2">
+      {/* Delete Dialog */}
+      <ContentDialog
+        dialogTitle="Delete"
+        dialogOpenHandler={deleteDialog}
+        dialogCloseHandler={closeDeleteDialog}
+        handleButtonClick={handleDeleteClick}
+        dialogSize="sm"
+        cancelButtonColor="primary"
+        buttonTitle="Delete"
+        buttonColor="secondary"
+      >
+        <p className="cm-dialog-info-content">
+          Are you sure you want to delete{' '}
+          {formValues.formDialogName === 'deleteFormDialog' ? (
+            <strong>{formValues.formData.name}</strong>
+          ) : null}{' '}
+          ?
+        </p>
+      </ContentDialog>
       <div className={classes.root}>
         <AppBar position="static">
           <Tabs
@@ -120,7 +172,7 @@ const CategoriesInfo = ({ data }) => {
             <Tab label="Expense" {...a11yProps(1)} />
           </Tabs>
         </AppBar>
-        <TabPanel value={value} index={0} className="cm-scroll">
+        <TabPanel value={value} index={0} className="cm-scroll cm-tab-panel">
           {revenueDataArr.length > 0 ? (
             revenueDataArr.map((el) => (
               <RevenueGroup
@@ -139,7 +191,7 @@ const CategoriesInfo = ({ data }) => {
             </>
           )}
         </TabPanel>
-        <TabPanel value={value} index={1} className="cm-scroll">
+        <TabPanel value={value} index={1} className="cm-scroll cm-tab-panel">
           {expenseDataArr.length !== 0 ? (
             expenseDataArr.map((el) => <ExpenseGroup data={el} key={el._id} />)
           ) : (

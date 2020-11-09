@@ -8,6 +8,7 @@ import {
   calcTotalExpense,
   chkUniqueCategory,
   deleteCategory,
+  deleteSubCategory,
 } from '../reducer.utils';
 import { userTypes } from '../user/user.types';
 
@@ -107,6 +108,27 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
           ...action.payload,
           revenueTotal: calcTotal(action.payload.revenueData, 'categoryAmount'),
           expenseTotal: calcTotalExpense(action.payload.expenseData),
+        },
+      };
+
+    case budgetTypes.DELETE_EXPENSE_SUB_CATEGORY:
+      const updatedSelectedBudget = deleteSubCategory(
+        state.selectedBudget,
+        action.payload.categoryId,
+        action.payload._id
+      );
+
+      console.log('updatedSelectedBudget', updatedSelectedBudget);
+
+      return {
+        ...state,
+        selectedBudget: {
+          ...updatedSelectedBudget,
+          revenueTotal: calcTotal(
+            updatedSelectedBudget.revenueData,
+            'categoryAmount'
+          ),
+          expenseTotal: calcTotalExpense(updatedSelectedBudget.expenseData),
         },
       };
 

@@ -50,3 +50,23 @@ export const calcTotalExpense = (arr) => {
     return (acc = acc + subCatSum);
   }, 0);
 };
+
+export const deleteSubCategory = (data, catId, subCatId) => {
+  let catIndex = data.expenseData.findIndex((el) => el._id === catId);
+
+  //console.log('catIndex', catIndex);
+
+  let subCatItem = data.expenseData[catIndex].subcategoryData.filter(
+    (el) => el._id !== subCatId
+  );
+
+  //console.log('subCatItem', subCatItem);
+
+  data.expenseData[catIndex].subcategoryData = subCatItem;
+
+  //console.log('Final', data);
+
+  return data;
+};
+
+//deleteSubCategory(a, '5f8e91c4d8740c08842ca15e', '5f8eb075f47e5d2630d1c56a')

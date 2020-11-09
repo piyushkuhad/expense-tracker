@@ -8,7 +8,11 @@ import './ExpenseCategoryItem.styles.scss';
 import { currencyFormat } from '../../utils/utilFn';
 import expense from '../../assets/images/expense.svg';
 import { useDispatch } from 'react-redux';
-import { updateExpenseSubCategoryDialog } from '../../redux/dialog-forms/dialog-form.actions';
+import {
+  deleteExpenseSubCategoryDialog,
+  updateExpenseSubCategoryDialog,
+} from '../../redux/dialog-forms/dialog-form.actions';
+import DeleteMenu from '../delete-menu/DeleteMenu.component';
 
 const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
   //console.log(expenseCategoryData);
@@ -19,6 +23,19 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
       updateExpenseSubCategoryDialog({
         data: { ...expenseCategoryData, categoryId },
         formDialogName: 'expenseFormDialog',
+      })
+    );
+  };
+
+  const deleteFn = () => {
+    dispatch(
+      deleteExpenseSubCategoryDialog({
+        data: {
+          _id: expenseCategoryData._id,
+          name: expenseCategoryData.subCategoryName,
+          categoryId,
+        },
+        formDialogName: 'deleteFormDialog',
       })
     );
   };
@@ -46,6 +63,7 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
           >
             <EditIcon />
           </IconButton>
+          <DeleteMenu dispatchFn={() => deleteFn()} />
         </div>
       </div>
     </div>
