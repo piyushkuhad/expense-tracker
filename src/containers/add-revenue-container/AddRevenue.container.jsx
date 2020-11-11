@@ -48,7 +48,7 @@ const AddRevenueContainer = () => {
     setRevenueFormInitial(revenueFormInitialValues);
   };
 
-  //Opens Popup with Catgory Values
+  //Opens Popup with Category Values
   const addBlockHandler = (valuesObj) => {
     setRevenueFormInitial({
       ...valuesObj,

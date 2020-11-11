@@ -12,7 +12,12 @@ import { calcTotal } from '../../redux/reducer.utils';
 import ProgressBar from '../progress-bar/ProgressBar.component';
 import { currencyFormat } from '../../utils/utilFn';
 import ExpenseCategoryItem from '../expense-category-item/ExpenseCategoryItem.component';
-import { addExpenseSubCategoryDialog } from '../../redux/dialog-forms/dialog-form.actions';
+import {
+  addExpenseSubCategoryDialog,
+  deleteExpenseCategoryDialog,
+  updateExpenseCategoryDialog,
+} from '../../redux/dialog-forms/dialog-form.actions';
+import ExpenseCategoryMenu from '../expense-category-menu/ExpenseCategoryMenu.component';
 
 const ExpenseGroup = ({ data }) => {
   const dispatch = useDispatch();
@@ -52,6 +57,32 @@ const ExpenseGroup = ({ data }) => {
     );
   };
 
+  const editFn = () => {
+    dispatch(
+      updateExpenseCategoryDialog({
+        // data: {
+        //   _id: data._id,
+        //   name: data.categoryName,
+        //   categoryId: data._id,
+        // },
+        data,
+        formDialogName: 'expenseCategFormDialog',
+      })
+    );
+  };
+  const deleteFn = () => {
+    dispatch(
+      deleteExpenseCategoryDialog({
+        data: {
+          _id: data._id,
+          name: data.categoryName,
+          categoryId: data._id,
+        },
+        formDialogName: 'deleteFormDialog',
+      })
+    );
+  };
+
   const spentBudget = calcSpentBudget(data.subcategoryData);
 
   return (
@@ -63,15 +94,23 @@ const ExpenseGroup = ({ data }) => {
         className="cm-expense-header"
       >
         <div className="cm-expense-top cm-flex-type-1">
-          <h4>{data.categoryName}</h4>
-          <IconButton
-            aria-label="Add Category"
-            color="primary"
-            onClick={() => openForm(data._id)}
-            size="small"
-          >
-            <AddCircleIcon />
-          </IconButton>
+          <div className="cm-col cm-col1">
+            <h4>{data.categoryName}</h4>
+          </div>
+          <div className="cm-col cm-col2">
+            <IconButton
+              aria-label="Add Category"
+              color="primary"
+              onClick={() => openForm(data._id)}
+              size="small"
+            >
+              <AddCircleIcon />
+            </IconButton>
+            <ExpenseCategoryMenu
+              dispatchDelFn={() => deleteFn()}
+              dispatchEditFn={() => editFn()}
+            />
+          </div>
         </div>
         <div className="cm-expense-info cm-flex-type-1">
           <p>

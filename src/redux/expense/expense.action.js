@@ -1,6 +1,6 @@
 import axios from 'axios';
+
 import { getReqOptions } from '../../utils/apiInfo';
-import { expenseTypes } from './expense.types';
 import { budgetTypes } from '../budget/budget.types';
 
 // export const addExpense = (data) => ({
@@ -13,12 +13,70 @@ import { budgetTypes } from '../budget/budget.types';
 //   payload: id,
 // });
 
+export const addExpenseCategory = (data) => async (dispatch, getState) => {
+  try {
+    console.log('addExpenseCategory Data', data);
+    const _tk = getState().user._atk;
+    const budgetId = getState().budget.selectedBudget._id;
+    const dataToSend = { categoryData: data };
+
+    const idString = `${budgetId}/category/expense`;
+
+    const res = await axios.post(
+      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      dataToSend,
+      getReqOptions(_tk)
+    );
+
+    console.log('addExpenseCategory Response', res);
+
+    dispatch({
+      type: budgetTypes.SELECTED_BUDGET,
+      payload: res.data.data.data,
+    });
+  } catch (err) {
+    console.log(err.response);
+    console.log(err.request);
+  }
+};
+
+export const deleteExpenseCategory = (data) => async (dispatch, getState) => {
+  console.log(data);
+};
+
+export const updateExpenseCategory = (data) => async (dispatch, getState) => {
+  try {
+    //console.log(data);
+    const _tk = getState().user._atk;
+    const budgetId = getState().budget.selectedBudget._id;
+    const categoryId = data.categoryId;
+    const dataToSend = { categoryData: data };
+
+    const idString = `${budgetId}/category/expense/${categoryId}`;
+
+    const res = await axios.patch(
+      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      dataToSend,
+      getReqOptions(_tk)
+    );
+
+    console.log('updateExpenseCategory Response', res);
+
+    dispatch({
+      type: budgetTypes.SELECTED_BUDGET,
+      payload: res.data.data.data,
+    });
+  } catch (err) {
+    console.log(err.response);
+    console.log(err.request);
+  }
+};
+
 export const updateExpenseSubCategory = (data) => async (
   dispatch,
   getState
 ) => {
   try {
-    console.log(data);
     const _tk = getState().user._atk;
     const budgetId = getState().budget.selectedBudget._id;
     const categoryId = data.categoryId;

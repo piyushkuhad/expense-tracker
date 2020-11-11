@@ -51,6 +51,16 @@ export const calcTotalExpense = (arr) => {
   }, 0);
 };
 
+export const deleteMainCategory = (data, catType, catId) => {
+  const categoryType = catType === 'revenue' ? 'revenueData' : 'expenseData';
+
+  const filteredArr = data[categoryType].filter((el) => el._id !== catId);
+
+  data[categoryType] = filteredArr;
+
+  return data;
+};
+
 export const deleteSubCategory = (data, catId, subCatId) => {
   let catIndex = data.expenseData.findIndex((el) => el._id === catId);
 

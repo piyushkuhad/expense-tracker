@@ -34,6 +34,7 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
           _id: expenseCategoryData._id,
           name: expenseCategoryData.subCategoryName,
           categoryId,
+          type: 'expense-sub-category',
         },
         formDialogName: 'deleteFormDialog',
       })

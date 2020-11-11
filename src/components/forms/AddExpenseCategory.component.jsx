@@ -1,22 +1,15 @@
 import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
-import moment from 'moment';
 import ButtonWrapper from '../button/ButtonWrapper.component';
 import { makeStyles } from '@material-ui/core/styles';
-import NewDatePicker from '../date-picker/NewDatePicker.component';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
 
 import './form.styles.scss';
-import { payerData, accountData } from '../../assets/dev-data/mainData';
 import {
-  addExpenseSubCategory,
-  updateExpenseSubCategory,
+  addExpenseCategory,
+  updateExpenseCategory,
 } from '../../redux/expense/expense.action';
 import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
 
@@ -34,14 +27,12 @@ const AddExpenseCategory = (props) => {
 
   const { handleSubmit, control, errors, reset } = useForm();
 
-  //const { initialValues, update, onFormSubmitHandler } = props;
+  //const { initialValues, update } = props;
   const dispatch = useDispatch();
   const formValues = useSelector((state) => state.forms);
 
   const initialValues = formValues.formData;
   const update = formValues.update;
-
-  const initialDate = moment().format();
 
   const onSubmit = (data) => {
     // console.log(data);
@@ -51,13 +42,13 @@ const AddExpenseCategory = (props) => {
 
     const dataToDispatch = {
       ...data,
-      subCategoryValue: slugify(data.subCategoryName),
-      categoryId: initialValues.categoryId,
+      categoryValue: slugify(data.categoryName),
+      categoryId: initialValues._id,
     };
 
     update
-      ? dispatch(updateExpenseSubCategory(dataToDispatch))
-      : dispatch(addExpenseSubCategory(dataToDispatch));
+      ? dispatch(updateExpenseCategory(dataToDispatch))
+      : dispatch(addExpenseCategory(dataToDispatch));
     dispatch(closeDialog());
   };
 
@@ -74,95 +65,34 @@ const AddExpenseCategory = (props) => {
         <Controller
           as={
             <TextField
-              label="Add Expense"
-              error={!!errors.subCategoryName}
+              label="Expense Category Name"
+              error={!!errors.categoryName}
               autoFocus
               InputLabelProps={{
                 shrink: true,
               }}
+              disabled={update}
             />
           }
-          name="subCategoryName"
+          name="categoryName"
           rules={{ required: true }}
           control={control}
         />
       </div>
-      <div className="cm-form-field-half">
-        <div className="cm-form-field">
-          <Controller
-            as={
-              <TextField
-                label="Expense Amount"
-                type="number"
-                error={!!errors.subCategoryAmount}
-                helperText="Enter Expense Amount"
-              />
-            }
-            name="subCategoryAmount"
-            rules={{ required: true }}
-            control={control}
-          />
-        </div>
+      <div className="cm-form-field">
         <Controller
-          defaultValue={update ? initialValues.transactionDate : initialDate}
-          render={(dateChangeHandler, onBlur, value) => (
-            <NewDatePicker
-              dateChangeHandler={dateChangeHandler}
-              onBlur={onBlur}
-              startVal={update ? initialValues.transactionDate : initialDate}
-              selected={value}
-              label="Transaction Date"
+          as={
+            <TextField
+              label="Expense Budget"
+              type="number"
+              error={!!errors.categoryAmount}
+              helperText="Enter Expense Budget"
             />
-          )}
-          name="transactionDate"
+          }
+          name="categoryAmount"
+          rules={{ required: true }}
           control={control}
         />
-      </div>
-      <div className="cm-form-field-half">
-        <div className="cm-form-field">
-          <InputLabel id="demo-simple-select-label">
-            Payer (optional)
-          </InputLabel>
-          <Controller
-            as={
-              <Select fullWidth={true}>
-                {payerData.map((el) => (
-                  <MenuItem value={el.value} key={el.value}>
-                    {el.categoryName}
-                  </MenuItem>
-                ))}
-              </Select>
-            }
-            name="payer"
-            defaultValue={update ? initialValues.payer : ''}
-            control={control}
-          />
-          <FormHelperText>
-            A person or organization that gave you money
-          </FormHelperText>
-        </div>
-        <div className="cm-form-field">
-          <InputLabel id="demo-simple-select-label">
-            Account (optional)
-          </InputLabel>
-          <Controller
-            as={
-              <Select fullWidth={true}>
-                {accountData.map((el) => (
-                  <MenuItem value={el.value} key={el.value}>
-                    {el.categoryName}
-                  </MenuItem>
-                ))}
-              </Select>
-            }
-            name="account"
-            defaultValue={update ? initialValues.account : ''}
-            control={control}
-          />
-          <FormHelperText>
-            Choose account type. Ex: Cash, Bank, Cheque
-          </FormHelperText>
-        </div>
       </div>
       <div className="cm-form-field">
         <ButtonWrapper
@@ -179,7 +109,7 @@ const AddExpenseCategory = (props) => {
 
 AddExpenseCategory.defaultProps = {
   update: false,
-  onFormSubmitHandler: () => {},
+  //onFormSubmitHandler: () => {},
 };
 
 export default AddExpenseCategory;

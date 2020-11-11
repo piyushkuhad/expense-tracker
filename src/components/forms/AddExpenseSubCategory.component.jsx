@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import moment from 'moment';
@@ -9,24 +9,16 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
-import IconButton from '@material-ui/core/IconButton';
-import CategoryIcon from '@material-ui/icons/Category';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
 
-import CategoryList from '../category-list/CategoryList.component';
-import FormDialog from './form-dialog/FormDialog.component';
-import { addRevenueCategory } from '../../redux/budget/budget.actions';
-import {
-  payerData,
-  accountData,
-  addIncomeCategories,
-} from '../../assets/dev-data/mainData';
 import './form.styles.scss';
+import { payerData, accountData } from '../../assets/dev-data/mainData';
 import {
-  addIncomeCategory,
-  updateIncomeCategory,
-} from '../../redux/revenue/revenue.action';
+  addExpenseSubCategory,
+  updateExpenseSubCategory,
+} from '../../redux/expense/expense.action';
+import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,58 +29,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddRevenue = (props) => {
+const AddExpenseSubCategory = (props) => {
   const classes = useStyles();
 
+  const { handleSubmit, control, errors, reset } = useForm();
+
+  //const { initialValues, update, onFormSubmitHandler } = props;
   const dispatch = useDispatch();
-  const { initialValues, update, onFormSubmitHandler, location } = props;
-  const [incomeCategoryOpen, setIncomeCategoryOpen] = useState(false);
+  const formValues = useSelector((state) => state.forms);
 
-  const closeIncomeCategDialog = () => {
-    setIncomeCategoryOpen(false);
-  };
+  const initialValues = formValues.formData;
+  const update = formValues.update;
 
-  const { handleSubmit, control, errors, reset, setValue } = useForm();
   const initialDate = moment().format();
 
   const onSubmit = (data) => {
-    //console.log('Revenue', data);
+    // console.log(data);
+    if (update) {
+      data.id = initialValues._id;
+    }
+
     const dataToDispatch = {
       ...data,
-      type: 'revenue',
-      categoryValue: slugify(data.categoryName),
-      added: true,
-      id: update ? initialValues.id : Date.now(),
+      subCategoryValue: slugify(data.subCategoryName),
+      categoryId: initialValues.categoryId,
     };
 
-    if (location === null) {
-      dispatch(addRevenueCategory(dataToDispatch));
-    } else if (location === 'home' && !update) {
-      dispatch(addIncomeCategory(dataToDispatch));
-    } else if (location === 'home' && update) {
-      dispatch(
-        updateIncomeCategory({
-          ...dataToDispatch,
-          categoryId: initialValues.categoryId,
-        })
-      );
-    }
-    //Close Popup
-    onFormSubmitHandler();
-  };
-
-  const onListClickHandler = (value) => {
-    //console.log('OnClick', value);
-    setValue('categoryName', value, {
-      shouldDirty: true,
-    });
-    setIncomeCategoryOpen(false);
+    update
+      ? dispatch(updateExpenseSubCategory(dataToDispatch))
+      : dispatch(addExpenseSubCategory(dataToDispatch));
+    dispatch(closeDialog());
   };
 
   useEffect(() => {
-    //console.log('Initial: ', initialValues, update);
     reset(initialValues);
-    // eslint-disable-next-line
   }, [reset, initialValues]);
 
   return (
@@ -96,54 +70,36 @@ const AddRevenue = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`${classes.root} cm-form-container`}
     >
-      <div className="cm-form-field cm-form-dialog-trigger-wrapper">
+      <div className="cm-form-field">
         <Controller
           as={
             <TextField
-              label="Income Category"
-              error={!!errors.categoryName}
+              label="Expense Name"
+              error={!!errors.subCategoryName}
               autoFocus
               InputLabelProps={{
                 shrink: true,
               }}
+              disabled={update}
             />
           }
-          name="categoryName"
+          name="subCategoryName"
           rules={{ required: true }}
           control={control}
         />
-        <IconButton
-          aria-label="Select Categories"
-          onClick={() => setIncomeCategoryOpen(true)}
-          className="cm-form-dialog-trigger"
-        >
-          <CategoryIcon />
-        </IconButton>
       </div>
-      {/* Select Income Category Dialog */}
-      <FormDialog
-        dialogTitle="Select Income Category"
-        dialogOpenHandler={incomeCategoryOpen}
-        dialogCloseHandler={closeIncomeCategDialog}
-        dialogSize="xs"
-      >
-        <CategoryList
-          onListClickHandler={onListClickHandler}
-          listOfCategories={addIncomeCategories}
-        />
-      </FormDialog>
       <div className="cm-form-field-half">
         <div className="cm-form-field">
           <Controller
             as={
               <TextField
-                label="Income Amount"
+                label="Expense Amount"
                 type="number"
-                error={!!errors.categoryAmount}
-                helperText="Ex: Salary"
+                error={!!errors.subCategoryAmount}
+                helperText="Enter Expense Amount"
               />
             }
-            name="categoryAmount"
+            name="subCategoryAmount"
             rules={{ required: true }}
             control={control}
           />
@@ -215,17 +171,16 @@ const AddRevenue = (props) => {
           color="primary"
           onClick={handleSubmit(onSubmit)}
         >
-          {update ? 'Update' : 'Add'} Income
+          {update ? 'Update' : 'Add'} Expense
         </ButtonWrapper>
       </div>
     </form>
   );
 };
 
-AddRevenue.defaultProps = {
+AddExpenseSubCategory.defaultProps = {
   update: false,
-  location: null,
   onFormSubmitHandler: () => {},
 };
 
-export default AddRevenue;
+export default AddExpenseSubCategory;

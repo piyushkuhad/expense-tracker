@@ -8,6 +8,7 @@ import {
   calcTotalExpense,
   chkUniqueCategory,
   deleteCategory,
+  deleteMainCategory,
   deleteSubCategory,
 } from '../reducer.utils';
 import { userTypes } from '../user/user.types';
@@ -112,23 +113,48 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
       };
 
     case budgetTypes.DELETE_EXPENSE_SUB_CATEGORY:
-      const updatedSelectedBudget = deleteSubCategory(
+      const updatedSelectedBudgetSubCat = deleteSubCategory(
         state.selectedBudget,
         action.payload.categoryId,
         action.payload._id
       );
 
-      console.log('updatedSelectedBudget', updatedSelectedBudget);
+      //console.log('updatedSelectedBudgetSubCat', updatedSelectedBudgetSubCat);
 
       return {
         ...state,
         selectedBudget: {
-          ...updatedSelectedBudget,
+          ...updatedSelectedBudgetSubCat,
           revenueTotal: calcTotal(
-            updatedSelectedBudget.revenueData,
+            updatedSelectedBudgetSubCat.revenueData,
             'categoryAmount'
           ),
-          expenseTotal: calcTotalExpense(updatedSelectedBudget.expenseData),
+          expenseTotal: calcTotalExpense(
+            updatedSelectedBudgetSubCat.expenseData
+          ),
+        },
+      };
+
+    case budgetTypes.DELETE_INCOME_CATEGORY:
+      const updatedSelectedBudgetIncome = deleteMainCategory(
+        state.selectedBudget,
+        'revenue',
+        action.payload.categoryId
+      );
+
+      console.log('updatedSelectedBudgetIncome', updatedSelectedBudgetIncome);
+
+      return {
+        ...state,
+        selectedBudget: {
+          ...updatedSelectedBudgetIncome,
+          revenueTotal: calcTotal(
+            updatedSelectedBudgetIncome.revenueData,
+            'categoryAmount'
+          ),
+          expenseTotal: calcTotalExpense(
+            updatedSelectedBudgetIncome.expenseData
+          ),
         },
       };
 

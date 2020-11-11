@@ -15,11 +15,17 @@ import { grpCategByDate } from '../../../utils/utilFn';
 import RevenueGroup from '../../../components/revenue-group/RevenueGroup.component';
 import ExpenseGroup from '../../../components/expense-group/ExpenseGroup.component';
 import FormDialog from '../../../components/forms/form-dialog/FormDialog.component';
-import AddExpenseCategory from '../../../components/forms/AddExpenseCategory.component';
+import AddExpenseSubCategory from '../../../components/forms/AddExpenseSubCategory.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeDialog } from '../../../redux/dialog-forms/dialog-form.actions';
 import ContentDialog from '../../../components/content-dialog/ContentDialog.component';
-import { deleteExpenseSubCategory } from '../../../redux/expense/expense.action';
+import {
+  deleteExpenseCategory,
+  deleteExpenseSubCategory,
+} from '../../../redux/expense/expense.action';
+import AddRevenue from '../../../components/forms/AddRevenue.component';
+import { deleteIncomeCategory } from '../../../redux/revenue/revenue.action';
+import AddExpenseCategory from '../../../components/forms/AddExpenseCategory.component';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,6 +74,8 @@ const CategoriesInfo = ({ data }) => {
   const [value, setValue] = React.useState(0);
   const [expenseDialog, setExpenseDialog] = React.useState(false);
   const [deleteDialog, setDeleteDialog] = React.useState(false);
+  const [incomeDialog, setIncomeDialog] = React.useState(false);
+  const [expenseCategDialog, setExpenseCategDialog] = React.useState(false);
 
   const formValues = useSelector((state) => state.forms);
 
@@ -95,12 +103,44 @@ const CategoriesInfo = ({ data }) => {
     }
   }, [formValues, setDeleteDialog]);
 
+  useEffect(() => {
+    if (
+      formValues &&
+      Object.keys(formValues.formData).length > 0 &&
+      formValues.formDialogName === 'incomeFormDialog'
+    ) {
+      setIncomeDialog(true);
+    } else {
+      setIncomeDialog(false);
+    }
+  }, [formValues, setIncomeDialog]);
+
+  useEffect(() => {
+    if (
+      formValues &&
+      Object.keys(formValues.formData).length > 0 &&
+      formValues.formDialogName === 'expenseCategFormDialog'
+    ) {
+      setExpenseCategDialog(true);
+    } else {
+      setExpenseCategDialog(false);
+    }
+  }, [formValues, setExpenseCategDialog]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  //Close Expense Sub Category Dialog
   const closeExpenseDialog = () => {
     setExpenseDialog(false);
+    //Return Dialog Values to its initial state
+    setTimeout(() => dispatch(closeDialog()), 500);
+  };
+
+  //Close Expense Category Dialog
+  const closeExpenseCategDialog = () => {
+    setExpenseCategDialog(false);
     //Return Dialog Values to its initial state
     setTimeout(() => dispatch(closeDialog()), 500);
   };
@@ -112,7 +152,13 @@ const CategoriesInfo = ({ data }) => {
       _id: formValues.formData._id,
     };
 
-    dispatch(deleteExpenseSubCategory(data));
+    if (formValues.formData.type === 'revenue') {
+      dispatch(deleteIncomeCategory(data));
+    } else if (formValues.formData.type === 'expense-sub-category') {
+      dispatch(deleteExpenseSubCategory(data));
+    } else {
+      dispatch(deleteExpenseCategory(data));
+    }
 
     setTimeout(() => dispatch(closeDialog()), 500);
   };
@@ -124,8 +170,17 @@ const CategoriesInfo = ({ data }) => {
     setTimeout(() => dispatch(closeDialog()), 500);
   };
 
-  // let revenueData = [];
-  // revenueData = data.revenueData;
+  //Open Category Dialog based on Active Tab
+  const categoryTrigger = () => {
+    value === 0 ? setIncomeDialog(true) : setExpenseCategDialog(true);
+  };
+
+  //Close Income Dialog
+  const closeIncomeDialog = () => {
+    setIncomeDialog(false);
+    //Return Dialog Values to its initial state
+    setTimeout(() => dispatch(closeDialog()), 500);
+  };
 
   const [revenueDataArr, setRevenueDataArr] = useState([]);
   const [expenseDataArr, setExpenseDataArr] = useState([]);
@@ -177,10 +232,11 @@ const CategoriesInfo = ({ data }) => {
             aria-label="Add Category"
             color="primary"
             //onClick={() => openForm(data._id)}
-            size="small"
+            size="medium"
             className="cm-add-category-btn"
+            onClick={categoryTrigger}
           >
-            <AddCircleIcon />
+            <AddCircleIcon fontSize="large" />
           </IconButton>
         </AppBar>
         <TabPanel value={value} index={0} className="cm-scroll cm-tab-panel">
@@ -201,6 +257,28 @@ const CategoriesInfo = ({ data }) => {
               <Skeleton variant="rect" width={'100%'} height={10} />
             </>
           )}
+          {/* ADD INCOME CATEGORY DIALOG */}
+          <FormDialog
+            dialogTitle="Add Your Income"
+            dialogOpenHandler={incomeDialog}
+            dialogCloseHandler={closeIncomeDialog}
+            dialogSize="sm"
+          >
+            <AddRevenue
+              location="home"
+              update={
+                formValues.formDialogName === 'incomeFormDialog' &&
+                formValues.update
+              }
+              initialValues={
+                formValues.formDialogName === 'incomeFormDialog' &&
+                formValues.update
+                  ? formValues.formData
+                  : {}
+              }
+              onFormSubmitHandler={closeIncomeDialog}
+            />
+          </FormDialog>
         </TabPanel>
         <TabPanel value={value} index={1} className="cm-scroll cm-tab-panel">
           {expenseDataArr.length !== 0 ? (
@@ -208,13 +286,45 @@ const CategoriesInfo = ({ data }) => {
           ) : (
             <Skeleton variant="rect" width={'100%'} height={16} />
           )}
+          {/* ADD EXPENSE SUB CATEGORY DIALOG */}
           <FormDialog
-            dialogTitle="Add Your Expense"
+            dialogTitle={`${
+              formValues.formDialogName === 'expenseFormDialog' &&
+              formValues.update
+                ? 'Update'
+                : 'Add'
+            } Your Expense`}
             dialogOpenHandler={expenseDialog}
             dialogCloseHandler={closeExpenseDialog}
             dialogSize="sm"
           >
-            <AddExpenseCategory />
+            <AddExpenseSubCategory />
+          </FormDialog>
+
+          {/* ADD EXPENSE CATEGORY DIALOG */}
+          <FormDialog
+            dialogTitle={`${
+              formValues.formDialogName === 'expenseCategFormDialog' &&
+              formValues.update
+                ? 'Update'
+                : 'Create'
+            } Your Expense Category`}
+            dialogOpenHandler={expenseCategDialog}
+            dialogCloseHandler={closeExpenseCategDialog}
+            dialogSize="sm"
+          >
+            <AddExpenseCategory
+              update={
+                formValues.formDialogName === 'expenseCategFormDialog' &&
+                formValues.update
+              }
+              initialValues={
+                formValues.formDialogName === 'expenseCategFormDialog' &&
+                formValues.update
+                  ? formValues.formData
+                  : {}
+              }
+            />
           </FormDialog>
         </TabPanel>
       </div>
