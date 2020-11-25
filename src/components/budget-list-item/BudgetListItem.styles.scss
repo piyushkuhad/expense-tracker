@@ -1,0 +1,10 @@
+.cm-budget-list-item {
+  .cm-db-row-2 {
+    cursor: pointer;
+    color: #474f59;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

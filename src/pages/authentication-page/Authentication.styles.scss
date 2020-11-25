@@ -37,6 +37,10 @@
 .cm-form-wrapper {
   width: 40%;
 
+  &.signUp {
+    padding-top: 40px;
+  }
+
   h1 {
     font-size: 40px;
     text-align: center;

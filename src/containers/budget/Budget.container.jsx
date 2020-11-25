@@ -5,8 +5,13 @@ import './Budget.styles.scss';
 import BudgetInfo from './budget-info/BudgetInfo.container';
 import CategoriesInfo from './categories-info/CategoriesInfo.container';
 
-const BudgetContainer = () => {
+const BudgetContainer = (props) => {
   const [budgetValues, setBudgetValues] = useState({});
+
+  const selectBudgetId =
+    props.selectBudget.length > 0
+      ? props.selectBudget.split('?budget=')[1]
+      : '';
 
   const selectedBudgetData = useSelector(
     (state) => state.budget.selectedBudget
@@ -22,7 +27,10 @@ const BudgetContainer = () => {
     <div className="cm-budget-container cm-col-divider">
       <div className="cm-row-fluid cm-flex-type-1">
         <div className="cm-col cm-col1">
-          <BudgetInfo budgetValuesData={budgetValues} />
+          <BudgetInfo
+            budgetValuesData={budgetValues}
+            selectBudgetId={selectBudgetId}
+          />
         </div>
         <div className="cm-col cm-col2 box-shadow-1">
           <CategoriesInfo data={budgetValues} />

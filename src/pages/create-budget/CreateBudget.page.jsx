@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,7 +13,11 @@ import CreateBudget from '../../components/forms/CreateBudget.component';
 import budget from '../../assets/images/budget.png';
 import AddRevenueContainer from '../../containers/add-revenue-container/AddRevenue.container';
 import AddExpenseContainer from '../../containers/add-expense-container/AddExpense.container';
-import { createBudgetRequest } from '../../redux/budget/budget.actions';
+import {
+  clearCreateBudget,
+  createBudgetRequest,
+} from '../../redux/budget/budget.actions';
+import { loaderStart } from '../../utils/utilFn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +73,12 @@ const CreateBudgetPage = () => {
         return 'Unknown step';
     }
   };
+
+  //Clear Previous Data Stored in State when component is mounted
+  useEffect(() => {
+    dispatch(clearCreateBudget());
+    // eslint-disable-next-line
+  }, []);
 
   //Steps State Declaration
   const [activeStep, setActiveStep] = useState(0);
@@ -144,6 +154,7 @@ const CreateBudgetPage = () => {
 
   const dispatch = useDispatch();
   const handleFinish = () => {
+    loaderStart(dispatch, 'default', 'Creating Budget...');
     dispatch(createBudgetRequest());
   };
 

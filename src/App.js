@@ -11,7 +11,8 @@ import BudgetHome from './pages/budget-home-page/BudgetHome.page';
 import CreateBudgetPage from './pages/create-budget/CreateBudget.page';
 import NewHomePage from './pages/new-home-page/NewHome.page';
 import ProtectedRoute from './components/protected-route/ProtectedRoute.component';
-import { infoReset } from './redux/app/app.action';
+import { infoReset, loaderInActive } from './redux/app/app.action';
+import Loader from './components/loader/Loader.component';
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -20,6 +21,7 @@ const Alert = (props) => {
 const App = () => {
   const currentUser = useSelector((state) => state.user.user);
   const info = useSelector((state) => state.app.info);
+  const loaderObj = useSelector((state) => state.loader);
 
   const [open, setOpen] = React.useState(false);
 
@@ -28,6 +30,15 @@ const App = () => {
   }
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (Object.keys(currentUser).length !== 0) {
+      if (currentUser.budget.length === 0) {
+        history.push('/create-budget');
+        dispatch(loaderInActive({ status: false }));
+      }
+    }
+  }, [currentUser, dispatch]);
 
   //const nullObj = { message: null, infoType: null };
 
@@ -60,7 +71,12 @@ const App = () => {
           <Alert severity={info.infoType}>{info.message}</Alert>
         </Snackbar>
       ) : null}
-
+      {loaderObj.status ? (
+        <Loader
+          loaderType={loaderObj.type}
+          loadingText={loaderObj.loaderText}
+        />
+      ) : null}
       <Router history={history}>
         <Switch>
           <ProtectedRoute exact path="/" component={NewHomePage} />
@@ -69,7 +85,7 @@ const App = () => {
             path="/create-budget"
             component={CreateBudgetPage}
           />
-          <ProtectedRoute exact path="/budget" component={BudgetHome} />
+          <ProtectedRoute exact path="/budgets" component={BudgetHome} />
           <Route
             exact
             path="/auth"

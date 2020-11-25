@@ -1,0 +1,66 @@
+.cm-budget-list-wrapper {
+  width: 100%;
+
+  .cm-budget-list-header {
+    h2 {
+      font-weight: 700;
+    }
+  }
+
+  .cm-data-table-wrapper {
+    margin-top: 30px;
+    padding: 10px 15px;
+  }
+
+  .cm-data-table-header {
+    border-bottom: 1px solid #ccc;
+    color: #666;
+    font-weight: 700;
+  }
+
+  .cm-db-row {
+    padding: 15px 5px;
+    margin: 0;
+  }
+
+  .cm-budget-list-item {
+    border-bottom: 1px solid #999;
+    font-weight: 700;
+
+    .cm-currency-symbol {
+      font-weight: normal;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  .cm-db-row-1 {
+    width: 5%;
+    min-width: 25px;
+  }
+
+  .cm-db-row-2 {
+    width: 20%;
+    min-width: 150px;
+  }
+
+  .cm-db-row-3,
+  .cm-db-row-4,
+  .cm-db-row-7 {
+    width: 15%;
+    min-width: 150px;
+  }
+
+  .cm-db-row-5,
+  .cm-db-row-6 {
+    width: 10%;
+    min-width: 150px;
+  }
+
+  .cm-db-row-8 {
+    width: 10%;
+    min-width: 50px;
+  }
+}

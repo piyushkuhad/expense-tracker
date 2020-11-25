@@ -1,5 +1,10 @@
 import { dialogFormTypes } from './dialog-form.types';
 
+export const deleteBudgetDialog = (data) => ({
+  type: dialogFormTypes.DELETE_BUDGET_DIALOG,
+  payload: data,
+});
+
 export const updateExpenseCategoryDialog = (data) => ({
   type: dialogFormTypes.UPDATE_EXPENSE_CATEGORY_DIALOG,
   payload: data,

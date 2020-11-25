@@ -3,6 +3,9 @@ import axios from 'axios';
 import { budgetTypes } from './budget.types';
 import { getReqOptions } from '../../utils/apiInfo';
 import history from '../../history';
+import { loaderStop } from '../../utils/utilFn';
+import { appTypes } from '../app/app.types';
+import { userTypes } from '../user/user.types';
 
 export const createBudget = (data) => ({
   type: budgetTypes.CREATE_BUDGET,
@@ -42,47 +45,137 @@ export const selectedBudget = (budgetId) => async (dispatch, getState) => {
 
 export const getAllBudgets = (queryParam) => async (dispatch, getState) => {
   const _tk = getState().user._atk;
+  const query = queryParam === undefined ? '' : `?fields=${queryParam}`;
   try {
     const res = await axios.get(
-      `http://127.0.0.1:4000/api/v1/budget?fields=${queryParam}`,
+      `http://127.0.0.1:4000/api/v1/budget${query}`,
       getReqOptions(_tk)
     );
 
-    //console.log('Data: ', res);
+    console.log('Data: ', res);
 
-    dispatch({
-      type: budgetTypes.GET_ALL_BUDGET,
-      payload: res.data.data,
-    });
+    loaderStop(dispatch);
+
+    if (queryParam) {
+      dispatch({
+        type: budgetTypes.GET_ALL_BUDGET_PARAM,
+        payload: res.data.data,
+      });
+    } else {
+      dispatch({
+        type: budgetTypes.GET_ALL_BUDGET,
+        payload: res.data.data,
+      });
+    }
   } catch (err) {
     console.log(err.response);
     console.log(err.request);
+    if (err.response.data.message === 'The user no longer exists') {
+      dispatch({
+        type: appTypes.INFO_ERROR,
+        payload: err.response.data.message,
+      });
+
+      setTimeout(
+        () =>
+          dispatch({
+            type: userTypes.LOGOUT,
+          }),
+        5000
+      );
+      loaderStop(dispatch);
+    }
   }
 };
 
 export const createBudgetRequest = () => async (dispatch, getState) => {
-  const { createBudgetData } = getState().budget;
-  //console.log('Launch Set', createBudgetData);
+  try {
+    const _tk = getState().user._atk;
+    const { createBudgetData } = getState().budget;
 
-  //const response = await api.post('/api/v1/budget', createBudgetData);
+    //console.log('Launch Set', createBudgetData);
 
-  const response = await fetch('http://127.0.0.1:4000/api/v1/budget', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(createBudgetData),
-  });
+    const filterCategory = (data) => {
+      const filteredData = data.filter((el) => el.added === true);
+      return filteredData === undefined ? [] : filteredData;
+    };
 
-  const result = await response.json();
+    const dataToSend = {
+      ...createBudgetData,
+      revenueCategories: filterCategory(createBudgetData.revenueCategories),
+      expenseCategories: filterCategory(createBudgetData.expenseCategories),
+    };
 
-  dispatch({
-    type: budgetTypes.CREATE_BUDGET_REQUEST,
-    payload: result.data,
-  });
+    console.log('dataToSend', dataToSend);
 
-  history.push('/budget');
+    const res = await axios.post(
+      `http://127.0.0.1:4000/api/v1/budget`,
+      dataToSend,
+      getReqOptions(_tk)
+    );
+
+    console.log('createBudgetRequest Response', res);
+
+    dispatch({
+      type: budgetTypes.CREATE_BUDGET_REQUEST,
+      payload: res.data.data,
+    });
+
+    if (res.data.data.status === 'success') {
+      loaderStop(dispatch);
+      history.push('/');
+    }
+  } catch (err) {
+    console.log(err.response);
+    console.log(err.request);
+    loaderStop(dispatch);
+  }
+
+  // const response = await fetch('http://127.0.0.1:4000/api/v1/budget', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json;charset=utf-8',
+  //   },
+  //   body: JSON.stringify(createBudgetData),
+  // });
+
+  // const result = await response.json();
+
+  // dispatch({
+  //   type: budgetTypes.CREATE_BUDGET_REQUEST,
+  //   payload: result.data,
+  // });
+
+  // history.push('/');
 };
+
+export const deleteBudget = (budgetId) => async (dispatch, getState) => {
+  try {
+    const _tk = getState().user._atk;
+    const res = await axios.delete(
+      `http://127.0.0.1:4000/api/v1/budget/${budgetId}`,
+      getReqOptions(_tk)
+    );
+
+    console.log('deleteBudget Response', res);
+
+    if (res.data.data.data === null && res.data.data.status === 'success') {
+      loaderStop(dispatch);
+      dispatch({
+        type: budgetTypes.DELETE_BUDGET,
+        payload: budgetId,
+      });
+    }
+  } catch (err) {
+    console.log(err.response);
+    console.log(err.request);
+    loaderStop(dispatch);
+  }
+};
+
+export const clearCreateBudget = () => ({
+  type: budgetTypes.CLEAR_CREATE_BUDGET,
+});
 
 export const addRevenueCategory = (data) => ({
   type: budgetTypes.ADD_REVENUE_CATEGORY,

@@ -6,4 +6,33 @@
   height: 100%;
   z-index: 9999;
   background-color: #fff;
+
+  &.cm-login-loader {
+    svg {
+      max-height: 300px !important;
+    }
+
+    h2 {
+      font-size: 18px;
+      text-transform: none;
+      letter-spacing: none;
+      font-style: italic;
+      color: #999;
+    }
+  }
+
+  &.cm-default-loader {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .cm-loader-inner {
+    width: 45%;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 }

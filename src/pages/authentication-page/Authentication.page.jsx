@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import Animation from '../../components/animation/Animation.component';
-import ButtonWrapper from '../../components/button/ButtonWrapper.component';
-import Login from '../../components/forms/Login.component';
 
 import './Authentication.styles.scss';
 import animationData from '../../assets/animations/login.json';
 import Header from '../../components/header/Header.component';
+import Animation from '../../components/animation/Animation.component';
+import ButtonWrapper from '../../components/button/ButtonWrapper.component';
+import Login from '../../components/forms/Login.component';
+import SignUp from '../../components/forms/Signup.component';
 
 const Authentication = () => {
   const [authType, setAuthType] = useState('login');
@@ -31,7 +32,7 @@ const Authentication = () => {
                 <ButtonWrapper
                   variant="contained"
                   color="primary"
-                  onClick={() => changeAuthType('sign-up')}
+                  onClick={() => changeAuthType('signUp')}
                   className="cm-fw-btn"
                   size="large"
                 >
@@ -42,7 +43,7 @@ const Authentication = () => {
               <div className="cm-signup-wrapper">
                 <h1>Welcome!</h1>
                 <h2>Sign Up</h2>
-                <Login />
+                <SignUp />
                 <ButtonWrapper
                   variant="contained"
                   color="primary"

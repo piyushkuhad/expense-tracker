@@ -6,12 +6,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { IconButton } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import './CategoriesInfo.styles.scss';
-import { grpCategByDate } from '../../../utils/utilFn';
+import { grpCategByDate, loaderStart } from '../../../utils/utilFn';
 import RevenueGroup from '../../../components/revenue-group/RevenueGroup.component';
 import ExpenseGroup from '../../../components/expense-group/ExpenseGroup.component';
 import FormDialog from '../../../components/forms/form-dialog/FormDialog.component';
@@ -152,15 +151,20 @@ const CategoriesInfo = ({ data }) => {
       _id: formValues.formData._id,
     };
 
+    setTimeout(() => dispatch(closeDialog()), 500);
+
     if (formValues.formData.type === 'revenue') {
+      loaderStart(dispatch, 'default', 'Deleting Income Category');
       dispatch(deleteIncomeCategory(data));
     } else if (formValues.formData.type === 'expense-sub-category') {
+      loaderStart(dispatch, 'default', 'Deleting Expense Sub Category');
       dispatch(deleteExpenseSubCategory(data));
     } else {
+      loaderStart(dispatch, 'default', 'Deleting Expense Category');
       dispatch(deleteExpenseCategory(data));
     }
 
-    setTimeout(() => dispatch(closeDialog()), 500);
+    // setTimeout(() => dispatch(closeDialog()), 500);
   };
 
   const closeDeleteDialog = () => {
@@ -186,13 +190,13 @@ const CategoriesInfo = ({ data }) => {
   const [expenseDataArr, setExpenseDataArr] = useState([]);
 
   useEffect(() => {
-    if (data.revenueData && data.revenueData.length > 0) {
+    if (data.revenueData && data.revenueData.length >= 0) {
       setRevenueDataArr(grpCategByDate(data.revenueData));
     }
   }, [data.revenueData]);
 
   useEffect(() => {
-    if (data.expenseData && data.expenseData.length > 0) {
+    if (data.expenseData && data.expenseData.length >= 0) {
       setExpenseDataArr(data.expenseData);
     }
   }, [data.expenseData]);
@@ -215,7 +219,10 @@ const CategoriesInfo = ({ data }) => {
           {formValues.formDialogName === 'deleteFormDialog' ? (
             <strong>{formValues.formData.name}</strong>
           ) : null}{' '}
-          ?
+          ?{' '}
+          {!formValues.formData.type ? (
+            <span>This will also delete expenses for this category.</span>
+          ) : null}
         </p>
       </ContentDialog>
       <div className={classes.root}>
@@ -249,13 +256,9 @@ const CategoriesInfo = ({ data }) => {
               />
             ))
           ) : (
-            <>
-              <Skeleton variant="rect" width={'100%'} height={10} />
-              <br />
-              <Skeleton variant="rect" width={'80%'} height={10} />
-              <br />
-              <Skeleton variant="rect" width={'100%'} height={10} />
-            </>
+            <p className="cm-not-present">
+              No income found. Start by adding one!
+            </p>
           )}
           {/* ADD INCOME CATEGORY DIALOG */}
           <FormDialog
@@ -284,7 +287,9 @@ const CategoriesInfo = ({ data }) => {
           {expenseDataArr.length !== 0 ? (
             expenseDataArr.map((el) => <ExpenseGroup data={el} key={el._id} />)
           ) : (
-            <Skeleton variant="rect" width={'100%'} height={16} />
+            <p className="cm-not-present">
+              No expense found. Start by adding one!
+            </p>
           )}
           {/* ADD EXPENSE SUB CATEGORY DIALOG */}
           <FormDialog

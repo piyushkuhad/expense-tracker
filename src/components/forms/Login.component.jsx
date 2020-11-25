@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import ButtonWrapper from '../button/ButtonWrapper.component';
 import './form.styles.scss';
 import { signIn } from '../../redux/user/user.actions';
-import Loader from '../loader/Loader.component';
+import { loaderStart } from '../../utils/utilFn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,14 +38,12 @@ const Login = (props) => {
     showPassword: false,
   });
 
-  const [loading, setLoading] = useState(false);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Data:', values);
 
     dispatch(signIn({ email: values.email, password: values.password }));
-    setLoading(true);
+    loaderStart(dispatch, 'login', 'Save money & money will save you!!');
   };
 
   const handleChange = (fieldName) => (event) => {
@@ -62,7 +60,6 @@ const Login = (props) => {
 
   return (
     <>
-      {loading ? <Loader /> : null}
       <form
         onSubmit={handleSubmit}
         className={`${classes.root} cm-form-container`}

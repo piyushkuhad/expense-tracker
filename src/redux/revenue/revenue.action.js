@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { getReqOptions } from '../../utils/apiInfo';
+import { loaderStop } from '../../utils/utilFn';
 import { budgetTypes } from '../budget/budget.types';
 import { revenueTypes } from './revenue.types';
 
@@ -89,9 +90,12 @@ export const deleteIncomeCategory = (data) => async (
         type: budgetTypes.DELETE_INCOME_CATEGORY,
         payload: data,
       });
+
+      loaderStop(dispatch);
     }
   } catch (err) {
     console.log(err.response);
     console.log(err.request);
+    loaderStop(dispatch);
   }
 };

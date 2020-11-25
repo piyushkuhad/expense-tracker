@@ -9,7 +9,10 @@ import {
   chkUniqueCategory,
   deleteCategory,
   deleteMainCategory,
+  updateBudgetData,
   deleteSubCategory,
+  deleteBudget,
+  addInFront,
 } from '../reducer.utils';
 import { userTypes } from '../user/user.types';
 
@@ -42,7 +45,19 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
     case budgetTypes.GET_ALL_BUDGET:
       return {
         ...state,
+        budgetData: action.payload.data,
+      };
+
+    case budgetTypes.GET_ALL_BUDGET_PARAM:
+      return {
+        ...state,
         budgetSnippetData: action.payload.data,
+      };
+
+    case budgetTypes.CLEAR_CREATE_BUDGET:
+      return {
+        ...state,
+        createBudgetData: INITIAL_STATE.createBudgetData,
       };
 
     case budgetTypes.ADD_REVENUE_CATEGORY:
@@ -96,9 +111,15 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
       };
 
     case budgetTypes.CREATE_BUDGET_REQUEST:
+      const { _id, budgetName } = action.payload.data;
       return {
         ...state,
-        selectedBudget: { ...action.payload },
+        budgetData: addInFront(state.budgetData, action.payload.data),
+        budgetSnippetData: addInFront(state.budgetSnippetData, {
+          _id,
+          budgetName,
+        }),
+        selectedBudget: action.payload.data,
       };
 
     case budgetTypes.SELECTED_BUDGET:
@@ -112,6 +133,19 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         },
       };
 
+    case budgetTypes.DELETE_BUDGET:
+      const updatedBudget = deleteBudget(state.budgetData, action.payload);
+      const updatedBudgetSnippet = deleteBudget(
+        state.budgetSnippetData,
+        action.payload
+      );
+
+      return {
+        ...state,
+        budgetData: updatedBudget,
+        budgetSnippetData: updatedBudgetSnippet,
+      };
+
     case budgetTypes.DELETE_EXPENSE_SUB_CATEGORY:
       const updatedSelectedBudgetSubCat = deleteSubCategory(
         state.selectedBudget,
@@ -123,6 +157,10 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
+        budgetData: updateBudgetData(
+          state.budgetData,
+          updatedSelectedBudgetSubCat
+        ),
         selectedBudget: {
           ...updatedSelectedBudgetSubCat,
           revenueTotal: calcTotal(
@@ -146,6 +184,10 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
+        budgetData: updateBudgetData(
+          state.budgetData,
+          updatedSelectedBudgetIncome
+        ),
         selectedBudget: {
           ...updatedSelectedBudgetIncome,
           revenueTotal: calcTotal(
@@ -154,6 +196,33 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
           ),
           expenseTotal: calcTotalExpense(
             updatedSelectedBudgetIncome.expenseData
+          ),
+        },
+      };
+
+    case budgetTypes.DELETE_EXPENSE_CATEGORY_API:
+      const updatedSelectedBudgetExpense = deleteMainCategory(
+        state.selectedBudget,
+        'expense',
+        action.payload.categoryId
+      );
+
+      console.log('updatedSelectedBudgetExpense', updatedSelectedBudgetExpense);
+
+      return {
+        ...state,
+        budgetData: updateBudgetData(
+          state.budgetData,
+          updatedSelectedBudgetExpense
+        ),
+        selectedBudget: {
+          ...updatedSelectedBudgetExpense,
+          revenueTotal: calcTotal(
+            updatedSelectedBudgetExpense.revenueData,
+            'categoryAmount'
+          ),
+          expenseTotal: calcTotalExpense(
+            updatedSelectedBudgetExpense.expenseData
           ),
         },
       };

@@ -27,6 +27,7 @@ import {
   addIncomeCategory,
   updateIncomeCategory,
 } from '../../redux/revenue/revenue.action';
+import { toISOFormat } from '../../utils/dateMethods';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,7 @@ const AddRevenue = (props) => {
     //console.log('Revenue', data);
     const dataToDispatch = {
       ...data,
+      transactionDate: toISOFormat(data.transactionDate),
       type: 'revenue',
       categoryValue: slugify(data.categoryName),
       added: true,

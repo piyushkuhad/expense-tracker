@@ -19,6 +19,7 @@ import {
   updateExpenseSubCategory,
 } from '../../redux/expense/expense.action';
 import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
+import { loaderStart } from '../../utils/utilFn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,14 +57,23 @@ const AddExpenseSubCategory = (props) => {
     };
 
     update
+      ? loaderStart(dispatch, 'default', 'Updating Expense Sub Category')
+      : loaderStart(dispatch, 'default', 'Adding Expense Sub Category');
+
+    console.log('Go');
+
+    update
       ? dispatch(updateExpenseSubCategory(dataToDispatch))
       : dispatch(addExpenseSubCategory(dataToDispatch));
+
     dispatch(closeDialog());
   };
 
   useEffect(() => {
-    reset(initialValues);
-  }, [reset, initialValues]);
+    if (update) {
+      reset(initialValues);
+    }
+  }, [reset, initialValues, update]);
 
   return (
     <form

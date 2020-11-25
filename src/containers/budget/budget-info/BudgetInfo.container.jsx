@@ -15,8 +15,9 @@ import {
   selectedBudget,
 } from '../../../redux/budget/budget.actions';
 import DonutChart from '../../../components/charts/DonutChart.component';
-import { currencyFormat } from '../../../utils/utilFn';
+import { currencyFormat, loaderStart } from '../../../utils/utilFn';
 import ColorLegend from '../../../components/charts/ColorLegend.component';
+import history from '../../../history';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BudgetInfo = ({ budgetValuesData }) => {
+const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -36,7 +37,16 @@ const BudgetInfo = ({ budgetValuesData }) => {
 
   const [budget, setBudget] = React.useState('Select Budget');
 
+  //Check if Budget Id in Query String Exists or not
+  const selectBudgetExists = budgetNames.findIndex(
+    (el) => el._id === selectBudgetId
+  );
+
   const handleChange = (event) => {
+    if (window.location.href.includes('?budget=')) {
+      history.replace('/');
+    }
+
     setBudget(event.target.value);
     dispatch(selectedBudget(event.target.value));
   };
@@ -44,15 +54,21 @@ const BudgetInfo = ({ budgetValuesData }) => {
   //Api call to get user's budgets
   useEffect(() => {
     if (budgetNames.length === 0 || !budgetNames) {
+      loaderStart(dispatch);
       dispatch(getAllBudgets('budgetName'));
     }
   }, [dispatch, budgetNames]);
 
   //Set Select value on response and sets the Selected Budget in state
   useEffect(() => {
-    if (budgetNames && budgetNames.length > 0) {
+    if (budgetNames && budgetNames.length > 0 && selectBudgetExists === -1) {
       setBudget(budgetNames[0]._id);
       dispatch(selectedBudget(budgetNames[0]._id));
+    }
+
+    if (budgetNames && budgetNames.length > 0 && selectBudgetExists !== -1) {
+      setBudget(selectBudgetId);
+      dispatch(selectedBudget(selectBudgetId));
     }
     //eslint-disable-next-line
   }, [budgetNames]);

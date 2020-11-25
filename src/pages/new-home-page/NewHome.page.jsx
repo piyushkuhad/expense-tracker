@@ -4,12 +4,12 @@ import './NewHome.styles.scss';
 import SideHeader from '../../components/side-header/SideHeader.component';
 import BudgetContainer from '../../containers/budget/Budget.container';
 
-const NewHomePage = () => {
+const NewHomePage = (props) => {
   return (
     <>
       <SideHeader />
       <div className="cm-home-page-container cm-main-container">
-        <BudgetContainer />
+        <BudgetContainer selectBudget={props.location.search} />
       </div>
     </>
   );

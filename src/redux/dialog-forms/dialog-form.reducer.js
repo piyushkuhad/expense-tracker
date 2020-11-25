@@ -17,6 +17,7 @@ const dialogFormReducer = (state = INITIAL_STATE, action) => {
         formDialogName: action.payload.formDialogName,
       };
 
+    case dialogFormTypes.DELETE_BUDGET_DIALOG:
     case dialogFormTypes.DELETE_EXPENSE_CATEGORY_DIALOG:
     case dialogFormTypes.ADD_EXPENSE_SUB_CATEGORY_DIALOG:
     case dialogFormTypes.DELETE_EXPENSE_SUB_CATEGORY_DIALOG:

@@ -10,6 +10,11 @@ export const addToList = (list, itemToAdd) => {
   return [...list, itemToAdd];
 };
 
+export const addInFront = (data, item) => {
+  data.unshift(item);
+  return data;
+};
+
 export const deleteFromList = (list, itemToDeleteId) => {
   return list.filter((el) => el.id !== itemToDeleteId);
 };
@@ -28,6 +33,9 @@ export const chkUniqueCategory = (arr, data, property) => {
 
   return resArr;
 };
+
+export const deleteBudget = (data, budgetId) =>
+  data.filter((el) => el._id !== budgetId);
 
 export const deleteCategory = (arr, dataValue) => {
   return arr.filter((el) => el.categoryValue !== dataValue);
@@ -49,6 +57,19 @@ export const calcTotalExpense = (arr) => {
 
     return (acc = acc + subCatSum);
   }, 0);
+};
+
+export const updateBudgetData = (budgetData, updatedBudgetItem) => {
+  //const filteredBudget = budgetData.filter((el) => el._id === budgetId);
+  const budgetIndex = budgetData.findIndex(
+    (el) => el._id === updatedBudgetItem._id
+  );
+
+  if (budgetIndex >= 0) {
+    budgetData[budgetIndex] = updatedBudgetItem;
+  }
+
+  return budgetData;
 };
 
 export const deleteMainCategory = (data, catType, catId) => {
@@ -78,5 +99,3 @@ export const deleteSubCategory = (data, catId, subCatId) => {
 
   return data;
 };
-
-//deleteSubCategory(a, '5f8e91c4d8740c08842ca15e', '5f8eb075f47e5d2630d1c56a')

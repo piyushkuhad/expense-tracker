@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -13,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import ButtonWrapper from '../button/ButtonWrapper.component';
 import './form.styles.scss';
 import { signUp } from '../../redux/user/user.actions';
+import { loaderStart } from '../../utils/utilFn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,18 +42,42 @@ const SignUp = (props) => {
     showPasswordConfirm: false,
   });
 
+  const [formError, setFormError] = useState(false);
+  const [passError, setPassError] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('SignUp Data:', values);
 
+    const { fullName, email, password, passwordConfirm } = values;
+
+    if (
+      fullName === '' ||
+      email === '' ||
+      password === '' ||
+      passwordConfirm === ''
+    ) {
+      setFormError(true);
+      return;
+    } else {
+      setFormError(false);
+    }
+
+    console.log('Run');
+
+    if (passError) {
+      return;
+    }
+
     dispatch(
       signUp({
-        fullName: values.fullName,
-        email: values.email,
-        password: values.password,
-        passwordConfirm: values.passwordConfirm,
+        fullName: fullName,
+        email: email,
+        password: password,
+        passwordConfirm: passwordConfirm,
       })
     );
+    loaderStart(dispatch, 'login', 'Save money & money will save you!!');
   };
 
   const handleChange = (fieldName) => (event) => {
@@ -67,14 +93,20 @@ const SignUp = (props) => {
     event.preventDefault();
   };
 
+  const chkPassword = () => {
+    if (values.passwordConfirm !== values.password) setPassError(true);
+    else setPassError(false);
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className={`${classes.root} cm-form-container`}
+      autoComplete="false"
     >
       <div className="cm-form-field">
         <TextField
-          label="Full Name"
+          label="Full Name*"
           type="text"
           InputLabelProps={{
             shrink: true,
@@ -82,18 +114,22 @@ const SignUp = (props) => {
           autoFocus
           variant="outlined"
           name="fullName"
-          value={values.email}
+          error={formError && values.fullName === ''}
+          value={values.fullName}
           onChange={handleChange('fullName')}
         />
       </div>
       <div className="cm-form-field">
         <TextField
-          label="Email"
+          label="Email*"
           type="email"
+          error={formError && values.email === ''}
           InputLabelProps={{
             shrink: true,
+            form: {
+              autocomplete: 'off',
+            },
           }}
-          autoFocus
           variant="outlined"
           name="email"
           value={values.email}
@@ -105,16 +141,17 @@ const SignUp = (props) => {
           //className={clsx(classes.margin, classes.textField)}
           variant="outlined"
         >
-          <InputLabel>Password</InputLabel>
+          <InputLabel>Password*</InputLabel>
           <OutlinedInput
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
+            error={formError && values.password === ''}
             onChange={handleChange('password')}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword(showPassword)}
+                  onClick={() => handleClickShowPassword('showPassword')}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
@@ -131,16 +168,17 @@ const SignUp = (props) => {
           //className={clsx(classes.margin, classes.textField)}
           variant="outlined"
         >
-          <InputLabel>Confirm Password</InputLabel>
+          <InputLabel>Confirm Password*</InputLabel>
           <OutlinedInput
             type={values.showPasswordConfirm ? 'text' : 'password'}
             value={values.passwordConfirm}
             onChange={handleChange('passwordConfirm')}
+            error={passError || (formError && values.passwordConfirm === '')}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword(showPasswordConfirm)}
+                  onClick={() => handleClickShowPassword('showPasswordConfirm')}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
@@ -152,8 +190,19 @@ const SignUp = (props) => {
                 </IconButton>
               </InputAdornment>
             }
-            labelWidth={70}
+            labelWidth={140}
+            onBlur={() => chkPassword()}
           />
+          {passError ? (
+            <FormHelperText className="cm-error-msg">
+              Passwords do not match
+            </FormHelperText>
+          ) : null}
+          {formError ? (
+            <FormHelperText className="cm-error-msg">
+              Required Fields(*) can't be left empty.
+            </FormHelperText>
+          ) : null}
         </FormControl>
       </div>
       <div className="cm-form-field">
@@ -163,6 +212,7 @@ const SignUp = (props) => {
           onClick={handleSubmit}
           className="cm-fw-btn"
           size="large"
+          disabled={passError}
         >
           Sign Up
         </ButtonWrapper>

@@ -12,6 +12,7 @@ import {
   updateExpenseCategory,
 } from '../../redux/expense/expense.action';
 import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
+import { loaderStart } from '../../utils/utilFn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,8 @@ const AddExpenseCategory = (props) => {
       categoryValue: slugify(data.categoryName),
       categoryId: initialValues._id,
     };
+
+    update ? loaderStart(dispatch, 'default', 'Updating Expense Category'): loaderStart(dispatch, 'default', 'Adding Expense Category');
 
     update
       ? dispatch(updateExpenseCategory(dataToDispatch))

@@ -306,3 +306,14 @@
     }
   }
 }
+
+.cm-not-present {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #999;
+}
+
+#root .cm-error-msg {
+  color: #f44336;
+}

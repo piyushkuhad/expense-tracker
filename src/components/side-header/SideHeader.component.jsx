@@ -21,6 +21,7 @@ import logo from '../../assets/images/Expensum-icon-dark.png';
 //import logo from '../../assets/images/Expensum-Logo.png';
 // import whiteLogo from '../../assets/images/Expensum-Logo-White.png';
 import { logout } from '../../redux/user/user.actions';
+import { loaderStart } from '../../utils/utilFn';
 
 const SideHeader = () => {
   //Fetch user from state
@@ -40,6 +41,11 @@ const SideHeader = () => {
 
     setOpen(false);
   };
+
+  const handleLogout = () => {
+    loaderStart(dispatch, 'default', 'Logging Out');
+    dispatch(logout());
+  }
 
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -183,7 +189,7 @@ const SideHeader = () => {
                       >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                         <MenuItem onClick={handleClose}>Settings</MenuItem>
-                        <MenuItem onClick={() => dispatch(logout())}>
+                        <MenuItem onClick={handleLogout}>
                           Logout
                         </MenuItem>
                       </MenuList>

@@ -57,7 +57,9 @@ const ContentDialog = (props) => {
           <DialogTitle id="form-dialog-title">{dialogTitle}</DialogTitle>
         )}
         <DialogContent>
-          <DialogContentText>{props.children}</DialogContentText>
+          <DialogContentText color="primary">
+            {props.children}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button

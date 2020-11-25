@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import NewDatePickerRange from '../date-picker/NewDatePickerRange.component';
 import { createBudget } from '../../redux/budget/budget.actions';
+import { toISOFormat } from '../../utils/dateMethods';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,8 @@ const CreateBudget = (props) => {
     //console.log(data);
     const dataToDispatch = {
       budgetName: data.budgetName,
-      budgetStartDate: data.budgetDateRange.startVal,
-      budgetEndDate: data.budgetDateRange.endVal,
+      budgetStartDate: toISOFormat(data.budgetDateRange.startVal),
+      budgetEndDate: toISOFormat(data.budgetDateRange.endVal),
     };
     dispatch(createBudget(dataToDispatch));
     props.onSubmit(data);

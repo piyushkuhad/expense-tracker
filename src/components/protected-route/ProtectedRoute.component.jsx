@@ -9,7 +9,7 @@ const ProtectedRoute = (props) => {
   const isAuthenticated = Object.keys(user).length === 0 ? false : true;
 
   return isAuthenticated ? (
-    <Component />
+    <Component {...props} />
   ) : (
     <Redirect to={{ pathname: '/auth' }} />
   );

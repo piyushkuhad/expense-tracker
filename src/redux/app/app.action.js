@@ -5,6 +5,16 @@ export const dateFilter = (dateObj) => ({
   payload: dateObj,
 });
 
+export const loaderActive = (status) => ({
+  type: appTypes.LOADER_START,
+  payload: status,
+});
+
+export const loaderInActive = (status) => ({
+  type: appTypes.LOADER_STOP,
+  payload: status,
+});
+
 export const showError = (data) => ({
   type: appTypes.INFO_ERROR,
   payload: data,
