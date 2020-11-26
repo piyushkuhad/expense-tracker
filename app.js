@@ -74,6 +74,14 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
+//Data Sanitization against noSQL query injection
+//app.use(mongoSanitize());
+
+//Mounting Router
+app.use('/api/v1/budget', budgetRouter);
+app.use('/api/v1/category', categoryRouter);
+app.use('/api/v1/user', userInfoRouter);
+
 //If Production then serve from build
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -82,14 +90,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
-
-//Data Sanitization against noSQL query injection
-//app.use(mongoSanitize());
-
-//Mounting Router
-app.use('/api/v1/budget', budgetRouter);
-app.use('/api/v1/category', categoryRouter);
-app.use('/api/v1/user', userInfoRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
