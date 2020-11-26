@@ -19,3 +19,5 @@ export const getReqOptions = (tk) => ({
     'Content-Type': 'application/json',
   },
 });
+
+export const api_url = 'http://127.0.0.1:4000';

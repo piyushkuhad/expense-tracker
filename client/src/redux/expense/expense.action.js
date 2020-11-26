@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getReqOptions } from '../../utils/apiInfo';
+import { api_url, getReqOptions } from '../../utils/apiInfo';
 import { loaderStop } from '../../utils/utilFn';
 import { budgetTypes } from '../budget/budget.types';
 
@@ -24,7 +24,7 @@ export const addExpenseCategory = (data) => async (dispatch, getState) => {
     const idString = `${budgetId}/category/expense`;
 
     const res = await axios.post(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       dataToSend,
       getReqOptions(_tk)
     );
@@ -52,7 +52,7 @@ export const deleteExpenseCategory = (data) => async (dispatch, getState) => {
     const idString = `${budgetId}/category/expense/${categoryId}`;
 
     const res = await axios.delete(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       getReqOptions(_tk)
     );
 
@@ -83,7 +83,7 @@ export const updateExpenseCategory = (data) => async (dispatch, getState) => {
     const idString = `${budgetId}/category/expense/${categoryId}`;
 
     const res = await axios.patch(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       dataToSend,
       getReqOptions(_tk)
     );
@@ -118,7 +118,7 @@ export const updateExpenseSubCategory = (data) => async (
     console.log('idString', idString);
 
     const res = await axios.patch(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       data,
       getReqOptions(_tk)
     );
@@ -148,7 +148,7 @@ export const addExpenseSubCategory = (data) => async (dispatch, getState) => {
     console.log('addExpenseSubCategory', dataToSend, idString);
 
     const res = await axios.post(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       dataToSend,
       getReqOptions(_tk)
     );
@@ -181,7 +181,7 @@ export const deleteExpenseSubCategory = (data) => async (
     //console.log('deleteExpenseSubCategory', data, idString);
 
     const res = await axios.delete(
-      `http://127.0.0.1:4000/api/v1/budget/${idString}`,
+      `${api_url}/api/v1/budget/${idString}`,
       getReqOptions(_tk)
     );
 

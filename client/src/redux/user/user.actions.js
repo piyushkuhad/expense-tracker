@@ -4,19 +4,16 @@ import axios from 'axios';
 import history from '../../history';
 import { persistor } from '../store';
 import { loaderStop } from '../../utils/utilFn';
+import { api_url } from '../../utils/apiInfo';
 
 axios.defaults.withcredentials = true;
 
 export const signIn = (data) => async (dispatch, getState) => {
   try {
-    const res = await axios.post(
-      'http://127.0.0.1:4000/api/v1/user/login',
-      data,
-      {
-        withCredentials: true,
-        headers: { 'Access-Control-Allow-Credentials': true },
-      }
-    );
+    const res = await axios.post(`${api_url}/api/v1/user/login`, data, {
+      withCredentials: true,
+      headers: { 'Access-Control-Allow-Credentials': true },
+    });
     console.log('User', res);
 
     let result = {};
@@ -55,14 +52,10 @@ export const signIn = (data) => async (dispatch, getState) => {
 
 export const signUp = (data) => async (dispatch, getState) => {
   try {
-    const res = await axios.post(
-      'http://127.0.0.1:4000/api/v1/user/signup',
-      data,
-      {
-        withCredentials: true,
-        headers: { 'Access-Control-Allow-Credentials': true },
-      }
-    );
+    const res = await axios.post(`${api_url}/api/v1/user/signup`, data, {
+      withCredentials: true,
+      headers: { 'Access-Control-Allow-Credentials': true },
+    });
     console.log('User', res);
 
     let result = {};
@@ -102,7 +95,7 @@ export const signUp = (data) => async (dispatch, getState) => {
 
 export const logout = () => async (dispatch, getState) => {
   try {
-    const res = await axios.get('http://127.0.0.1:4000/api/v1/user/logout', {
+    const res = await axios.get(`${api_url}/api/v1/user/logout`, {
       withCredentials: true,
     });
 

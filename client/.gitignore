@@ -2,12 +2,8 @@
 
 # dependencies
 /node_modules
-/client/node_modules
 /.pnp
 .pnp.js
-
-# test data
-/dev-data
 
 # testing
 /coverage
@@ -21,8 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-/client/utils/apiInfo.js
-*.env
+/utils/apiInfo.js
 
 npm-debug.log*
 yarn-debug.log*

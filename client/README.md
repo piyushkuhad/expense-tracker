@@ -3,9 +3,9 @@
 - [x] Budget
 
   - [x] CREATE
-  - [ ] READ
-  - [ ] UPDATE
-  - [ ] DELETE
+  - [x] READ
+  - [x] UPDATE
+  - [x] DELETE
 
 - [x] Revenue
 
@@ -16,9 +16,7 @@
 
   - [x] Add Expense Category
   - [x] Add Expense Sub-Category
-  - [ ] CRUD
-
-- [x] Filter Expense within custom date range
+  - [x] CRUD
 
 - [ ] Graphical Representation of Data
 

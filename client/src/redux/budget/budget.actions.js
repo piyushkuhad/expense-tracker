@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { budgetTypes } from './budget.types';
-import { getReqOptions } from '../../utils/apiInfo';
+import { api_url, getReqOptions } from '../../utils/apiInfo';
 import history from '../../history';
 import { loaderStop } from '../../utils/utilFn';
 import { appTypes } from '../app/app.types';
@@ -27,7 +27,7 @@ export const selectedBudget = (budgetId) => async (dispatch, getState) => {
     } else {
       const _tk = getState().user._atk;
       const res = await axios.get(
-        `http://127.0.0.1:4000/api/v1/budget/${budgetId}`,
+        `${api_url}/api/v1/budget/${budgetId}`,
         getReqOptions(_tk)
       );
 
@@ -48,7 +48,7 @@ export const getAllBudgets = (queryParam) => async (dispatch, getState) => {
   const query = queryParam === undefined ? '' : `?fields=${queryParam}`;
   try {
     const res = await axios.get(
-      `http://127.0.0.1:4000/api/v1/budget${query}`,
+      `${api_url}/api/v1/budget${query}`,
       getReqOptions(_tk)
     );
 
@@ -109,7 +109,7 @@ export const createBudgetRequest = () => async (dispatch, getState) => {
     console.log('dataToSend', dataToSend);
 
     const res = await axios.post(
-      `http://127.0.0.1:4000/api/v1/budget`,
+      `${api_url}/api/v1/budget`,
       dataToSend,
       getReqOptions(_tk)
     );
@@ -131,7 +131,7 @@ export const createBudgetRequest = () => async (dispatch, getState) => {
     loaderStop(dispatch);
   }
 
-  // const response = await fetch('http://127.0.0.1:4000/api/v1/budget', {
+  // const response = await fetch(`${api_url}/api/v1/budget`, {
   //   method: 'POST',
   //   headers: {
   //     'Content-Type': 'application/json;charset=utf-8',
@@ -153,7 +153,7 @@ export const deleteBudget = (budgetId) => async (dispatch, getState) => {
   try {
     const _tk = getState().user._atk;
     const res = await axios.delete(
-      `http://127.0.0.1:4000/api/v1/budget/${budgetId}`,
+      `${api_url}/api/v1/budget/${budgetId}`,
       getReqOptions(_tk)
     );
 
