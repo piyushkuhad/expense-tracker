@@ -42,7 +42,8 @@ app.options(
 app.use(function (req, res, next) {
   //console.log('Req Heraders', req.headers);
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+  //res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+  res.setHeader('Access-Control-Allow-Origin', process.env.APP_URL);
 
   // Request methods you wish to allow
   res.setHeader(
