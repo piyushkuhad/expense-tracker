@@ -5,7 +5,7 @@
     "node": "12.x",
     "yarn": "1.x"
   },
-  "private": true,
+  "private": false,
   "proxy": "http://127.0.0.1:4000",
   "dependencies": {
     "@date-io/date-fns": "1.x",
