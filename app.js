@@ -30,7 +30,8 @@ const app = express();
 app.options(
   '*',
   cors({
-    origin: 'http://127.0.0.1:3000',
+    //origin: 'http://127.0.0.1:3000',
+    origin: process.env.APP_URL,
     //preflightContinue: true,
     credentials: true,
     //exposedHeaders: ['Set-Cookie'],
