@@ -1,3 +1,5 @@
+@import '../../../utils/breakPoints.scss';
+
 .cm-budget-info-container {
   width: 100%;
 
@@ -55,6 +57,73 @@
 
     h2 {
       text-align: center;
+    }
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-budget-info-container {
+    .cm-budget-header {
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      position: relative;
+
+      h2 {
+        font-size: 14px;
+        font-weight: 600;
+        width: calc(100% - 50px);
+
+        span {
+          font-size: 18px;
+          display: block;
+          font-weight: 700;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .cm-budget-filter {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .cm-account-menu {
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          .cm-menu-ul > li > .MuiButtonBase-root {
+            padding: 6px;
+          }
+
+          .MuiSvgIcon-root {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+
+    .cm-budget-row1 {
+      .cm-row-fluid {
+        flex-wrap: wrap;
+
+        & > .cm-content {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          padding-top: 40px;
+
+          p {
+            font-size: 15px;
+          }
+        }
+
+        .cm-color-legend-container {
+          padding-right: 15px;
+        }
+      }
     }
   }
 }

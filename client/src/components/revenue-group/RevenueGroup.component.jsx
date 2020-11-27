@@ -41,6 +41,8 @@ const RevenueGroup = ({ date, categoryArr }) => {
     );
   };
 
+  const isPhone = window.innerWidth < 480;
+
   return (
     <div className="cm-revenue-group-container">
       <div className="cm-revenue-date cm-flex-type-1">
@@ -52,12 +54,20 @@ const RevenueGroup = ({ date, categoryArr }) => {
             <Avatar alt="Revenue" src={income} />
             <div className="cm-revenue-item-content cm-flex-type-1">
               <div className="cm-col cm-col1">
+                {isPhone ? (
+                  <p className="cm-categ-amt">{`${currency} ${currencyFormat(
+                    el.categoryAmount
+                  )}`}</p>
+                ) : null}
                 <p>{el.categoryName}</p>
               </div>
               <div className="cm-col cm-col2 cm-flex-type-1">
-                <p className="cm-categ-amt">{`${currency} ${currencyFormat(
-                  el.categoryAmount
-                )}`}</p>
+                {isPhone ? null : (
+                  <p className="cm-categ-amt">{`${currency} ${currencyFormat(
+                    el.categoryAmount
+                  )}`}</p>
+                )}
+
                 <IconButton
                   aria-label="delete"
                   className="cm-edit-income-btn"

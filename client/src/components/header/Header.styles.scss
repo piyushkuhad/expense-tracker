@@ -1,3 +1,5 @@
+@import '../../utils/breakPoints.scss';
+
 .cm-header-container {
   position: absolute;
   width: 100%;
@@ -41,6 +43,19 @@
 
     & > ul > li + li {
       margin-left: 10px;
+    }
+  }
+}
+
+@media (max-width: $bp2) {
+  .cm-header-container {
+    .cm-header-logo {
+      width: 100%;
+      text-align: center;
+    }
+
+    .cm-header-menu-container {
+      display: none;
     }
   }
 }

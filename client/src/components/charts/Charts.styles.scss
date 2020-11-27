@@ -1,3 +1,5 @@
+@import '../../utils/breakPoints.scss';
+
 .label-top {
   font-size: 28px;
   font-weight: 700;
@@ -8,4 +10,14 @@
   font-weight: 600;
   text-transform: uppercase;
   transform: translateY(10px);
+}
+
+@media (max-width: $bp4) {
+  .label-top {
+    font-size: 24px;
+  }
+
+  .label-bottom {
+    font-size: 16px;
+  }
 }

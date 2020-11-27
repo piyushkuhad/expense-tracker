@@ -1,4 +1,4 @@
-import { loaderActive, loaderInActive } from "../redux/app/app.action";
+import { loaderActive, loaderInActive } from '../redux/app/app.action';
 
 export const dialogToggle = (currentState, stateSetter) => {
   return stateSetter(!currentState);
@@ -29,18 +29,31 @@ export const grpCategByDate = (arr) => {
   return groupArrays;
 };
 
-export const loaderStart = (dispatch, loaderType, loaderText) => {
-  const loaderObj = { 
-    status: true, 
-    type: loaderType ? loaderType : 'default', 
-    loaderText: loaderText ? loaderText : undefined 
+export const greetMsg = () => {
+  var today = new Date();
+  var curHr = today.getHours();
+
+  if (curHr < 12) {
+    return 'Good Morning';
+  } else if (curHr < 18) {
+    return 'Good Afternoon';
+  } else {
+    return 'Good Evening';
   }
-  return dispatch(loaderActive(loaderObj))
-}
+};
+
+export const loaderStart = (dispatch, loaderType, loaderText) => {
+  const loaderObj = {
+    status: true,
+    type: loaderType ? loaderType : 'default',
+    loaderText: loaderText ? loaderText : undefined,
+  };
+  return dispatch(loaderActive(loaderObj));
+};
 
 export const loaderStop = (dispatch) => {
-  const loaderObj = { 
-    status: false, 
-  }
-  return dispatch(loaderInActive(loaderObj))
-}
+  const loaderObj = {
+    status: false,
+  };
+  return dispatch(loaderInActive(loaderObj));
+};

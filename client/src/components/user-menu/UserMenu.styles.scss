@@ -1,0 +1,16 @@
+@import '../../utils/breakPoints.scss';
+
+.cm-menu-ul > li {
+  font-size: 14px;
+
+  & > div {
+    z-index: 9;
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-menu-ul li.MuiListItem-root {
+    font-size: 14px;
+    min-height: unset;
+  }
+}

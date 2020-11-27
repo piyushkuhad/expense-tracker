@@ -1,0 +1,11 @@
+.cm-app-bar-container {
+  .MuiIconButton-label {
+    flex-wrap: wrap;
+
+    & > span {
+      display: block;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+}

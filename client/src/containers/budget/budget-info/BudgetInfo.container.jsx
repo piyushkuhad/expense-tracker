@@ -15,9 +15,10 @@ import {
   selectedBudget,
 } from '../../../redux/budget/budget.actions';
 import DonutChart from '../../../components/charts/DonutChart.component';
-import { currencyFormat, loaderStart } from '../../../utils/utilFn';
+import { currencyFormat, greetMsg, loaderStart } from '../../../utils/utilFn';
 import ColorLegend from '../../../components/charts/ColorLegend.component';
 import history from '../../../history';
+import UserMenu from '../../../components/user-menu/UserMenu.component';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -32,6 +33,7 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const currentUser = useSelector((state) => state.user.user);
   const budgetNames = useSelector((state) => state.budget.budgetSnippetData);
   const currency = useSelector((state) => state.user.currency.symbol);
 
@@ -84,7 +86,7 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
     { name: 'Expense', value: expenseTotal },
     {
       name: 'Available',
-      value: available,
+      value: available > 0 ? available : 0,
     },
   ];
   const chartColors = ['#4caf50', '#f44336', '#e6e6e6'];
@@ -92,7 +94,14 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
   return (
     <div className="cm-budget-info-container">
       <div className="cm-budget-header cm-flex-type-1">
-        <h2>Home</h2>
+        {window.innerWidth > 768 ? (
+          <h2>Home</h2>
+        ) : (
+          <h2>
+            {greetMsg()},<span>{currentUser.fullName}</span>
+          </h2>
+        )}
+
         <div className="cm-budget-filter cm-flex-type-1">
           <FormControl className={classes.formControl}>
             <Select
@@ -115,26 +124,30 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
               )}
             </Select>
           </FormControl>
-          <div className="cm-add-budget-btn">
-            <Tooltip title="Create new Budget" placement="right">
-              <Fab
-                color="primary"
-                aria-label="Create new Budget"
-                component={Link}
-                to="/create-budget"
-                variant="round"
-                className="cm-button-link"
-                size="small"
-              >
-                <AddIcon />
-              </Fab>
-            </Tooltip>
-          </div>
+          {window.innerWidth > 768 ? (
+            <div className="cm-add-budget-btn">
+              <Tooltip title="Create new Budget" placement="right">
+                <Fab
+                  color="primary"
+                  aria-label="Create new Budget"
+                  component={Link}
+                  to="/create-budget"
+                  variant="round"
+                  className="cm-button-link"
+                  size="small"
+                >
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            </div>
+          ) : (
+            <UserMenu size="large" />
+          )}
         </div>
       </div>
       <div className="cm-budget-row1 cm-widget-container box-shadow-2">
         <div className="cm-row-fluid cm-flex-type-1">
-          <div className="cm-col-half cm-content">
+          <div className="cm-col-half cm-content cm-sm-full">
             <h3>Budget</h3>
             <ColorLegend legendColor="#4caf50">
               <p>
@@ -152,12 +165,14 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
             <ColorLegend legendColor="#e6e6e6">
               <p>
                 Available:
-                <span>{`${currency} ${currencyFormat(available)}`}</span>
+                <span>{`${currency} ${
+                  available > 0 ? currencyFormat(available) : 0
+                }`}</span>
               </p>
             </ColorLegend>
           </div>
           <div
-            className="cm-col-half cm-chart cm-flex-type-2"
+            className="cm-col-half cm-chart cm-flex-type-2 cm-sm-full"
             style={{ height: 250 }}
           >
             <DonutChart
@@ -170,22 +185,24 @@ const BudgetInfo = ({ budgetValuesData, selectBudgetId }) => {
           </div>
         </div>
       </div>
-      <div className="cm-col-divider cm-budget-row2">
-        <div className="cm-row-fluid cm-flex-type-1">
-          <div className="cm-col-half cm-widget-container box-shadow-2">
-            <h4>Disposable Income</h4>
-            <h2 style={{ color: '#4caf50' }}>{`${currency} ${currencyFormat(
-              revenueTotal
-            )}`}</h2>
-          </div>
-          <div className="cm-col-half cm-widget-container box-shadow-2">
-            <h4>Total Expenses</h4>
-            <h2 style={{ color: '#f44336' }}>{`${currency} ${currencyFormat(
-              expenseTotal
-            )}`}</h2>
+      {window.innerWidth > 1024 ? (
+        <div className="cm-col-divider cm-budget-row2">
+          <div className="cm-row-fluid cm-flex-type-1">
+            <div className="cm-col-half cm-widget-container box-shadow-2">
+              <h4>Disposable Income</h4>
+              <h2 style={{ color: '#4caf50' }}>{`${currency} ${currencyFormat(
+                revenueTotal
+              )}`}</h2>
+            </div>
+            <div className="cm-col-half cm-widget-container box-shadow-2">
+              <h4>Total Expenses</h4>
+              <h2 style={{ color: '#f44336' }}>{`${currency} ${currencyFormat(
+                expenseTotal
+              )}`}</h2>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };

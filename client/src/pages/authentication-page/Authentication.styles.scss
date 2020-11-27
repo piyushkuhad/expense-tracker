@@ -1,3 +1,5 @@
+@import '../../utils/breakPoints.scss';
+
 .cm-full-bg {
   width: 60%;
 
@@ -51,5 +53,61 @@
     font-size: 35px;
     text-align: center;
     padding-bottom: 20px;
+  }
+}
+
+@media (max-width: $bp1) {
+  .cm-form-wrapper {
+    h1 {
+      font-size: 35px;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+  }
+}
+
+@media (max-width: $bp2) {
+  .cm-authentication-container {
+    background: linear-gradient(to right, #2c3e50, #bdc3c7);
+
+    &:after {
+      content: none;
+    }
+
+    .cm-full-bg {
+      position: fixed;
+      top: 50%;
+      left: calc(50% + 60px);
+      transform: translate(-50%, -50%);
+      opacity: 0.4;
+    }
+
+    .cm-form-wrapper {
+      position: relative;
+      z-index: 9;
+
+      .MuiFormLabel-root {
+        color: #000;
+        font-weight: 700;
+      }
+
+      input {
+        box-shadow: none !important;
+      }
+
+      .MuiInputBase-root {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .cm-error-msg {
+        background: rgba(255, 0, 0, 0.6);
+        padding: 2px 5px;
+        border-radius: 5px;
+        text-align: center;
+        color: #fff !important;
+      }
+    }
   }
 }

@@ -54,6 +54,11 @@ export const getAllBudgets = (queryParam) => async (dispatch, getState) => {
 
     console.log('Data: ', res);
 
+    //Check if no budget then push to create-budget
+    if (res.data.data.data.length === 0) {
+      history.push('/create-budget');
+    }
+
     loaderStop(dispatch);
 
     if (queryParam) {
@@ -130,23 +135,6 @@ export const createBudgetRequest = () => async (dispatch, getState) => {
     console.log(err.request);
     loaderStop(dispatch);
   }
-
-  // const response = await fetch(`${api_url}/api/v1/budget`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json;charset=utf-8',
-  //   },
-  //   body: JSON.stringify(createBudgetData),
-  // });
-
-  // const result = await response.json();
-
-  // dispatch({
-  //   type: budgetTypes.CREATE_BUDGET_REQUEST,
-  //   payload: result.data,
-  // });
-
-  // history.push('/');
 };
 
 export const deleteBudget = (budgetId) => async (dispatch, getState) => {

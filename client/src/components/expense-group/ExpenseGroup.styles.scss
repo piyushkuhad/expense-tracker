@@ -1,3 +1,6 @@
+@import '../../utils/color_variables.scss';
+@import '../../utils/breakPoints.scss';
+
 .cm-expense-group-container {
   margin-bottom: 20px;
 
@@ -22,7 +25,7 @@
 
   .cm-expense-header {
     text-align: center;
-    background-color: #e7e7e7;
+    background-color: $lightGray;
     padding: 10px 10px 0;
     border-radius: 5px;
     margin-bottom: 0px;
@@ -76,7 +79,7 @@
       width: 55px;
       height: 55px;
       padding: 10px;
-      background-color: #e7e7e7;
+      background-color: $lightGray;
     }
 
     .cm-sub-categ-data {
@@ -97,7 +100,38 @@
       .cm-sub-categ-amt {
         font-weight: 700;
         font-size: 16px;
-        padding-right: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp1) {
+  .cm-expense-group-container .cm-sub-categ-item > .MuiAvatar-circle {
+    width: 45px;
+    height: 45px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: $bp5) {
+  .cm-expense-group-container {
+    .cm-expense-header .cm-expense-top h4 {
+      font-size: 16px;
+    }
+
+    .cm-expense-info {
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      p {
+        display: flex;
+        align-items: center;
+
+        span {
+          padding-left: 5px;
+        }
       }
     }
   }

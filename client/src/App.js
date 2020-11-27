@@ -11,7 +11,7 @@ import BudgetHome from './pages/budget-home-page/BudgetHome.page';
 import CreateBudgetPage from './pages/create-budget/CreateBudget.page';
 import NewHomePage from './pages/new-home-page/NewHome.page';
 import ProtectedRoute from './components/protected-route/ProtectedRoute.component';
-import { infoReset, loaderInActive } from './redux/app/app.action';
+import { infoReset } from './redux/app/app.action';
 import Loader from './components/loader/Loader.component';
 
 const Alert = (props) => {
@@ -30,15 +30,6 @@ const App = () => {
   }
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (Object.keys(currentUser).length !== 0) {
-      if (currentUser.budget.length === 0) {
-        history.push('/create-budget');
-        dispatch(loaderInActive({ status: false }));
-      }
-    }
-  }, [currentUser, dispatch]);
 
   //const nullObj = { message: null, infoType: null };
 

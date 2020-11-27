@@ -41,11 +41,18 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
     );
   };
 
+  const isPhone = window.innerWidth < 480;
+
   return (
     <div className="cm-expense-category-item-container cm-sub-categ-item cm-flex-type-2">
       <Avatar alt="Expense" src={expense} />
       <div className="cm-sub-categ-data cm-flex-type-1">
         <div className="cm-col cm-col1">
+          {isPhone ? (
+            <p className="cm-sub-categ-amt">{`${currency} ${currencyFormat(
+              expenseCategoryData.subCategoryAmount
+            )}`}</p>
+          ) : null}
           <p>{expenseCategoryData.subCategoryName}</p>
           <p className="cm-sub-categ-date">
             {moment(expenseCategoryData.transactionDate).format(
@@ -54,9 +61,12 @@ const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
           </p>
         </div>
         <div className="cm-col cm-col2 cm-flex-type-1">
-          <p className="cm-sub-categ-amt">{`${currency} ${currencyFormat(
-            expenseCategoryData.subCategoryAmount
-          )}`}</p>
+          {isPhone ? null : (
+            <p className="cm-sub-categ-amt">{`${currency} ${currencyFormat(
+              expenseCategoryData.subCategoryAmount
+            )}`}</p>
+          )}
+
           <IconButton
             aria-label="delete"
             className="cm-edit-expense-btn"

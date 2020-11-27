@@ -1,9 +1,12 @@
+@import '../../utils/color_variables.scss';
+@import '../../utils/breakPoints.scss';
+
 .cm-revenue-group-container {
   margin-bottom: 25px;
 
   .cm-revenue-date {
     text-align: center;
-    background-color: #e7e7e7;
+    background-color: $lightGray;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -22,7 +25,7 @@
       width: 55px;
       height: 55px;
       padding: 10px;
-      background-color: #e7e7e7;
+      background-color: $lightGray;
     }
 
     .cm-revenue-item-content {
@@ -38,6 +41,36 @@
 
     & + .cm-revenue-item {
       margin-top: 15px;
+    }
+  }
+}
+
+@media (max-width: $bp1) {
+  .cm-revenue-group-container .cm-revenue-item .MuiAvatar-circle {
+    width: 45px;
+    height: 45px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-revenue-group-container {
+    .cm-revenue-item {
+      padding: 0;
+    }
+
+    .cm-revenue-date p {
+      font-size: 14px;
+    }
+
+    .cm-revenue-item .cm-revenue-item-content {
+      padding-left: 0;
+
+      .cm-col1 {
+        p {
+          margin: 0;
+        }
+      }
     }
   }
 }

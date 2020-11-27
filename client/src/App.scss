@@ -1,4 +1,5 @@
 @import './utils/color_variables.scss';
+@import './utils/breakPoints.scss';
 
 /*----------Scroll Bar-----------*/
 
@@ -11,7 +12,7 @@
 .cm-scroll::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);
   -webkit-border-radius: 10px;
-  background: #e7e7e7;
+  background: $lightGray;
   border-radius: 10px;
 }
 
@@ -58,7 +59,6 @@
 /*------------Button Styles---------------*/
 .cm-primary-btn {
   padding: 15px 25px;
-  background-color: $primaryLight;
   border-radius: 10px;
   color: #fff;
   border: none;
@@ -316,4 +316,16 @@
 
 #root .cm-error-msg {
   color: #f44336;
+}
+
+@media (max-width: $bp4) {
+  .cm-sm-full {
+    width: 100%;
+  }
+
+  .cm-main-container {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 50px;
+  }
 }

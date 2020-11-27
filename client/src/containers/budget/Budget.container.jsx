@@ -32,7 +32,11 @@ const BudgetContainer = (props) => {
             selectBudgetId={selectBudgetId}
           />
         </div>
-        <div className="cm-col cm-col2 box-shadow-1">
+        <div
+          className={`cm-col cm-col2 ${
+            window.innerWidth > 1024 ? 'box-shadow-1' : 'box-shadow-2'
+          }`}
+        >
           <CategoriesInfo data={budgetValues} />
         </div>
       </div>
