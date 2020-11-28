@@ -1,5 +1,5 @@
 @import '../../../utils/color_variables.scss';
-//@import '../../../utils/breakPoints.scss';
+@import '../../../utils/breakPoints.scss';
 
 .cm-categories-info-container {
   .MuiAppBar-colorPrimary {
@@ -37,5 +37,13 @@
 
   .MuiTabs-indicator {
     background-color: #000;
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-categories-info-container {
+    .cm-scroll {
+      max-height: none;
+    }
   }
 }

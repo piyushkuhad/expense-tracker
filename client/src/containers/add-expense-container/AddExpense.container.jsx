@@ -74,7 +74,7 @@ const AddExpenseContainer = () => {
               setAddExpenseOpen(true);
             }}
           >
-            Add
+            Add Expense
           </Button>
         </div>
 

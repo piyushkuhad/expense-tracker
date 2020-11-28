@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 
 import './AppBarMenu.styles.scss';
 
+const isPhone = window.innerWidth < 480;
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     top: 'auto',
@@ -27,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
   fabButton: {
     position: 'absolute',
     zIndex: 1,
-    top: -30,
+    top: isPhone ? -20 : -30,
     left: 0,
-    right: 0,
+    right: isPhone ? 10 : 0,
     margin: '0 auto',
     backgroundColor: '#03A9F4 !important',
   },
@@ -76,6 +78,7 @@ const AppBarMenu = () => {
             aria-label="Create new Budget"
             component={Link}
             to="/create-budget"
+            size={isPhone ? 'small' : 'medium'}
           >
             <AddIcon />
           </Fab>

@@ -1,3 +1,5 @@
+@import '../../utils/breakPoints.scss';
+
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -55,5 +57,38 @@ input:-webkit-autofill::first-line {
     position: absolute;
     right: 0;
     top: 15px;
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-form-container {
+    .cm-form-field-half {
+      display: block;
+
+      & > .cm-form-field {
+        width: 100%;
+      }
+
+      & > .cm-form-field:first-child {
+        margin-right: 0;
+      }
+
+      & > .cm-form-field:last-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-form-container {
+    .cm-form-field {
+      margin-bottom: 10px;
+    }
+
+    .MuiInputBase-root,
+    .MuiFormLabel-root {
+      font-size: 14px;
+    }
   }
 }

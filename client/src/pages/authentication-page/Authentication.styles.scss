@@ -87,6 +87,7 @@
     .cm-form-wrapper {
       position: relative;
       z-index: 9;
+      width: 60%;
 
       .MuiFormLabel-root {
         color: #000;
@@ -107,6 +108,46 @@
         border-radius: 5px;
         text-align: center;
         color: #fff !important;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-authentication-container {
+    .cm-full-bg {
+      width: 100%;
+    }
+
+    .cm-form-wrapper {
+      width: 90%;
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp5) {
+  .cm-authentication-container {
+    .page-center {
+      width: 100%;
+    }
+
+    .cm-form-wrapper {
+      width: 100%;
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 22px;
       }
     }
   }

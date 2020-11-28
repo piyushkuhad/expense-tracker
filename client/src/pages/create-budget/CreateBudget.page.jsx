@@ -18,6 +18,8 @@ import {
   createBudgetRequest,
 } from '../../redux/budget/budget.actions';
 import { loaderStart } from '../../utils/utilFn';
+import Header from '../../components/header/Header.component';
+import history from '../../history';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,7 +132,8 @@ const CreateBudgetPage = () => {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep > 0) setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    else history.goBack();
   };
 
   const handleSkip = () => {
@@ -159,74 +162,77 @@ const CreateBudgetPage = () => {
   };
 
   return (
-    <div className={`${classes.root} cm-create-budget-page-container`}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+    <>
+      <Header />
+      <div className={`${classes.root} cm-create-budget-page-container`}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepOptional(index)) {
+              labelProps.optional = (
+                <Typography variant="caption">Optional</Typography>
+              );
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
             );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <div className={`${classes.instructions} cm-form-wrapper`}>
-              {getStepContent(activeStep)}
-            </div>
+          })}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
             <div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
+              <Typography className={classes.instructions}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={handleReset} className={classes.button}>
+                Reset
               </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )}
-              {activeStep === 0 ? null : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={activeStep === 2 ? handleFinish : handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              )}
             </div>
-          </div>
-        )}
+          ) : (
+            <div>
+              <div className={`${classes.instructions} cm-form-wrapper`}>
+                {getStepContent(activeStep)}
+              </div>
+              <div>
+                <Button
+                  //disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.button}
+                >
+                  Back
+                </Button>
+                {isStepOptional(activeStep) && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
+                  </Button>
+                )}
+                {activeStep === 0 ? null : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={activeStep === 2 ? handleFinish : handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -82,7 +82,7 @@ exports.createBudget = catchAsync(async (req, res, next) => {
     expenseData: req.body.expenseCategories,
   };
 
-  console.log('Revenue:', req.body.revenueCategories);
+  //console.log('Revenue:', req.body.revenueCategories);
 
   //Creating Revenue and Expense Categories in UserInfo Model
   chkCategoryData(req.user._id, budgetDoc.revenueData, 'revenueCategories');

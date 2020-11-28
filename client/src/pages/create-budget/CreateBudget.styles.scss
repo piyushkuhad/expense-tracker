@@ -1,7 +1,16 @@
+@import '../../utils/breakPoints.scss';
+
+.cm-header-container.dark {
+  .cm-menu-ul .MuiSvgIcon-root {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 .cm-create-budget-page-container {
-  padding: 30px 15px;
+  padding: 100px 15px 30px;
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 90%;
 
   .cm-form-wrapper {
     display: flex;
@@ -41,6 +50,126 @@
     & > img {
       width: 50%;
       padding-left: 15px;
+    }
+  }
+}
+
+@media (max-width: $bp2) {
+  .cm-header-container.dark {
+    .cm-header-menu-container {
+      display: block;
+    }
+  }
+
+  .cm-create-budget-page-container {
+    & > .MuiStepper-root {
+      padding: 12px;
+
+      .MuiStepLabel-root {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    .cm-form-wrapper,
+    .cm-add-revenue-container,
+    .cm-add-expense-container {
+      position: relative;
+      justify-content: center;
+
+      & > form,
+      & > .cm-col-half {
+        width: 70%;
+        position: relative;
+        z-index: 1;
+      }
+
+      & > img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.2;
+        padding: 0;
+      }
+    }
+
+    .cm-add-expense-container > img {
+      max-height: 100%;
+    }
+  }
+}
+
+@media (max-width: $bp4) {
+  .cm-create-budget-page-container {
+    max-width: 100%;
+
+    & > .MuiStepper-root {
+      & > .MuiStep-completed .MuiStepLabel-labelContainer,
+      & .Mui-disabled .MuiStepLabel-labelContainer {
+        display: none;
+      }
+    }
+
+    .cm-form-wrapper,
+    .cm-add-revenue-container,
+    .cm-add-expense-container {
+      padding-right: 0;
+      padding-left: 0;
+
+      .cm-col-header h3 {
+        font-size: 18px;
+      }
+
+      & > form,
+      & > .cm-col-half {
+        width: 90%;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp5) {
+  .cm-header-container.dark {
+    .cm-header-logo {
+      width: auto;
+    }
+  }
+
+  .cm-create-budget-page-container {
+    & > .MuiStepper-root {
+      padding: 10px 5px;
+
+      .MuiStep-horizontal {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+
+      .MuiStepLabel-iconContainer {
+        padding-right: 4px;
+      }
+    }
+
+    .cm-form-wrapper,
+    .cm-add-revenue-container,
+    .cm-add-expense-container {
+      padding-right: 0;
+      padding-left: 0;
+
+      .cm-col-header {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        > h3 {
+          display: none;
+        }
+      }
+
+      & > form,
+      & > .cm-col-half {
+        width: 100%;
+      }
     }
   }
 }

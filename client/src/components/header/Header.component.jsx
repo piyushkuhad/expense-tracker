@@ -66,18 +66,30 @@ const Header = ({ logoType }) => {
           <ul className="cm-menu-ul cm-flex-type-1">
             {currentUser._id ? (
               <>
+                {/* <li>
+                  <Button
+                    component={Link}
+                    to="/create-budget"
+                    variant="text"
+                    color="primary"
+                    //className="cm-button-link"
+                    size="small"
+                  >
+                    Home
+                  </Button>
+                </li>
                 <li>
                   <Button
                     component={Link}
                     to="/create-budget"
-                    variant="contained"
+                    variant="text"
                     color="primary"
-                    className="cm-button-link"
+                    //className="cm-button-link"
                     size="small"
                   >
-                    Create New Budget
+                    Budgets
                   </Button>
-                </li>
+                </li> */}
                 <li>
                   <IconButton
                     color="default"
