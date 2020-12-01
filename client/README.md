@@ -6,6 +6,7 @@
   - [x] READ
   - [x] UPDATE
   - [x] DELETE
+  - [x] Copy Budget to create a new one
 
 - [x] Revenue
 
@@ -16,8 +17,11 @@
 
   - [x] Add Expense Category
   - [x] Add Expense Sub-Category
+  - [x] CRUD Expense Sub-Category
   - [x] CRUD
 
 - [ ] Graphical Representation of Data
 
-- [ ] UI
+- [x] UI
+
+- [x] Make website live
