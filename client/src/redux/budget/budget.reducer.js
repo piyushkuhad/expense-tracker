@@ -153,8 +153,6 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         action.payload._id
       );
 
-      //console.log('updatedSelectedBudgetSubCat', updatedSelectedBudgetSubCat);
-
       return {
         ...state,
         budgetData: updateBudgetData(
@@ -180,8 +178,6 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         action.payload.categoryId
       );
 
-      console.log('updatedSelectedBudgetIncome', updatedSelectedBudgetIncome);
-
       return {
         ...state,
         budgetData: updateBudgetData(
@@ -206,8 +202,6 @@ const createBudgetReducer = (state = INITIAL_STATE, action) => {
         'expense',
         action.payload.categoryId
       );
-
-      console.log('updatedSelectedBudgetExpense', updatedSelectedBudgetExpense);
 
       return {
         ...state,

@@ -40,12 +40,10 @@ const useStyles = makeStyles((theme) => ({
 const CategoryList = ({ listOfCategories, onListClickHandler }) => {
   const classes = useStyles();
 
-  //console.log('listOfCategories', listOfCategories);
-
   const handleListItemClick = (value) => {
     onListClickHandler(value);
   };
-  //[0, 1, 2, 3, 4]
+
   return (
     <List className={classes.root} subheader={<li />}>
       {Object.keys(listOfCategories).map((sectionHeading) => {
@@ -79,23 +77,6 @@ const CategoryList = ({ listOfCategories, onListClickHandler }) => {
         ) : null;
       })}
     </List>
-
-    // <List className="cm-category-list-container">
-    //   {listOfCategories.map((el) => (
-    //     <ListItem
-    //       button
-    //       onClick={() => handleListItemClick(el.categoryName)}
-    //       key={el.id}
-    //     >
-    //       <ListItemAvatar>
-    //         <Avatar className={classes.avatar}>
-    //           <CategoryIcon />
-    //         </Avatar>
-    //       </ListItemAvatar>
-    //       <ListItemText primary={el.categoryName} />
-    //     </ListItem>
-    //   ))}
-    // </List>
   );
 };
 

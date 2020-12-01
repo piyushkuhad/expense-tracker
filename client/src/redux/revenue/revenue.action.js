@@ -10,11 +10,6 @@ export const addRevenue = (data) => ({
   payload: data,
 });
 
-// export const deleteRevenue = (id) => ({
-//   type: revenueTypes.DELETE_REVENUE,
-//   payload: id,
-// });
-
 export const addIncomeCategory = (data) => async (dispatch, getState) => {
   try {
     const _tk = getState().user._atk;

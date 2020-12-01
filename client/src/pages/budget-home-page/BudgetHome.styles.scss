@@ -1,6 +1,16 @@
+@import '../../utils/breakPoints.scss';
+
 .cm-budget-list-container {
   align-items: flex-start;
   justify-content: flex-start;
   padding-right: 25px;
   padding-left: 25px;
+}
+
+@media (max-width: $bp4) {
+  .cm-budget-list-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 10px;
+  }
 }

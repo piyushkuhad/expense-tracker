@@ -26,8 +26,6 @@ const ContentDialog = (props) => {
     dialogSize,
   } = props;
 
-  //console.log('From Compo', dialogOpenHandler);
-
   const [open, setOpen] = React.useState(dialogOpenHandler);
 
   useEffect(() => {

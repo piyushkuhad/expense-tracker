@@ -15,7 +15,6 @@ import {
 import DeleteMenu from '../delete-menu/DeleteMenu.component';
 
 const ExpenseCategoryItem = ({ expenseCategoryData, currency, categoryId }) => {
-  //console.log(expenseCategoryData);
   const dispatch = useDispatch();
 
   const openForm = () => {

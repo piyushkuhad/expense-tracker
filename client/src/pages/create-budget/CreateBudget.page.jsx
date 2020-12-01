@@ -102,7 +102,6 @@ const CreateBudgetPage = () => {
   );
 
   const createBudgetSubmitHandler = (formData) => {
-    //console.log('Got Form Data', formData);
     setCreateBudgetFormData(formData);
     setIsCreateBudgetSubmit(true);
     setActiveStep(1);

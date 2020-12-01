@@ -20,8 +20,6 @@ const DeleteMenu = ({ dispatchFn }) => {
   };
 
   const handleDelete = () => {
-    console.log('Delete');
-
     //Dispatch action to Open Delete Dialog
     dispatch(dispatchFn);
 

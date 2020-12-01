@@ -47,7 +47,6 @@ const SignUp = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('SignUp Data:', values);
 
     const { fullName, email, password, passwordConfirm } = values;
 
@@ -62,8 +61,6 @@ const SignUp = (props) => {
     } else {
       setFormError(false);
     }
-
-    console.log('Run');
 
     if (passError) {
       return;
@@ -85,7 +82,6 @@ const SignUp = (props) => {
   };
 
   const handleClickShowPassword = (fieldName) => {
-    //setValues({ ...values, showPassword: !values.showPassword });
     setValues({ ...values, [fieldName]: !values[fieldName] });
   };
 
@@ -137,10 +133,7 @@ const SignUp = (props) => {
         />
       </div>
       <div className="cm-form-field">
-        <FormControl
-          //className={clsx(classes.margin, classes.textField)}
-          variant="outlined"
-        >
+        <FormControl variant="outlined">
           <InputLabel>Password*</InputLabel>
           <OutlinedInput
             type={values.showPassword ? 'text' : 'password'}
@@ -164,10 +157,7 @@ const SignUp = (props) => {
         </FormControl>
       </div>
       <div className="cm-form-field">
-        <FormControl
-          //className={clsx(classes.margin, classes.textField)}
-          variant="outlined"
-        >
+        <FormControl variant="outlined">
           <InputLabel>Confirm Password*</InputLabel>
           <OutlinedInput
             type={values.showPasswordConfirm ? 'text' : 'password'}

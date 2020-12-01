@@ -8,10 +8,7 @@ import { toISOFormat } from '../../utils/dateMethods';
 const NewDatePicker = (props) => {
   const [selectedDate, setSelectedDate] = useState(props.startVal);
 
-  //console.log(props.dateChangeHandler);
-
   const handleDateChange = (date) => {
-    //console.log(toISOFormat(date));
     props.dateChangeHandler.onChange(toISOFormat(date));
     setSelectedDate(date);
   };

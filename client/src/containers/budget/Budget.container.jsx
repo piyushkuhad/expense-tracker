@@ -21,8 +21,6 @@ const BudgetContainer = (props) => {
     setBudgetValues(selectedBudgetData);
   }, [selectedBudgetData]);
 
-  // console.log('budgetValues', Object.keys(budgetValues).length);
-
   return (
     <div className="cm-budget-container cm-col-divider">
       <div className="cm-row-fluid cm-flex-type-1">

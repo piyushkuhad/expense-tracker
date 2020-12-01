@@ -5,6 +5,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import budgetIcon from '../../assets/images/budget.svg';
+import incomeIcon from '../../assets/images/income.svg';
+import expenseIcon from '../../assets/images/expense.svg';
 
 import './BudgetListItem.styles.scss';
 import { currencyFormat } from '../../utils/utilFn';
@@ -55,27 +58,65 @@ const BudgetListItem = ({
 
   return (
     <div className="cm-budget-list-item cm-flex-type-1">
-      <p className="cm-db-row cm-db-row-1">{data.index}</p>
-      <p className="cm-db-row cm-db-row-2" onClick={() => clickHandler(data)}>
-        {data.budgetName}
-      </p>
-      <p className="cm-db-row cm-db-row-3">
-        {moment(data.budgetStartDate).format('DD MMM YYYY')}
-      </p>
-      <p className="cm-db-row cm-db-row-4">
-        {moment(data.budgetEndDate).format('DD MMM YYYY')}
-      </p>
-      <p className="cm-db-row cm-db-row-5">
-        <span className="cm-currency-symbol">{currency}</span>{' '}
-        {currencyFormat(data.revenueTotal)}
-      </p>
-      <p className="cm-db-row cm-db-row-6">
-        <span className="cm-currency-symbol">{currency}</span>{' '}
-        {currencyFormat(data.expenseTotal)}
-      </p>
-      <p className="cm-db-row cm-db-row-7">
-        {moment(data.createdAt).format('DD MMM YYYY')}
-      </p>
+      {window.innerWidth > 1024 ? (
+        <>
+          <p className="cm-db-row cm-db-row-1">{data.index}</p>
+          <p
+            className="cm-db-row cm-db-row-2"
+            onClick={() => clickHandler(data)}
+          >
+            {data.budgetName}
+          </p>
+          <p className="cm-db-row cm-db-row-3">
+            {moment(data.budgetStartDate).format('DD MMM YYYY')}
+          </p>
+          <p className="cm-db-row cm-db-row-4">
+            {moment(data.budgetEndDate).format('DD MMM YYYY')}
+          </p>
+          <p className="cm-db-row cm-db-row-5">
+            <span className="cm-currency-symbol">{currency}</span>{' '}
+            {currencyFormat(data.revenueTotal)}
+          </p>
+          <p className="cm-db-row cm-db-row-6">
+            <span className="cm-currency-symbol">{currency}</span>{' '}
+            {currencyFormat(data.expenseTotal)}
+          </p>
+          <p className="cm-db-row cm-db-row-7">
+            {moment(data.createdAt).format('DD MMM YYYY')}
+          </p>
+        </>
+      ) : (
+        <div
+          className="cm-mob-budget-list cm-flex-type-1"
+          onClick={() => clickHandler(data)}
+        >
+          <div className="cm-icon-holder">
+            <img src={budgetIcon} alt="budget" />
+          </div>
+          <div className="cm-content-row cm-flex-type-1">
+            <div className="cm-col cm-left-col">
+              <p className="cm-mob-budget-name">{data.budgetName}</p>
+              <p className="cm-mob-budget-date">
+                {moment(data.budgetStartDate).format('DD MMM YYYY')} -{' '}
+                {moment(data.budgetEndDate).format('DD MMM YYYY')}
+              </p>
+            </div>
+            <div className="cm-col cm-right-col">
+              <p className="cm-mob-rev-total">
+                <img src={incomeIcon} alt="Income" />
+                <span className="cm-currency-symbol">{currency}</span>{' '}
+                {currencyFormat(data.revenueTotal)}
+              </p>
+              <p className="cm-mob-exp-total">
+                <img src={expenseIcon} alt="Expense" />
+                <span className="cm-currency-symbol">{currency}</span>{' '}
+                {currencyFormat(data.expenseTotal)}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="cm-db-row cm-budget-list-actions cm-flex-type-2 cm-db-row-8">
         <IconButton
           aria-label="Menu"

@@ -25,6 +25,7 @@ import {
 import ContentDialog from '../../../components/content-dialog/ContentDialog.component';
 import FormDialog from '../../../components/forms/form-dialog/FormDialog.component';
 import CreateBudget from '../../../components/forms/CreateBudget.component';
+import UserMenu from '../../../components/user-menu/UserMenu.component';
 
 const BudgetList = () => {
   const dispatch = useDispatch();
@@ -88,8 +89,6 @@ const BudgetList = () => {
 
   //When Copy button is clicked
   const copyClickHandler = (data) => {
-    //console.log('copyClickHandler', data);
-
     setBudgetDataObj((prevState) => ({
       ...prevState,
       revenueCategories: createCategoryObj(data.revenueData),
@@ -151,8 +150,6 @@ const BudgetList = () => {
 
   //When Copy Budget Dialog Form is submitted
   const createBudgetSubmitHandler = (formData) => {
-    //console.log('createBudgetSubmitHandler', formData);
-
     const dataToDispatch = {
       ...budgetDataObj,
       budgetData: {
@@ -162,7 +159,7 @@ const BudgetList = () => {
       },
     };
 
-    //console.log('Dispatch', dataToDispatch);
+    //Close Dialog
     setTimeout(() => dispatch(closeDialog()), 500);
 
     loaderStart(dispatch, 'default', 'Creating your Budget');
@@ -171,14 +168,12 @@ const BudgetList = () => {
 
   //Handles when Budget Link is clicked
   const linkClickHandler = (data) => {
-    console.log('linkClickHandler', data.budgetName);
     history.push(`/?budget=${data._id}`);
     dispatch(selectedBudget(data._id));
   };
 
   //Calculates total revenue and expense
   const computeBudgetRow = (arr) => {
-    console.log('Arr', arr);
     return arr.map((el) => {
       el['revenueTotal'] =
         el.revenueData.length > 0
@@ -233,32 +228,38 @@ const BudgetList = () => {
       <div className="cm-budget-list-header cm-flex-type-1">
         <h2>Your Budgets</h2>
         <div className="cm-add-budget-btn">
-          <Tooltip title="Create new Budget" placement="right">
-            <Fab
-              color="primary"
-              aria-label="Create new Budget"
-              component={Link}
-              to="/create-budget"
-              variant="round"
-              className="cm-button-link"
-              size="small"
-            >
-              <AddIcon />
-            </Fab>
-          </Tooltip>
+          {window.innerWidth > 768 ? (
+            <Tooltip title="Create new Budget" placement="right">
+              <Fab
+                color="primary"
+                aria-label="Create new Budget"
+                component={Link}
+                to="/create-budget"
+                variant="round"
+                className="cm-button-link"
+                size="small"
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          ) : (
+            <UserMenu size="large" />
+          )}
         </div>
       </div>
       <div className="cm-data-table-wrapper box-shadow-2">
-        <div className="cm-data-table-header cm-flex-type-1">
-          <p className="cm-db-row cm-db-row-1">#</p>
-          <p className="cm-db-row cm-db-row-2">Budget Name</p>
-          <p className="cm-db-row cm-db-row-3">Start Date</p>
-          <p className="cm-db-row cm-db-row-4">End Date</p>
-          <p className="cm-db-row cm-db-row-5">Total Income</p>
-          <p className="cm-db-row cm-db-row-6">Total Expense</p>
-          <p className="cm-db-row cm-db-row-7">Created At</p>
-          <p className="cm-db-row cm-db-row-8">Actions?</p>
-        </div>
+        {window.innerWidth > 1024 ? (
+          <div className="cm-data-table-header cm-flex-type-1">
+            <p className="cm-db-row cm-db-row-1">#</p>
+            <p className="cm-db-row cm-db-row-2">Budget Name</p>
+            <p className="cm-db-row cm-db-row-3">Start Date</p>
+            <p className="cm-db-row cm-db-row-4">End Date</p>
+            <p className="cm-db-row cm-db-row-5">Total Income</p>
+            <p className="cm-db-row cm-db-row-6">Total Expense</p>
+            <p className="cm-db-row cm-db-row-7">Created At</p>
+            <p className="cm-db-row cm-db-row-8">Actions?</p>
+          </div>
+        ) : null}
         <div className="cm-data-table-body">
           {rowData.map((el, index) => (
             <BudgetListItem

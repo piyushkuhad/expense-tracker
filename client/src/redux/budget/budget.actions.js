@@ -124,8 +124,6 @@ export const createBudgetRequest = (budgetData, isCopy) => async (
       throw new Error('Invalid data. Unable to the create budget');
     }
 
-    console.log('dataToSend', dataToSend);
-
     const res = await axios.post(
       `${api_url}/api/v1/budget`,
       dataToSend,

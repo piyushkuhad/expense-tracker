@@ -20,5 +20,5 @@ export const getReqOptions = (tk) => ({
   },
 });
 
-// export const api_url = 'http://127.0.0.1:4000';
-export const api_url = 'https://expensum.herokuapp.com';
+export const api_url = 'http://127.0.0.1:4000';
+// export const api_url = 'https://expensum.herokuapp.com';

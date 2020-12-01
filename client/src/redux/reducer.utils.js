@@ -20,7 +20,6 @@ export const deleteFromList = (list, itemToDeleteId) => {
 };
 
 export const chkUniqueCategory = (arr, data, property) => {
-  //let index = arr.findIndex((el) => el.id === data.id);
   let index = arr.findIndex((el) => el[property] === data[property]);
 
   let resArr = [...arr];
@@ -60,7 +59,6 @@ export const calcTotalExpense = (arr) => {
 };
 
 export const updateBudgetData = (budgetData, updatedBudgetItem) => {
-  //const filteredBudget = budgetData.filter((el) => el._id === budgetId);
   const budgetIndex = budgetData.findIndex(
     (el) => el._id === updatedBudgetItem._id
   );
@@ -85,17 +83,11 @@ export const deleteMainCategory = (data, catType, catId) => {
 export const deleteSubCategory = (data, catId, subCatId) => {
   let catIndex = data.expenseData.findIndex((el) => el._id === catId);
 
-  //console.log('catIndex', catIndex);
-
   let subCatItem = data.expenseData[catIndex].subcategoryData.filter(
     (el) => el._id !== subCatId
   );
 
-  //console.log('subCatItem', subCatItem);
-
   data.expenseData[catIndex].subcategoryData = subCatItem;
-
-  //console.log('Final', data);
 
   return data;
 };

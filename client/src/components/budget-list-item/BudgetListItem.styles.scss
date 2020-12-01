@@ -1,3 +1,5 @@
+@import '../../utils/breakPoints.scss';
+
 .cm-budget-list-item {
   .cm-db-row-2 {
     cursor: pointer;
@@ -5,6 +7,91 @@
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: $bp2) {
+  .cm-budget-list-item {
+    .cm-mob-budget-list {
+      width: 100%;
+      padding-right: 40px;
+      cursor: pointer;
+
+      p {
+        margin: 0;
+      }
+
+      .cm-icon-holder {
+        width: 32px;
+      }
+
+      .cm-content-row {
+        width: calc(100% - 32px);
+        padding-left: 10px;
+      }
+
+      .cm-icon-holder img {
+        width: 100%;
+      }
+
+      .cm-content-row img {
+        width: 25px;
+        margin-right: 5px;
+      }
+
+      .cm-mob-budget-name {
+        padding-bottom: 5px;
+      }
+
+      .cm-mob-budget-date {
+        font-size: 12px;
+        font-weight: normal;
+      }
+
+      .cm-col.cm-right-col {
+        padding-left: 10px;
+
+        & > p {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .cm-mob-rev-total {
+        padding-bottom: 10px;
+      }
+    }
+
+    .cm-budget-list-actions .MuiIconButton-sizeSmall {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: $bp5) {
+  .cm-budget-list-item {
+    .cm-mob-budget-list {
+      padding-right: 30px;
+
+      .cm-icon-holder {
+        width: 25px;
+      }
+
+      .cm-content-row {
+        width: calc(100% - 25px);
+      }
+
+      .cm-col.cm-right-col > p {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+      }
+
+      .cm-content-row img {
+        width: 20px;
+      }
     }
   }
 }

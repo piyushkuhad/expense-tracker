@@ -20,8 +20,6 @@ const Header = ({ logoType }) => {
   //Fetch user from state
   const currentUser = useSelector((state) => state.user.user);
 
-  //console.log('Cookie', )
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -66,30 +64,6 @@ const Header = ({ logoType }) => {
           <ul className="cm-menu-ul cm-flex-type-1">
             {currentUser._id ? (
               <>
-                {/* <li>
-                  <Button
-                    component={Link}
-                    to="/create-budget"
-                    variant="text"
-                    color="primary"
-                    //className="cm-button-link"
-                    size="small"
-                  >
-                    Home
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    component={Link}
-                    to="/create-budget"
-                    variant="text"
-                    color="primary"
-                    //className="cm-button-link"
-                    size="small"
-                  >
-                    Budgets
-                  </Button>
-                </li> */}
                 <li>
                   <IconButton
                     color="default"

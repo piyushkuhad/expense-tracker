@@ -4,19 +4,8 @@ import { api_url, getReqOptions } from '../../utils/apiInfo';
 import { loaderStop } from '../../utils/utilFn';
 import { budgetTypes } from '../budget/budget.types';
 
-// export const addExpense = (data) => ({
-//   type: expenseTypes.ADD_EXPENSE,
-//   payload: data,
-// });
-
-// export const deleteExpense = (id) => ({
-//   type: expenseTypes.DELETE_EXPENSE,
-//   payload: id,
-// });
-
 export const addExpenseCategory = (data) => async (dispatch, getState) => {
   try {
-    //console.log('addExpenseCategory Data', data);
     const _tk = getState().user._atk;
     const budgetId = getState().budget.selectedBudget._id;
     const dataToSend = { categoryData: data };
@@ -45,7 +34,6 @@ export const addExpenseCategory = (data) => async (dispatch, getState) => {
 
 export const deleteExpenseCategory = (data) => async (dispatch, getState) => {
   try {
-    console.log('deleteExpenseCategory', data);
     const _tk = getState().user._atk;
     const budgetId = getState().budget.selectedBudget._id;
     const categoryId = data.categoryId;
@@ -74,7 +62,6 @@ export const deleteExpenseCategory = (data) => async (dispatch, getState) => {
 
 export const updateExpenseCategory = (data) => async (dispatch, getState) => {
   try {
-    //console.log(data);
     const _tk = getState().user._atk;
     const budgetId = getState().budget.selectedBudget._id;
     const categoryId = data.categoryId;
@@ -115,7 +102,6 @@ export const updateExpenseSubCategory = (data) => async (
     if (data.id) {
       idString = `${budgetId}/subcategory/${categoryId}/${data.id}`;
     }
-    console.log('idString', idString);
 
     const res = await axios.patch(
       `${api_url}/api/v1/budget/${idString}`,
@@ -145,7 +131,6 @@ export const addExpenseSubCategory = (data) => async (dispatch, getState) => {
     const idString = `${budgetId}/subcategory/${categoryId}`;
 
     const dataToSend = { categoryData: [data] };
-    console.log('addExpenseSubCategory', dataToSend, idString);
 
     const res = await axios.post(
       `${api_url}/api/v1/budget/${idString}`,
@@ -177,8 +162,6 @@ export const deleteExpenseSubCategory = (data) => async (
     const categoryId = data.categoryId;
     const subCategoryId = data._id;
     const idString = `${budgetId}/subcategory/${categoryId}/${subCategoryId}`;
-
-    //console.log('deleteExpenseSubCategory', data, idString);
 
     const res = await axios.delete(
       `${api_url}/api/v1/budget/${idString}`,

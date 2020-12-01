@@ -57,7 +57,6 @@ const AddRevenue = (props) => {
   const initialDate = moment().format();
 
   const onSubmit = (data) => {
-    //console.log('Revenue', data);
     const dataToDispatch = {
       ...data,
       transactionDate: toISOFormat(data.transactionDate),
@@ -84,7 +83,6 @@ const AddRevenue = (props) => {
   };
 
   const onListClickHandler = (value) => {
-    //console.log('OnClick', value);
     setValue('categoryName', value, {
       shouldDirty: true,
     });
@@ -92,7 +90,6 @@ const AddRevenue = (props) => {
   };
 
   useEffect(() => {
-    //console.log('Initial: ', initialValues, update);
     reset(initialValues);
     // eslint-disable-next-line
   }, [reset, initialValues]);

@@ -29,7 +29,6 @@ const CreateBudget = (props) => {
   const nextDate = moment().add(1, 'months').format();
 
   const onSubmit = (data) => {
-    //console.log(data);
     const dataToDispatch = {
       budgetName: data.budgetName,
       budgetStartDate: toISOFormat(data.budgetDateRange.startVal),

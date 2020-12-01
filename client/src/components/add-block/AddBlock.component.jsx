@@ -18,14 +18,9 @@ const AddBlock = (props) => {
 
   const { onClickHandler, onDeleteHandler, categObj } = props;
 
-  //console.log('Props', props.categObj);
-
   const { id, categoryAmount, categoryName, type, added } = categObj;
 
-  //const [showAdd, setShowAdd] = useState(true);
-
   const handleClick = () => {
-    //setShowAdd((previousState) => !previousState);
     onClickHandler(categObj);
   };
 

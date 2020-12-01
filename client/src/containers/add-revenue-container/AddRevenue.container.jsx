@@ -64,7 +64,6 @@ const AddRevenueContainer = () => {
   };
 
   const deleteBlockHandler = (deleteValue) => {
-    //console.log('Received', deleteValue);
     dispatch(deleteRevenueCategory(deleteValue));
   };
 

@@ -49,7 +49,6 @@ const AddExpenseCategory = (props) => {
   };
 
   const onSubmit = (data) => {
-    // console.log(data);
     if (update) {
       data.id = initialValues._id;
     }
@@ -71,7 +70,6 @@ const AddExpenseCategory = (props) => {
   };
 
   const onListClickHandler = (value) => {
-    //console.log('OnClick', value);
     setValue('categoryName', value, {
       shouldDirty: true,
     });
@@ -157,7 +155,6 @@ const AddExpenseCategory = (props) => {
 
 AddExpenseCategory.defaultProps = {
   update: false,
-  //onFormSubmitHandler: () => {},
 };
 
 export default AddExpenseCategory;

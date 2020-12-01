@@ -1,3 +1,5 @@
+@import '../../../utils/breakPoints.scss';
+
 .cm-budget-list-wrapper {
   width: 100%;
 
@@ -62,5 +64,48 @@
   .cm-db-row-8 {
     width: 10%;
     min-width: 50px;
+  }
+}
+
+@media (max-width: $bp2) {
+  .cm-budget-list-wrapper {
+    .cm-budget-list-actions {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: auto !important;
+      padding: 0;
+      width: auto;
+    }
+
+    .cm-budget-list-item {
+      position: relative;
+      width: 100%;
+      padding-bottom: 15px;
+
+      & + .cm-budget-list-item {
+        margin-top: 15px;
+      }
+
+      .cm-currency-symbol {
+        padding-right: 3px;
+      }
+    }
+
+    .cm-data-table-body.cm-flex-type-1 {
+      flex-wrap: wrap;
+    }
+
+    .cm-budget-list-item:last-child {
+      padding-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: $bp5) {
+  .cm-budget-list-wrapper {
+    .cm-data-table-wrapper {
+      padding: 10px;
+    }
   }
 }

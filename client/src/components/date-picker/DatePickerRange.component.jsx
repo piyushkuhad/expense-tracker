@@ -17,7 +17,6 @@ const DatePickerRange = ({ startVal1, startVal2 }) => {
 
   useEffect(() => {
     const daysDiff = daysBetween(startDate, endDate);
-    //console.log('Diff', daysDiff);
     if (daysDiff > 60) {
       setError(true);
     } else {

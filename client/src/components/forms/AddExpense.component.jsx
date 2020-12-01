@@ -40,7 +40,6 @@ const AddExpense = (props) => {
   const { handleSubmit, control, errors, reset, setValue } = useForm();
 
   const onSubmit = (data) => {
-    //console.log('Expense', data);
     const dataToDispatch = {
       ...data,
       type: 'expense',
@@ -54,7 +53,6 @@ const AddExpense = (props) => {
   };
 
   const onListClickHandler = (value) => {
-    //console.log('OnClick', value);
     setValue('categoryName', value, {
       shouldDirty: true,
     });
@@ -62,7 +60,6 @@ const AddExpense = (props) => {
   };
 
   useEffect(() => {
-    //console.log('Initial: ', initialValues, update);
     reset(initialValues);
     // eslint-disable-next-line
   }, [reset, initialValues]);

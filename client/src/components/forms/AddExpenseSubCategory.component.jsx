@@ -49,7 +49,6 @@ const AddExpenseSubCategory = (props) => {
     (state) => state.user.user.expenseCategories
   );
 
-  //const userSubCategoryList = {};
   const [showSubCategory, setShowSubCategory] = useState(false);
   const [userSubCategoryList, setUserSubCategoryList] = useState({});
 
@@ -73,21 +72,7 @@ const AddExpenseSubCategory = (props) => {
       }));
     }
 
-    //console.log('filtered', resultSubCat);
-
     setUserSubCategoryList(resultSubCat);
-
-    // userExpenseCategories.forEach((el) => {
-    //   if (el.subCategory.length > 0) {
-    //     //Changing subCategoryName key to categoryName in sub category array
-    //     resultSubCat[el.categoryName] = el.subCategory.map((subItem) => ({
-    //       categoryName: subItem.subCategoryName,
-    //       categoryValue: subItem.subCategoryValue,
-    //       _id: subItem._id,
-    //     }));
-    //   }
-    //   setUserSubCategoryList(resultSubCat);
-    // });
 
     // eslint-disable-next-line
   }, [userExpenseCategories]);
@@ -107,7 +92,6 @@ const AddExpenseSubCategory = (props) => {
   };
 
   const onListClickHandler = (value) => {
-    //console.log('OnClick', value);
     setValue('subCategoryName', value, {
       shouldDirty: true,
     });
@@ -120,7 +104,6 @@ const AddExpenseSubCategory = (props) => {
   const initialDate = moment().format();
 
   const onSubmit = (data) => {
-    // console.log(data);
     if (update) {
       data.id = initialValues._id;
     }
@@ -134,8 +117,6 @@ const AddExpenseSubCategory = (props) => {
     update
       ? loaderStart(dispatch, 'default', 'Updating Expense Sub Category')
       : loaderStart(dispatch, 'default', 'Adding Expense Sub Category');
-
-    console.log('Go');
 
     update
       ? dispatch(updateExpenseSubCategory(dataToDispatch))
@@ -195,7 +176,6 @@ const AddExpenseSubCategory = (props) => {
             listOfCategories={{
               [formValues.formData.categoryName]:
                 userSubCategoryList[formValues.formData.categoryName],
-              //...userSubCategoryList,
             }}
           />
         </FormDialog>

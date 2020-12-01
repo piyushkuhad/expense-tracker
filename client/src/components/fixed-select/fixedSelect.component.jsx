@@ -13,7 +13,6 @@ const FixedSelect = ({
   const handleChange = useCallback((inputValue) => setValue(inputValue), []);
 
   useEffect(() => {
-    //console.log(value);
     onChange(value);
   }, [onChange, value]);
 

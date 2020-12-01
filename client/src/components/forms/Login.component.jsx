@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
     '& .MuiFormControl-root': {
-      //margin: theme.spacing(1),
       width: '100%',
     },
   },
@@ -40,7 +39,6 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Data:', values);
 
     dispatch(signIn({ email: values.email, password: values.password }));
     loaderStart(dispatch, 'login', 'Save money & money will save you!!');
@@ -79,10 +77,7 @@ const Login = (props) => {
           />
         </div>
         <div className="cm-form-field">
-          <FormControl
-            //className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
-          >
+          <FormControl variant="outlined">
             <InputLabel>Password</InputLabel>
             <OutlinedInput
               type={values.showPassword ? 'text' : 'password'}

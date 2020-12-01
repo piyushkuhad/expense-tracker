@@ -57,7 +57,6 @@ const AddExpenseContainer = () => {
   };
 
   const deleteBlockHandler = (deleteValue) => {
-    //console.log('Received', deleteValue);
     dispatch(deleteExpenseCategory(deleteValue));
   };
 
