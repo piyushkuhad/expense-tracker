@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CategoryIcon from '@material-ui/icons/Category';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
 
 import ButtonWrapper from '../button/ButtonWrapper.component';
@@ -28,6 +28,10 @@ const AddExpense = (props) => {
   const dispatch = useDispatch();
   const { initialValues, update, onFormSubmitHandler } = props;
   const [expenseCategoryOpen, setExpenseCategoryOpen] = useState(false);
+
+  const userExpenseCategories = useSelector(
+    (state) => state.user.user.expenseCategories
+  );
 
   const closeExpenseCategDialog = () => {
     setExpenseCategoryOpen(false);
@@ -101,7 +105,10 @@ const AddExpense = (props) => {
       >
         <CategoryList
           onListClickHandler={onListClickHandler}
-          listOfCategories={addExpenseCategories}
+          listOfCategories={{
+            'Your Expense Categories': userExpenseCategories,
+            'Default Expense Categories': addExpenseCategories,
+          }}
         />
       </FormDialog>
       <div className="cm-form-field">

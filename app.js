@@ -30,8 +30,11 @@ const app = express();
 app.options(
   '*',
   cors({
-    //origin: 'http://127.0.0.1:3000',
-    origin: process.env.APP_URL,
+    // origin: 'http://127.0.0.1:3000',
+    origin:
+      process.env.NODE_ENV === 'development'
+        ? process.env.APP_URL_FRONT
+        : process.env.APP_URL,
     //preflightContinue: true,
     credentials: true,
     //exposedHeaders: ['Set-Cookie'],
@@ -42,8 +45,11 @@ app.options(
 app.use(function (req, res, next) {
   //console.log('Req Heraders', req.headers);
   // Website you wish to allow to connect
-  //res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-  res.setHeader('Access-Control-Allow-Origin', process.env.APP_URL);
+  if (process.env.NODE_ENV === 'development') {
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', process.env.APP_URL);
+  }
 
   // Request methods you wish to allow
   res.setHeader(

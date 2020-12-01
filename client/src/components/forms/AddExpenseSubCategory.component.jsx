@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import moment from 'moment';
-import ButtonWrapper from '../button/ButtonWrapper.component';
 import { makeStyles } from '@material-ui/core/styles';
-import NewDatePicker from '../date-picker/NewDatePicker.component';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import CategoryIcon from '@material-ui/icons/Category';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
 
 import './form.styles.scss';
+import ButtonWrapper from '../button/ButtonWrapper.component';
+import NewDatePicker from '../date-picker/NewDatePicker.component';
+import CategoryList from '../category-list/CategoryList.component';
 import { payerData, accountData } from '../../assets/dev-data/mainData';
 import {
   addExpenseSubCategory,
@@ -20,6 +23,7 @@ import {
 } from '../../redux/expense/expense.action';
 import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
 import { loaderStart } from '../../utils/utilFn';
+import FormDialog from './form-dialog/FormDialog.component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,11 +37,80 @@ const useStyles = makeStyles((theme) => ({
 const AddExpenseSubCategory = (props) => {
   const classes = useStyles();
 
-  const { handleSubmit, control, errors, reset } = useForm();
+  const { handleSubmit, control, errors, setValue, reset } = useForm();
 
   //const { initialValues, update, onFormSubmitHandler } = props;
+  const [expenseCategoryOpen, setExpenseCategoryOpen] = useState(false);
+
   const dispatch = useDispatch();
   const formValues = useSelector((state) => state.forms);
+
+  const userExpenseCategories = useSelector(
+    (state) => state.user.user.expenseCategories
+  );
+
+  //const userSubCategoryList = {};
+  const [showSubCategory, setShowSubCategory] = useState(false);
+  const [userSubCategoryList, setUserSubCategoryList] = useState({});
+
+  //Arrange Array with Subcategory
+  useEffect(() => {
+    const resultSubCat = {};
+
+    //Filter sub categories of selected expense
+    const filtered = userExpenseCategories.filter(
+      (el) => el.categoryName === formValues.formData.categoryName
+    );
+
+    //creating object for CategoryList component
+    if (filtered.length > 0) {
+      resultSubCat[
+        formValues.formData.categoryName
+      ] = filtered[0].subCategory.map((subItem) => ({
+        categoryName: subItem.subCategoryName,
+        categoryValue: subItem.subCategoryValue,
+        _id: subItem._id,
+      }));
+    }
+
+    //console.log('filtered', resultSubCat);
+
+    setUserSubCategoryList(resultSubCat);
+
+    // userExpenseCategories.forEach((el) => {
+    //   if (el.subCategory.length > 0) {
+    //     //Changing subCategoryName key to categoryName in sub category array
+    //     resultSubCat[el.categoryName] = el.subCategory.map((subItem) => ({
+    //       categoryName: subItem.subCategoryName,
+    //       categoryValue: subItem.subCategoryValue,
+    //       _id: subItem._id,
+    //     }));
+    //   }
+    //   setUserSubCategoryList(resultSubCat);
+    // });
+
+    // eslint-disable-next-line
+  }, [userExpenseCategories]);
+
+  //Show/Hide category list dropdown based on availability of Sub Categories
+  useEffect(() => {
+    (!userSubCategoryList || userSubCategoryList !== {}) &&
+    !!userSubCategoryList[formValues.formData.categoryName]
+      ? setShowSubCategory(true)
+      : setShowSubCategory(false);
+  }, [userSubCategoryList]);
+
+  const closeExpenseCategDialog = () => {
+    setExpenseCategoryOpen(false);
+  };
+
+  const onListClickHandler = (value) => {
+    //console.log('OnClick', value);
+    setValue('subCategoryName', value, {
+      shouldDirty: true,
+    });
+    setExpenseCategoryOpen(false);
+  };
 
   const initialValues = formValues.formData;
   const update = formValues.update;
@@ -80,7 +153,7 @@ const AddExpenseSubCategory = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`${classes.root} cm-form-container`}
     >
-      <div className="cm-form-field">
+      <div className="cm-form-field cm-form-dialog-trigger-wrapper">
         <Controller
           as={
             <TextField
@@ -97,7 +170,34 @@ const AddExpenseSubCategory = (props) => {
           rules={{ required: true }}
           control={control}
         />
+        {showSubCategory ? (
+          <IconButton
+            aria-label="Select Sub Categories"
+            onClick={() => setExpenseCategoryOpen(true)}
+            className="cm-form-dialog-trigger"
+          >
+            <CategoryIcon />
+          </IconButton>
+        ) : null}
       </div>
+      {/* Select Expense Category Dialog */}
+      {showSubCategory ? (
+        <FormDialog
+          dialogTitle="Select Expense Sub Category"
+          dialogOpenHandler={expenseCategoryOpen}
+          dialogCloseHandler={closeExpenseCategDialog}
+          dialogSize="xs"
+        >
+          <CategoryList
+            onListClickHandler={onListClickHandler}
+            listOfCategories={{
+              [formValues.formData.categoryName]:
+                userSubCategoryList[formValues.formData.categoryName],
+              //...userSubCategoryList,
+            }}
+          />
+        </FormDialog>
+      ) : null}
       <div className="cm-form-field-half">
         <div className="cm-form-field">
           <Controller

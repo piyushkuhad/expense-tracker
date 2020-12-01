@@ -48,10 +48,13 @@ const ExpenseGroup = ({ data }) => {
     return <p>No Transactions Available!</p>;
   };
 
-  const openForm = (categoryId) => {
+  const openForm = (dataObj) => {
     dispatch(
       addExpenseSubCategoryDialog({
-        data: { categoryId },
+        data: {
+          categoryId: dataObj.categoryId,
+          categoryName: dataObj.categoryName,
+        },
         formDialogName: 'expenseFormDialog',
       })
     );
@@ -101,7 +104,12 @@ const ExpenseGroup = ({ data }) => {
             <IconButton
               aria-label="Add Category"
               color="primary"
-              onClick={() => openForm(data._id)}
+              onClick={() =>
+                openForm({
+                  categoryId: data._id,
+                  categoryName: data.categoryName,
+                })
+              }
               size="small"
             >
               <AddCircleIcon />

@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import ButtonWrapper from '../button/ButtonWrapper.component';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
+import IconButton from '@material-ui/core/IconButton';
+import CategoryIcon from '@material-ui/icons/Category';
 
 import './form.styles.scss';
 import {
@@ -13,6 +15,9 @@ import {
 } from '../../redux/expense/expense.action';
 import { closeDialog } from '../../redux/dialog-forms/dialog-form.actions';
 import { loaderStart } from '../../utils/utilFn';
+import FormDialog from './form-dialog/FormDialog.component';
+import CategoryList from '../category-list/CategoryList.component';
+import { addExpenseCategories } from '../../assets/dev-data/mainData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,14 +31,22 @@ const useStyles = makeStyles((theme) => ({
 const AddExpenseCategory = (props) => {
   const classes = useStyles();
 
-  const { handleSubmit, control, errors, reset } = useForm();
+  const { handleSubmit, control, errors, setValue, reset } = useForm();
 
   //const { initialValues, update } = props;
   const dispatch = useDispatch();
   const formValues = useSelector((state) => state.forms);
+  const userExpenseCategories = useSelector(
+    (state) => state.user.user.expenseCategories
+  );
 
   const initialValues = formValues.formData;
   const update = formValues.update;
+  const [expenseCategoryOpen, setExpenseCategoryOpen] = useState(false);
+
+  const closeExpenseCategDialog = () => {
+    setExpenseCategoryOpen(false);
+  };
 
   const onSubmit = (data) => {
     // console.log(data);
@@ -47,12 +60,22 @@ const AddExpenseCategory = (props) => {
       categoryId: initialValues._id,
     };
 
-    update ? loaderStart(dispatch, 'default', 'Updating Expense Category'): loaderStart(dispatch, 'default', 'Adding Expense Category');
+    update
+      ? loaderStart(dispatch, 'default', 'Updating Expense Category')
+      : loaderStart(dispatch, 'default', 'Adding Expense Category');
 
     update
       ? dispatch(updateExpenseCategory(dataToDispatch))
       : dispatch(addExpenseCategory(dataToDispatch));
     dispatch(closeDialog());
+  };
+
+  const onListClickHandler = (value) => {
+    //console.log('OnClick', value);
+    setValue('categoryName', value, {
+      shouldDirty: true,
+    });
+    setExpenseCategoryOpen(false);
   };
 
   useEffect(() => {
@@ -64,7 +87,7 @@ const AddExpenseCategory = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`${classes.root} cm-form-container`}
     >
-      <div className="cm-form-field">
+      <div className="cm-form-field cm-form-dialog-trigger-wrapper">
         <Controller
           as={
             <TextField
@@ -81,7 +104,29 @@ const AddExpenseCategory = (props) => {
           rules={{ required: true }}
           control={control}
         />
+        <IconButton
+          aria-label="Select Categories"
+          onClick={() => setExpenseCategoryOpen(true)}
+          className="cm-form-dialog-trigger"
+        >
+          <CategoryIcon />
+        </IconButton>
       </div>
+      {/* Select Expense Category Dialog */}
+      <FormDialog
+        dialogTitle="Select Expense Category"
+        dialogOpenHandler={expenseCategoryOpen}
+        dialogCloseHandler={closeExpenseCategDialog}
+        dialogSize="xs"
+      >
+        <CategoryList
+          onListClickHandler={onListClickHandler}
+          listOfCategories={{
+            'Your Expense Categories': userExpenseCategories,
+            'Default Expense Categories': addExpenseCategories,
+          }}
+        />
+      </FormDialog>
       <div className="cm-form-field">
         <Controller
           as={

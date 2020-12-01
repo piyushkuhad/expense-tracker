@@ -11,7 +11,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import CategoryIcon from '@material-ui/icons/Category';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import slugify from 'react-slugify';
 
 import CategoryList from '../category-list/CategoryList.component';
@@ -44,6 +44,10 @@ const AddRevenue = (props) => {
   const dispatch = useDispatch();
   const { initialValues, update, onFormSubmitHandler, location } = props;
   const [incomeCategoryOpen, setIncomeCategoryOpen] = useState(false);
+
+  const userRevenueCategories = useSelector(
+    (state) => state.user.user.revenueCategories
+  );
 
   const closeIncomeCategDialog = () => {
     setIncomeCategoryOpen(false);
@@ -131,7 +135,10 @@ const AddRevenue = (props) => {
       >
         <CategoryList
           onListClickHandler={onListClickHandler}
-          listOfCategories={addIncomeCategories}
+          listOfCategories={{
+            'Your Income Categories': userRevenueCategories,
+            'Default Income Categories': addIncomeCategories,
+          }}
         />
       </FormDialog>
       <div className="cm-form-field-half">
