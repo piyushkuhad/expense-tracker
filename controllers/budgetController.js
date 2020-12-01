@@ -4,6 +4,7 @@ const moment = require('moment');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Budget = require('../models/budgetModel');
+const User = require('../models/userInfoModel');
 const UserInfo = require('../models/userInfoModel');
 
 //Check if Budget Exists
@@ -192,8 +193,11 @@ exports.deleteBudget = catchAsync(async (req, res, next) => {
   budgetExists(req.user, req.params.id, next);
 
   const budget = await Budget.findByIdAndDelete(req.params.id);
+  const userBudget = await User.findByIdAndUpdate(req.user._id, {
+    $pull: { budget: req.params.id },
+  });
 
-  if (!budget) {
+  if (!budget && !userBudget) {
     return next(new AppError('Budget does not exist', 400));
   }
 

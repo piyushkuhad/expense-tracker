@@ -2,7 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import './BudgetListItem.styles.scss';
 import { currencyFormat } from '../../utils/utilFn';
@@ -13,9 +15,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BudgetListItem = ({ data, currency, clickHandler, deleteHandler }) => {
+const BudgetListItem = ({
+  data,
+  currency,
+  clickHandler,
+  deleteHandler,
+  copyHandler,
+}) => {
   const classes = useStyles();
   //console.log(data);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCopy = () => {
+    //Dispatch action to Open Delete Dialog
+    //dispatch(dispatchFn);
+    copyHandler(data);
+
+    //Close Menu List
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    //Dispatch action to Open Delete Dialog
+    //dispatch(dispatchFn);
+    deleteHandler(data);
+
+    //Close Menu List
+    setAnchorEl(null);
+  };
 
   return (
     <div className="cm-budget-list-item cm-flex-type-1">
@@ -42,14 +78,24 @@ const BudgetListItem = ({ data, currency, clickHandler, deleteHandler }) => {
       </p>
       <div className="cm-db-row cm-budget-list-actions cm-flex-type-2 cm-db-row-8">
         <IconButton
-          aria-label="Delete Budget"
+          aria-label="Menu"
           color="primary"
           className={classes.button}
-          onClick={() => deleteHandler(data)}
+          //onClick={() => deleteHandler(data)}
+          onClick={handleMenuClick}
           size="small"
         >
-          <DeleteIcon />
+          <MoreVertIcon />
         </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleCopy}>Copy budget</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </Menu>
       </div>
     </div>
   );

@@ -98,6 +98,8 @@ const AddExpenseSubCategory = (props) => {
     !!userSubCategoryList[formValues.formData.categoryName]
       ? setShowSubCategory(true)
       : setShowSubCategory(false);
+
+    // eslint-disable-next-line
   }, [userSubCategoryList]);
 
   const closeExpenseCategDialog = () => {

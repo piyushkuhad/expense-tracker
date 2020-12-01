@@ -4,9 +4,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import './BudgetList.styles.scss';
 import {
+  createBudgetRequest,
   deleteBudget,
   getAllBudgets,
   selectedBudget,
@@ -17,9 +19,12 @@ import history from '../../../history';
 import { loaderStart } from '../../../utils/utilFn';
 import {
   closeDialog,
+  copyBudgetDialog,
   deleteBudgetDialog,
 } from '../../../redux/dialog-forms/dialog-form.actions';
 import ContentDialog from '../../../components/content-dialog/ContentDialog.component';
+import FormDialog from '../../../components/forms/form-dialog/FormDialog.component';
+import CreateBudget from '../../../components/forms/CreateBudget.component';
 
 const BudgetList = () => {
   const dispatch = useDispatch();
@@ -29,11 +34,78 @@ const BudgetList = () => {
     loaderStart(dispatch);
   }, [dispatch]);
 
+  const [copyDialog, setCopyDialog] = React.useState(false);
+  const [budgetDataObj, setBudgetDataObj] = React.useState({});
   const [deleteDialog, setDeleteDialog] = React.useState(false);
+
+  const createBudgetFormValues = {
+    budgetName: '',
+    budgetDateRange: {
+      startVal: moment().format(),
+      endVal: moment().add(1, 'months').format(),
+    },
+  };
 
   const budgetData = useSelector((state) => state.budget.budgetData);
   const currency = useSelector((state) => state.user.currency.symbol);
   const formValues = useSelector((state) => state.forms);
+
+  //Copy Budget Dialog
+  useEffect(() => {
+    if (
+      formValues &&
+      Object.keys(formValues.formData).length > 0 &&
+      formValues.formDialogName === 'copyBudgetFormDialog'
+    ) {
+      setCopyDialog(true);
+    } else {
+      setCopyDialog(false);
+    }
+  }, [formValues, setCopyDialog]);
+
+  //Close Copy Budget Diaog
+  const closeCopyDialog = () => {
+    setCopyDialog(false);
+    //Return Dialog Values to its initial state
+    setTimeout(() => dispatch(closeDialog()), 500);
+  };
+
+  //Creates obj according to data required for creating budget
+  const createCategoryObj = (dataArr) => {
+    //Deep Clone
+    const resultArr = JSON.parse(JSON.stringify(dataArr));
+    resultArr.forEach((el) => {
+      el['type'] = el.transactionType;
+
+      if (el.transactionType === 'expense') delete el.subcategoryData;
+
+      delete el._id;
+      delete el.transactionType;
+    });
+
+    return resultArr;
+  };
+
+  //When Copy button is clicked
+  const copyClickHandler = (data) => {
+    //console.log('copyClickHandler', data);
+
+    setBudgetDataObj((prevState) => ({
+      ...prevState,
+      revenueCategories: createCategoryObj(data.revenueData),
+      expenseCategories: createCategoryObj(data.expenseData),
+    }));
+
+    dispatch(
+      copyBudgetDialog({
+        data: {
+          _id: data._id,
+          name: data.budgetName,
+        },
+        formDialogName: 'copyBudgetFormDialog',
+      })
+    );
+  };
 
   //Delete Budget Dialog
   useEffect(() => {
@@ -61,7 +133,7 @@ const BudgetList = () => {
     );
   };
 
-  //When Delete button inside dialog is clicked
+  //When Delete button inside content dialog is clicked
   const handleDeleteClick = () => {
     setTimeout(() => dispatch(closeDialog()), 500);
 
@@ -77,6 +149,26 @@ const BudgetList = () => {
     setTimeout(() => dispatch(closeDialog()), 500);
   };
 
+  //When Copy Budget Dialog Form is submitted
+  const createBudgetSubmitHandler = (formData) => {
+    //console.log('createBudgetSubmitHandler', formData);
+
+    const dataToDispatch = {
+      ...budgetDataObj,
+      budgetData: {
+        budgetName: formData.budgetName,
+        budgetStartDate: formData.budgetDateRange.startVal,
+        budgetEndDate: formData.budgetDateRange.endVal,
+      },
+    };
+
+    //console.log('Dispatch', dataToDispatch);
+    setTimeout(() => dispatch(closeDialog()), 500);
+
+    loaderStart(dispatch, 'default', 'Creating your Budget');
+    dispatch(createBudgetRequest(dataToDispatch, true));
+  };
+
   //Handles when Budget Link is clicked
   const linkClickHandler = (data) => {
     console.log('linkClickHandler', data.budgetName);
@@ -86,6 +178,7 @@ const BudgetList = () => {
 
   //Calculates total revenue and expense
   const computeBudgetRow = (arr) => {
+    console.log('Arr', arr);
     return arr.map((el) => {
       el['revenueTotal'] =
         el.revenueData.length > 0
@@ -104,6 +197,20 @@ const BudgetList = () => {
 
   return (
     <div className="cm-budget-list-wrapper">
+      {/* COPY BUDGET DIALOG */}
+      <FormDialog
+        dialogTitle={`Copy Budget`}
+        dialogOpenHandler={copyDialog}
+        dialogCloseHandler={closeCopyDialog}
+        dialogSize="sm"
+      >
+        <CreateBudget
+          initialValues={createBudgetFormValues}
+          onSubmit={createBudgetSubmitHandler}
+          buttonText="Copy Budget"
+          update={true}
+        />
+      </FormDialog>
       {/* Delete Budget Dialog */}
       <ContentDialog
         dialogTitle="Delete Budget"
@@ -150,7 +257,7 @@ const BudgetList = () => {
           <p className="cm-db-row cm-db-row-5">Total Income</p>
           <p className="cm-db-row cm-db-row-6">Total Expense</p>
           <p className="cm-db-row cm-db-row-7">Created At</p>
-          <p className="cm-db-row cm-db-row-8">Delete?</p>
+          <p className="cm-db-row cm-db-row-8">Actions?</p>
         </div>
         <div className="cm-data-table-body">
           {rowData.map((el, index) => (
@@ -160,6 +267,7 @@ const BudgetList = () => {
               currency={currency}
               clickHandler={linkClickHandler}
               deleteHandler={handleDeleteIconClick}
+              copyHandler={copyClickHandler}
             />
           ))}
         </div>

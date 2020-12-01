@@ -93,23 +93,36 @@ export const getAllBudgets = (queryParam) => async (dispatch, getState) => {
   }
 };
 
-export const createBudgetRequest = () => async (dispatch, getState) => {
+export const createBudgetRequest = (budgetData, isCopy) => async (
+  dispatch,
+  getState
+) => {
   try {
     const _tk = getState().user._atk;
-    const { createBudgetData } = getState().budget;
 
-    //console.log('Launch Set', createBudgetData);
+    let dataToSend = {};
 
-    const filterCategory = (data) => {
-      const filteredData = data.filter((el) => el.added === true);
-      return filteredData === undefined ? [] : filteredData;
-    };
+    if (!budgetData && !isCopy) {
+      const { createBudgetData } = getState().budget;
 
-    const dataToSend = {
-      ...createBudgetData,
-      revenueCategories: filterCategory(createBudgetData.revenueCategories),
-      expenseCategories: filterCategory(createBudgetData.expenseCategories),
-    };
+      const filterCategory = (data) => {
+        const filteredData = data.filter((el) => el.added === true);
+        return filteredData === undefined ? [] : filteredData;
+      };
+
+      dataToSend = {
+        ...createBudgetData,
+        revenueCategories: filterCategory(createBudgetData.revenueCategories),
+        expenseCategories: filterCategory(createBudgetData.expenseCategories),
+      };
+    } else if (budgetData && isCopy) {
+      dataToSend = {
+        ...budgetData,
+      };
+    } else {
+      loaderStop(dispatch);
+      throw new Error('Invalid data. Unable to the create budget');
+    }
 
     console.log('dataToSend', dataToSend);
 

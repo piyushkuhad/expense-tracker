@@ -83,7 +83,7 @@ const CreateBudgetPage = () => {
   }, []);
 
   //Steps State Declaration
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const steps = getSteps();
 

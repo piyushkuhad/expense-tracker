@@ -11,6 +11,7 @@ const dialogFormReducer = (state = INITIAL_STATE, action) => {
     case dialogFormTypes.UPDATE_EXPENSE_SUB_CATEGORY_DIALOG:
     case dialogFormTypes.UPDATE_INCOME_CATEGORY_DIALOG:
     case dialogFormTypes.UPDATE_EXPENSE_CATEGORY_DIALOG:
+    case dialogFormTypes.COPY_BUDGET_DIALOG:
       return {
         update: true,
         formData: action.payload.data,

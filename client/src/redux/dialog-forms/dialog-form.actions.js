@@ -5,6 +5,11 @@ export const deleteBudgetDialog = (data) => ({
   payload: data,
 });
 
+export const copyBudgetDialog = (data) => ({
+  type: dialogFormTypes.COPY_BUDGET_DIALOG,
+  payload: data,
+});
+
 export const updateExpenseCategoryDialog = (data) => ({
   type: dialogFormTypes.UPDATE_EXPENSE_CATEGORY_DIALOG,
   payload: data,

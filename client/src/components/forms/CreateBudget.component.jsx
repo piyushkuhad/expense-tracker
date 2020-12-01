@@ -86,7 +86,7 @@ const CreateBudget = (props) => {
           color="primary"
           onClick={handleSubmit(onSubmit)}
         >
-          Create Budget
+          {props.buttonText}
         </ButtonWrapper>
       </div>
     </form>
@@ -95,6 +95,7 @@ const CreateBudget = (props) => {
 
 CreateBudget.defaultProps = {
   update: false,
+  buttonText: 'Create Budget',
 };
 
 export default CreateBudget;
